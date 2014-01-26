@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>TradeGateway</ProjectName>
+    <ProjectGuid>{76D86745-E2A3-49A2-9917-BBBE72610AC8}</ProjectGuid>
+    <RootNamespace>TradeGatewayGtja</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\;e:\common;D:\boost\1.55\include\boost-1_55\;D:\protobuf\protobuf-2.4.1\src;d:\openssl\include;d:\ocilib\ocilib\include;d:\botan\debug\include;D:\ImageMagick\ImageMagick-6.8.7\;D:\ImageMagick\ImageMagick-6.8.7\Magick++\lib;D:\Visual Leak Detector\include;d:\crashrpt\include;d:\icu\icu\include;D:\OpenCV\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0804</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>bin_debug\TradeGateway.exe</OutputFile>
+      <AdditionalLibraryDirectories>D:\boost\1.55\lib;D:\protobuf\protobuf-2.4.1\vsprojects\Debug;d:\openssl\lib;d:\botan\debug\;d:\ocilib\ocilib\lib32;D:\ImageMagick\ImageMagick-6.8.7\VisualMagick\lib;D:\Visual Leak Detector\lib\Win32;D:\CrashRpt\lib;d:\icu\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.\;e:\common;D:\boost\1.55\include\boost-1_55\;D:\protobuf\protobuf-2.4.1\src;d:\openssl\include;d:\ocilib\ocilib\include;d:\botan\release\include;D:\ImageMagick\ImageMagick-6.8.7-Q16\include;D:\Visual Leak Detector\include;d:\crashrpt\include;d:\icu\icu\include;D:\OpenCV\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0804</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>bin_release\TradeGateway.exe</OutputFile>
+      <AdditionalLibraryDirectories>D:\boost\1.55\lib;D:\protobuf\protobuf-2.4.1\vsprojects\Release;d:\openssl\lib;d:\botan\release\;d:\ocilib\ocilib\lib32\;D:\ImageMagick\ImageMagick-6.8.7-Q16\lib;d:\crashrpt\lib;d:\icu\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\log\mq\LogConnect.h" />
+    <ClInclude Include="..\..\common\log\mq\LogConnectPool.h" />
+    <ClInclude Include="..\..\common\log\tradelog.pb.h" />
+    <ClInclude Include="..\..\common\network\CustomMessage.h" />
+    <ClInclude Include="..\..\common\Network\io_service_pool.h" />
+    <ClInclude Include="..\..\common\network\MsgHeader.h" />
+    <ClInclude Include="..\..\common\Network\TCPClientSync.h" />
+    <ClInclude Include="..\..\common\Network\TcpServer.h" />
+    <ClInclude Include="..\..\common\Network\TcpSession.h" />
+    <ClInclude Include="..\..\common\ThreadPool\worker.h" />
+    <ClInclude Include="..\..\common\ThreadSafeQueue\job_queue.h" />
+    <ClInclude Include="AbstractBusiness.h" />
+    <ClInclude Include="business\apexsoft\DingDian.h" />
+    <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h" />
+    <ClInclude Include="business\hundsun_com\CComm.h" />
+    <ClInclude Include="business\hundsun_com\TradeBusinessComm.h" />
+    <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h" />
+    <ClInclude Include="business\IBusiness.h" />
+    <ClInclude Include="business\SunGuard\AGC.h" />
+    <ClInclude Include="business\SunGuard\sywg.h" />
+    <ClInclude Include="business\SunGuard\SywgConnect.h" />
+    <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h" />
+    <ClInclude Include="business\szkingdom\Encrypt.h" />
+    <ClInclude Include="business\szkingdom\TradeBusiness.h" />
+    <ClInclude Include="cache\CacheData.h" />
+    <ClInclude Include="captcha\CaptchaManager.h" />
+    <ClInclude Include="captcha\VerificationCode.h" />
+    <ClInclude Include="config\ConfigManager.h" />
+    <ClInclude Include="ConnectPool\Branch.h" />
+    <ClInclude Include="ConnectPool\BusinessSystem.h" />
+    <ClInclude Include="ConnectPool\BusinessType.h" />
+    <ClInclude Include="ConnectPool\Connect.h" />
+    <ClInclude Include="ConnectPool\ConnectManager.h" />
+    <ClInclude Include="ConnectPool\ConnectPool.h" />
+    <ClInclude Include="ConnectPool\Counter.h" />
+    <ClInclude Include="DistributedLogManager.h" />
+    <ClInclude Include="encrypt\MyBotan.h" />
+    <ClInclude Include="FileLogManager.h" />
+    <ClInclude Include="lib\OpenCV\opencv_h.h" />
+    <ClInclude Include="lib\XML\pugiconfig.hpp" />
+    <ClInclude Include="lib\XML\pugixml.hpp" />
+    <ClInclude Include="lib\XML\rapidxml.hpp" />
+    <ClInclude Include="lib\XML\rapidxml_iterators.hpp" />
+    <ClInclude Include="lib\XML\rapidxml_print.hpp" />
+    <ClInclude Include="lib\XML\rapidxml_utils.hpp" />
+    <ClInclude Include="network\communication.pb.h" />
+    <ClInclude Include="network\http\http_message.h" />
+    <ClInclude Include="network\http\http_server.h" />
+    <ClInclude Include="network\http\http_session.h" />
+    <ClInclude Include="network\http\trade_server_http.h" />
+    <ClInclude Include="network\newssl\SSLServer.h" />
+    <ClInclude Include="network\newssl\SSLSession.h" />
+    <ClInclude Include="network\pkgheader.pb.h" />
+    <ClInclude Include="network\ssl\ssl_message.h" />
+    <ClInclude Include="network\ssl\ssl_server.h" />
+    <ClInclude Include="network\ssl\ssl_session.h" />
+    <ClInclude Include="network\ssl\trade_server_ssl.h" />
+    <ClInclude Include="network\tcp\TcpTradeServer.h" />
+    <ClInclude Include="network\tcp\tcp_message_old.h" />
+    <ClInclude Include="network\tcp\tcp_server_old.h" />
+    <ClInclude Include="network\tcp\tcp_session_old.h" />
+    <ClInclude Include="network\tcp\trade_server_tcp_old.h" />
+    <ClInclude Include="output\FileLog.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ISession.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TradeGatewayGtja.h" />
+    <ClInclude Include="TradeGatewayGtjaDlg.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="errcode.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\common\log\mq\LogConnect.cpp" />
+    <ClCompile Include="..\..\common\log\mq\LogConnectPool.cpp" />
+    <ClCompile Include="..\..\common\log\tradelog.pb.cc" />
+    <ClCompile Include="..\..\common\network\CustomMessage.cpp" />
+    <ClCompile Include="..\..\common\Network\TCPClientSync.cpp" />
+    <ClCompile Include="..\..\common\Network\TcpSession.cpp" />
+    <ClCompile Include="AbstractBusiness.cpp" />
+    <ClCompile Include="business\apexsoft\DingDian.cpp" />
+    <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp" />
+    <ClCompile Include="business\hundsun_com\TradeBusinessComm.cpp" />
+    <ClCompile Include="business\hundsun_t2\TradeBusinessT2.cpp" />
+    <ClCompile Include="business\IBusiness.cpp" />
+    <ClCompile Include="business\SunGuard\AGC.cpp" />
+    <ClCompile Include="business\SunGuard\SywgConnect.cpp" />
+    <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp" />
+    <ClCompile Include="business\szkingdom\Encrypt.cpp" />
+    <ClCompile Include="business\szkingdom\TradeBusiness.cpp" />
+    <ClCompile Include="cache\CacheData.cpp" />
+    <ClCompile Include="captcha\captchamanager.cpp" />
+    <ClCompile Include="captcha\VerificationCode.cpp" />
+    <ClCompile Include="config\ConfigManager.cpp" />
+    <ClCompile Include="ConnectPool\Branch.cpp" />
+    <ClCompile Include="ConnectPool\BusinessSystem.cpp" />
+    <ClCompile Include="ConnectPool\BusinessType.cpp" />
+    <ClCompile Include="ConnectPool\Connect.cpp" />
+    <ClCompile Include="ConnectPool\ConnectManager.cpp" />
+    <ClCompile Include="ConnectPool\ConnectPool.cpp" />
+    <ClCompile Include="ConnectPool\Counter.cpp" />
+    <ClCompile Include="DistributedLogManager.cpp" />
+    <ClCompile Include="encrypt\MyBotan.cpp" />
+    <ClCompile Include="encrypt\testbotan.cpp" />
+    <ClCompile Include="FileLogManager.cpp" />
+    <ClCompile Include="lib\import_lib.cpp" />
+    <ClCompile Include="lib\XML\pugixml.cpp" />
+    <ClCompile Include="network\communication.pb.cc" />
+    <ClCompile Include="network\http\http_session.cpp" />
+    <ClCompile Include="network\http\trade_server_http.cpp" />
+    <ClCompile Include="network\newssl\SSLSession.cpp" />
+    <ClCompile Include="network\pkgheader.pb.cc" />
+    <ClCompile Include="network\ssl\ssl_session.cpp" />
+    <ClCompile Include="network\ssl\trade_server_ssl.cpp" />
+    <ClCompile Include="network\tcp\TcpTradeServer.cpp" />
+    <ClCompile Include="network\tcp\tcp_session_old.cpp" />
+    <ClCompile Include="network\tcp\trade_server_tcp_old.cpp" />
+    <ClCompile Include="output\FileLog.cpp" />
+    <ClCompile Include="ISession.cpp" />
+    <ClCompile Include="SSLServer.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TradeGatewayGtja.cpp" />
+    <ClCompile Include="TradeGatewayGtjaDlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\TradeGatewayGtja.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TradeGatewayGtja.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\common\log\tradelog.bat" />
+    <None Include="..\..\common\log\tradelog.proto" />
+    <None Include="bin\tradeparam.map" />
+    <None Include="Debug\hscommx.tlh" />
+    <None Include="Debug\hscommx.tli" />
+    <None Include="innosetup\TradeGateway.iss" />
+    <None Include="network\communication.proto" />
+    <None Include="network\pkgheader.proto" />
+    <None Include="network\proto2cpp.bat" />
+    <None Include="res\TradeGatewayGtja.rc2" />
+    <None Include="bin\ca.crt" />
+    <None Include="bin\client.crt" />
+    <None Include="bin\clientkey.pem" />
+    <None Include="bin\server.crt" />
+    <None Include="bin\serverkey.pem" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="bin\OutputDomain.xml" />
+    <Xml Include="bin_debug\agc.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="bin_debug\tradegateway.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="bin_release\tradegateway.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\common\log\日志开发说明.txt" />
+    <Text Include="business\szkingdom\ConnectKCBP.cpp.txt" />
+    <Text Include="business\szkingdom\ConnectKCBP.h.txt" />
+    <Text Include="business\szkingdom\业务加解密.txt" />
+    <Text Include="ConnectPool\连接池开发说明.txt" />
+    <Text Include="lib\Boost\Boost.txt" />
+    <Text Include="lib\Botan\botan.txt" />
+    <Text Include="lib\CrashRpt\CrashRpt.txt" />
+    <Text Include="lib\ICU\icu.txt" />
+    <Text Include="lib\ImageMagick\ImageMagick.txt" />
+    <Text Include="lib\ocilib\OCILib.txt" />
+    <Text Include="lib\OpenSSL\OpenSSL.txt" />
+    <Text Include="lib\ProtoBuf\ProtoBuf.txt" />
+    <Text Include="network\http\flash交易密码处理规则.txt" />
+    <Text Include="network\http\http.txt" />
+    <Text Include="sywg代码备份.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="TradeGatewayGtja.rc" _x007B_8767CA4F-4787-4327-99C8-773244F9961F_x007D_="CComm" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

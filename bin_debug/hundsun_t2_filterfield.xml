@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filter>
+	<description>日志中需要过滤恒生柜台的字段描述文件</description>
+	<fields>
+		<field>password</field>
+		<field>fund_password</field>
+		<field>bank_password</field>
+		<field>new_password</field>
+		<field>old_password</field>
+	</fields>
+</filter>

@@ -1,0 +1,169 @@
+#include <afx.h>
+
+#include "StdAfx.h"
+#include "ConnectKCBP.h"
+#include "ConfigManager.h"
+#include "common.h"
+//#include "LogManager.h"
+#include <string>
+#include <boost/format.hpp>
+
+#include "./szkingdom/include/KDEncodeCli.h"
+#include "./szkingdom/include/kcbpcli.h"
+
+
+ConnectKCBP::ConnectKCBP()
+{
+	handle = NULL;
+	
+}
+
+ConnectKCBP::ConnectKCBP(int nID, std::string sIP, int nPort, std::string sServerName, std::string sUserName, std::string sPassword, std::string sReq, std::string sRes)
+{
+	handle = NULL;
+
+	m_nID = nID;
+	m_sIP = sIP;
+	m_nPort = nPort;
+	m_sServerName = sServerName;
+	m_sUserName = sUserName;
+	m_sPassword = sPassword;
+	m_sReq = sReq;
+	m_sRes = sRes;
+
+	boost::format fmt("序号%1% 柜台地址%2%:%3%");
+	fmt % m_nID % m_sIP % m_nPort;
+	m_sServerInfo = fmt.str();
+
+}
+
+std::string ConnectKCBP::GetConnectInfo()
+{
+	return m_sServerInfo;
+}
+
+ConnectKCBP::~ConnectKCBP(void)
+{
+	CloseConnect();
+}
+
+void ConnectKCBP::CloseConnect()
+{
+	if (handle != NULL)
+	{
+		KCBPCLI_SQLDisconnect(handle);
+		KCBPCLI_Exit(handle);
+
+		handle = NULL;
+
+		std::string msg = "关闭连接，" + m_sServerInfo + "\n";
+		OutputDebugString(msg.c_str());
+		
+		//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::DEBUG_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+
+	}
+}
+
+
+bool ConnectKCBP::CreateConnect()
+{
+	int nRetry = gConfigManager::instance().m_nConnectRetry;
+
+
+	int nRet = 0;
+
+	for (int i=0; i<nRetry; i++)
+	{
+		tagKCBPConnectOption stKCBPConnection;
+		memset(&stKCBPConnection, 0x00, sizeof(stKCBPConnection));
+		strcpy(stKCBPConnection.szServerName, m_sServerName.c_str());
+		stKCBPConnection.nProtocal = 0;
+		strcpy(stKCBPConnection.szAddress, m_sIP.c_str());
+		stKCBPConnection.nPort = m_nPort;
+		strcpy(stKCBPConnection.szSendQName, m_sReq.c_str());
+		strcpy(stKCBPConnection.szReceiveQName, m_sRes.c_str());
+
+		nRet = KCBPCLI_Init( &handle );
+		nRet = KCBPCLI_SetConnectOption( handle, stKCBPConnection );		
+
+		//设置超时
+		nRet = KCBPCLI_SetCliTimeOut( handle, gConfigManager::instance().m_nConnectTimeout);
+
+		// 设置是否输出调试信息
+		//nRet = KCBPCLI_SetOptions( handle, KCBP_OPTION_TRACE, &gConfigManager::instance().m_nIsTradeServerDebug, sizeof(int));
+
+		nRet = KCBPCLI_SQLConnect( handle, stKCBPConnection.szServerName, (char*)m_sUserName.c_str(), (char*)m_sPassword.c_str());
+
+		if (nRet != 0)
+		{
+			// 连接连接失败
+			std::string msg = "建立连接失败, " + m_sServerInfo + "\n";
+			OutputDebugString(msg.c_str());
+
+			//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::ERROR_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+
+			Sleep(500);
+
+			continue;
+		}
+		else
+		{
+			// 设置连接创建时间
+			prev = time(NULL);
+
+			std::string msg = "建立连接成功, " + m_sServerInfo + "\n";
+			//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::DEBUG_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+			OutputDebugString(msg.c_str());
+
+			return true;
+		}
+	} // end for
+
+	return false;
+}
+
+bool ConnectKCBP::IsTimeout()
+{
+	// 当前时间
+	time_t now = time(NULL);
+
+	// 由于tcp连接在10分钟内没有数据流量会中断，所以需要判断是否超时
+	// prev是连接上次产生流量的时间
+	if ((now - prev) >= gConfigManager::instance().m_nIdleTimeout)
+	{
+		std::string msg = "连接超时, " + m_sServerInfo + "\n";
+		OutputDebugString(msg.c_str());
+		//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::INFO_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+		return true;
+	}
+
+	//std::string msg = "连接没有超时" + m_sServerInfo;
+	//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::DEBUG_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+	return false;
+}
+
+
+bool ConnectKCBP::ReConnect()
+{
+	CloseConnect();
+
+	bool bRet = CreateConnect();
+
+	if (bRet)
+	{
+		std::string msg = "重连成功, " + m_sServerInfo + "\n";
+		OutputDebugString(msg.c_str());
+		//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::DEBUG_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+	}
+	else
+	{
+		std::string msg = "重连失败, " + m_sServerInfo + "\n";
+		OutputDebugString(msg.c_str());
+		//g_LogManager.SendNormalMsg(Cssweb::CsswebMessage::ERROR_LEVEL, Cssweb::CsswebMessage::GUI_FILE_OUTPUT, "", msg);
+	}
+
+	return bRet;
+}
+
+
+

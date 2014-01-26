@@ -1,0 +1,3 @@
+1.生成CComm.h
+
+2.在debug下会生成hscommx.tlh, hscommx.tli

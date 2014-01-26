@@ -1,0 +1,22 @@
+锁屏功能
+修改密码功能
+
+标准模式和安全模式下不同的加解密方式
+
+
+http 1.0, 1.1
+gzip
+keep-alive
+proxy
+get/post
+
+
+post请求
+curl -i --data "1=1&2=2" "http://127.0.0.1:8003/track"
+
+get请求
+curl -i "http://127.0.0.1:8003/track?1=1&2=2"
+
+一行一行读取操作采用
+boost::asio::async_read_until(s, b, "\r\n", handler);
+http://www.boost.org/doc/libs/1_51_0/doc/html/boost_asio/reference/async_read_until/overload2.html

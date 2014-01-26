@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<functions>
+  
+  <function funcid="0x400" response="result" desc="query ">
+    <request>
+      <field name="account_type" type="char" size="1"/>
+      <field name="account" type="char" size="16"/>
+      <field name="max_results" type="WORD" size="0"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="bankbook_number" type="long" size="0"/>
+      <field name="account_type" type="char" size="1"/>
+      <field name="security_account" type="char" size="16"/>
+      <field name="main_flag" type="BYTE" size="0"/>
+      <field name="second_flag" type="BYTE" size="0"/>
+      <field name="trust_flag" type="BYTE" size="0"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+    </return>
+  </function>
+
+  <function funcid="0x704" response="result" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="flag" type="char" size="1"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="bank_id" type="char" size="2"/>
+      <field name="bank_name" type="char" size="40"/>
+      <field name="bank_account" type="char" size="20"/>
+      <field name="bank_query_flag" type="char" size="1"/>
+      <field name="currency_open_flag" type="int" size="0"/>
+      <field name="account" type="char" size="16"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+    </return>
+  </function>
+
+  <function funcid="0x705" response="return" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="bank_id" type="char" size="2"/>
+      <field name="bank_account" type="char" size="20"/>
+      <field name="currency_type" type="char" size="2"/>
+      <field name="type" type="char" size="2"/>
+      <field name="change" type="SWIMoney" size="0"/>
+      <field name="security_pwd" type="char" size="12" encrypt="1"/>
+      <field name="bank_pwd" type="char" size="12" encrypt="1"/>
+      <field name="sub_account" type="char" size="16"/>
+    </request>
+    <result>
+      
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+      <field name="banktrans_sn" type="long" size="0"/>
+      <field name="errmsg" type="char" size="80"/>
+    </return>
+  </function>
+  
+</functions>
+
+  

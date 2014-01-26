@@ -1,0 +1,1 @@
+因为用到了压缩功能，所以编译boost的时候需要指定zlib源代码，使用boost::iostream的功能

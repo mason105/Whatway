@@ -1,0 +1,3 @@
+考虑到页面交易，flash交易，手机交易，期权
+
+加解密需要使用dogskin和kdencode两种方式

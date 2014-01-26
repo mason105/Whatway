@@ -1,0 +1,15 @@
+crashrpt
+
+开发需要
+crashrpt.h
+crashrpt*.lib
+debug链接debug版本crashrpt
+release链接release版本crashrpt
+
+发行需要
+CrashRptXXXX.dll (here and below XXXX should be replaced with the actual version of CrashRpt)
+CrashSenderXXXX.exe
+dbghelp.dll
+crashrpt_lang.ini
+
+

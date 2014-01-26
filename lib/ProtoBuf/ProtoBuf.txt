@@ -1,0 +1,5 @@
+protobuf 2.4.1
+      //proto_path_.push_back(make_pair<string, string>(virtual_path, disk_path));
+	  proto_path_.push_back(make_pair(virtual_path, disk_path));
+
+

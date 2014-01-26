@@ -1,0 +1,236 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(简体，中国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\TradeGatewayGtja.rc2""  // ??¨¨? Microsoft Visual C++ ??§?è??ì?¨¨?-|?§????§?é??ìo???\r\n"
+    "#include ""l.CHS\\afxres.rc""      // ??§?è??ìo??§?é???§?é??ì|?t\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\TradeGatewayGtja.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_TRADEGATEWAYGTJA_DIALOG DIALOGEX 0, 0, 701, 392
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "中软万维交易网关"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "桌面和移动平台交易网关",IDC_SSL_ADDR,7,7,159,8
+    LTEXT           "运行状态",IDC_SSL_STATUS,171,7,70,8
+    LTEXT           "在线连接数",IDC_SSL_ONLINE,436,7,66,8
+    LTEXT           "新页面交易网关",IDC_TCPPB_ADDR,7,29,158,8
+    LTEXT           "运行状态",IDC_STATIC,171,29,73,8
+    LTEXT           "在线连接数",IDC_STATIC,436,29,35,8
+    LTEXT           "老页面交易网关",IDC_TCP_ADDR,7,49,152,8
+    LTEXT           "运行状态",IDC_TCP_STATUS,171,49,73,8
+    LTEXT           "在线连接数",IDC_TCP_ONLINE,436,49,68,8
+    LTEXT           "flash交易网关",IDC_HTTP_ADDR,7,71,154,8
+    LTEXT           "运行状态",IDC_HTTP_STATUS,171,71,73,8
+    LTEXT           "在线连接数",IDC_HTTP_ONLINE,436,71,65,8
+    LTEXT           "柜台连接池最小值",IDC_CONNPOOL_MIN,7,93,80,8
+    LTEXT           "柜台连接池增长值",IDC_CONNPOOL_INCREASE,89,93,76,8
+    LTEXT           "连接超时时间",IDC_CONN_TIMEOUT,171,93,63,8
+    LTEXT           "连接失败重试次数",IDC_CONN_RETRY,251,93,80,8
+    LTEXT           "连接空闲超时时间",IDC_CONN_IDLE_TIMEOUT,345,93,78,8
+    LTEXT           "业务失败重试次数",IDC_BUSI_RETRY,436,93,75,8
+    LTEXT           "日志文件目录",IDC_LOG_FILE_PATH,76,110,269,8
+    PUSHBUTTON      "打开目录",IDC_OPEN_LOG,436,110,50,14
+    LTEXT           "数据库信息",IDC_LOG_DB,75,127,88,8
+    LTEXT           "分布式日志系统信息",IDC_STATIC,74,141,63,8
+    LTEXT           "显示记录数",IDC_LOG_GUI_SHOWCOUNT,77,157,59,8
+    EDITTEXT        IDC_LOG_GUI,7,192,687,193,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL
+    LTEXT           "请求队列工作线程数",IDC_SSL_WORKER,251,7,84,8
+    LTEXT           "响应队列工作线程数",IDC_SSL_SEND,345,7,82,8
+    LTEXT           "请求队列工作线程数",IDC_SSL_WORKER2,251,29,84,8
+    LTEXT           "请求队列工作线程数",IDC_TCP_WORKER,251,49,85,8
+    LTEXT           "请求队列工作线程数",IDC_HTTP_WORKER,251,71,84,8
+    LTEXT           "响应队列工作线程数",IDC_TCPPB_SEND,345,29,82,8
+    LTEXT           "响应队列工作线程数",IDC_TCP_SEND,345,49,82,8
+    LTEXT           "响应队列工作线程数",IDC_HTTP_SEND,345,71,82,8
+    CONTROL         "数据库日志",IDC_LOG_DB_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,127,50,10
+    CONTROL         "文件日志",IDC_LOG_FILE_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,110,43,10
+    LTEXT           "数据库连接池最小值",IDC_DB_CONNPOOL_MIN,171,127,90,8
+    LTEXT           "数据库连接池最大值",IDC_DB_CONNPOOL_MAX,391,127,90,8
+    LTEXT           "数据库连接池增长值",IDC_DB_CONNPOOL_INCREASE,288,127,90,8
+    CONTROL         "分布式日志系统",IDC_LOG_MQ_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,141,64,10
+    CONTROL         "界面日志",IDC_LOG_GUI_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,157,43,10
+    LTEXT           "分布式日志系统线程池大小",IDC_LOG_MQ_WORKER,511,141,105,8
+    LTEXT           "文件日志系统线程池大小",IDC_LOG_FILE_WORKER,511,110,105,8
+    LTEXT           "数据库日志系统线程池大小",IDC_LOG_DB_WORKER,511,127,105,8
+    LTEXT           "界面日志系统线程池大小",IDC_LOG_SHOW_WORKER,511,157,105,8
+    LTEXT           "最高连接数",IDC_SSL_ONLINE2,511,7,66,8
+    LTEXT           "最高连接数",IDC_SSL_ONLINE3,511,29,66,8
+    LTEXT           "最高连接数",IDC_SSL_ONLINE4,511,49,66,8
+    LTEXT           "最高连接数",IDC_SSL_ONLINE5,511,71,66,8
+    LTEXT           "日志级别",IDC_LOG_LEVEL,7,174,101,8
+    PUSHBUTTON      "退出",IDC_EXIT,644,29,50,14
+    PUSHBUTTON      "清除缓存",IDC_CLEAR_CACHE,644,7,50,14
+    PUSHBUTTON      "Button1",IDC_BUTTON1,644,49,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "中软万维"
+            VALUE "FileDescription", "交易网关"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "TradeGateway.exe"
+            VALUE "LegalCopyright", "中软万维保留所有权利。"
+            VALUE "OriginalFilename", "TradeGateway.exe"
+            VALUE "ProductName", "交易网关"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_TRADEGATEWAYGTJA_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 694
+        VERTGUIDE, 171
+        VERTGUIDE, 251
+        VERTGUIDE, 345
+        VERTGUIDE, 436
+        VERTGUIDE, 511
+        VERTGUIDE, 581
+        VERTGUIDE, 616
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 385
+        HORZGUIDE, 29
+        HORZGUIDE, 49
+        HORZGUIDE, 71
+        HORZGUIDE, 93
+        HORZGUIDE, 110
+        HORZGUIDE, 127
+        HORZGUIDE, 141
+        HORZGUIDE, 157
+        HORZGUIDE, 174
+        HORZGUIDE, 192
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中文(简体，中国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\TradeGatewayGtja.rc2"  // ??¨¨? Microsoft Visual C++ ??§?è??ì?¨¨?-|?§????§?é??ìo???
+#include "l.CHS\afxres.rc"      // ??§?è??ìo??§?é???§?é??ì|?t
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

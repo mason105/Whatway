@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filter>
+	<description>日志中需要过滤金证柜台的字段描述文件</description>
+	<fields>
+		<field>trdpwd</field>
+		<field>bankpwd</field>
+		<field>fundpwd</field>
+		<field>newpwd</field>
+		<field>oldfundpwd</field>
+		<field>newfundpwd</field>
+		<field>dynamicpwd</field>
+		<field>dynamicpwd1</field>
+		<field>dynamicpwd2</field>
+	</fields>
+</filter>

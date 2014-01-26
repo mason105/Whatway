@@ -1,0 +1,15 @@
+/*
+		// convert gbk to utf8
+		UErrorCode errcode = U_ZERO_ERROR;
+		char dest[1024];
+		memset(dest, 0x00, sizeof(dest));
+		int ret = ucnv_convert("utf8", "gbk", dest, sizeof(dest), retmsg.c_str(), -1, &errcode);
+		row->add_value(dest);
+		
+		std::string str = "gbk to utf8 ³¤¶È";
+		str += boost::lexical_cast<std::string>(ret);
+		str += "\n";
+
+		OutputDebugString(str.c_str());
+*/		
+	

@@ -1,0 +1,7 @@
+release版本运行
+
+需要更换botan.dll及清单文件
+
+
+修改了secmem.h, using namespace std;, std::min改成min
+修改了alg_id.cpp，std::make_pair自动推导

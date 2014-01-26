@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filter>
+	<description>日志中需要过滤顶点柜台的字段描述文件</description>
+	<fields>
+		<field>FID_JYMM</field>
+		<field>FID_MM</field>
+		<field>FID_ZJMM</field>
+		<field>FID_WBZHMM</field>
+		<field>FID_NEWMM</field>
+	</fields>
+</filter>

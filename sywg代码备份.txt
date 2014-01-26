@@ -1,0 +1,475 @@
+/*
+// 0x101
+BOOL CSywgConnect::OpenAccount(std::map<std::string, std::string>& reqmap, std::string& response)
+{
+	std::string sErrMsg = "";
+	BOOL bRet = FALSE;
+	int nMsgHeaderSize = sizeof(struct SWI_BlockHead);
+	int nCRCBegin = 4; // sizeof(block_size) + sizeof(crc)	
+	char * pRequestBuf = NULL;
+	char * pReturnBuf = NULL;
+	char * pResultBuf = NULL;
+	boost::system::error_code ec;
+	int nPacketSize = 0; // nBlockSize的8的倍数
+	int nBlockSize = 0; // 真实大小
+	size_t nSendBytes = 0; // 发送的字节
+	int nRecvBytes = 0; // 累计接收的字节
+
+	SWI_OpenAccountRequest request;
+	memset(&request, 0x00, sizeof(request));
+
+	SWI_OpenAccountReturn ret;
+	memset(&ret, 0x00, sizeof(ret));
+
+	
+
+	// 消息内容
+	std::string account_type = reqmap["account_type"];
+	request.account_type = account_type.at(0);
+
+
+	std::string account = reqmap["account"];
+	memcpy_s(request.account, sizeof(request.account), account.c_str(), account.length());
+
+	std::string branch_no = account.substr(0, 4);	
+
+
+	std::string pwd = reqmap["pwd"];
+	memcpy_s(request.pwd, sizeof(request.pwd), pwd.c_str(), pwd.length());
+
+	short op_code = boost::lexical_cast<short>(reqmap["op_code"]);
+	request.op_code = op_code;
+
+	long flag = boost::lexical_cast<long>(reqmap["flag"]);
+	request.flag = flag;
+
+
+	std::string productno = reqmap["productno"];
+	memcpy_s(request.productno, sizeof(request.productno), productno.c_str(), productno.length());
+
+	std::string note = reqmap["note"];
+	memcpy_s(request.note, sizeof(request.note), note.c_str(), note.length());
+	
+
+	// 消息头
+	request.head.block_size = sizeof(SWI_OpenAccountRequest);
+	request.head.block_type = 1; // request
+	request.head.function_no = 0x101;
+	request.head.cn_id = cn_id; // 通过初始化返回
+	request.head.dest_dpt = boost::lexical_cast<WORD>(branch_no);
+
+	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
+
+	// 按理说应该放在crc操作之前啊，为什么要放在之后呢？
+	int nRet = gSywg.desinit(0);
+	nRet = gSywg.dessetkey((char*)des_key); // 通过初始化返回
+	gSywg.endes(request.pwd);
+	nRet = gSywg.desdone();
+	if (nRet != 0)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_DES);
+		goto error;
+	}
+
+	
+
+	nPacketSize = ComputeNetPackSize(request.head.block_size);
+	pRequestBuf = (char*) malloc(nPacketSize);
+    memset(pRequestBuf, 0x00, nPacketSize);
+    memcpy(pRequestBuf, &request, request.head.block_size);
+	
+	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
+
+	if (ec)
+	{
+		bRet = FALSE;
+		SetErrInfo(ec.value(), ec.message());
+		goto error;
+	}
+	
+	if (nSendBytes != nPacketSize)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_NETWORK);
+		goto error;
+	}
+	
+
+	nBlockSize = sizeof(SWI_OpenAccountReturn);
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+
+	pReturnBuf = (char*)malloc(nPacketSize + EXTENSION_BUF_LEN); // extension_buf_len其实没必要
+	memset(pReturnBuf, 0x00, nPacketSize + EXTENSION_BUF_LEN);
+
+	// 读消息头
+	// 先读消息头，主要是用来判断包的类型是result还是return
+	nBlockSize = ReadMsgHeader(pReturnBuf); // 返回的是整个消息的大小，包括消息头和消息内容
+	if (nBlockSize <= 0)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_NETWORK);
+		
+		goto error;
+	}
+
+
+	
+
+	// 如果返回的类型不变，那么这里nPacketSize应该等于前面的nPakcetSize
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+
+	// 读消息内容
+	
+	
+	do 
+	{
+		int nBytes = 0;
+		nBytes = socket.read_some(boost::asio::buffer(pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
+		if (ec)
+		{
+			bRet = FALSE;
+			SetErrInfo(ec.value(), ec.message());
+			goto error;
+		}
+
+		if (nBytes > 0)
+		{
+			nRecvBytes += nBytes;
+		}
+		else if (nBytes <= 0)
+		{
+			bRet = FALSE;
+			SetErrInfo(ERR_CODE_NETWORK);
+			goto error;
+		}
+	} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
+	
+	memset(&ret, 0x00, sizeof(SWI_OpenAccountReturn));
+	memcpy(&ret, pReturnBuf, sizeof(SWI_OpenAccountReturn));
+	
+	
+
+	if (ret.head.function_no != 0x101 || ret.head.block_type != BLOCK_TYPE_RETURN)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_PACKAGE);
+		goto error;
+	}
+
+	if (ret.return_status <= 0)
+	{
+		if (GetErrorMsg(ret.return_status, sErrMsg))
+		{
+			TRACE("打开账户失败：%s\n", sErrMsg.c_str());
+			
+		}
+
+		bRet = FALSE;
+		SetErrInfo(ret.return_status, sErrMsg);
+		goto error;
+	}
+	else
+	{
+		TRACE("===================打开账户，返回连接号%d\n", ret.head.cn_id);
+
+		response = "1";
+		response += SOH;
+		response += "5";
+		response += SOH;
+
+		
+
+		response += "flag" + SOH;
+		response += "last_login_date" + SOH;
+		response += "last_login_time" + SOH;
+		response += "last_full_note" + SOH;
+		response += "reserved_auth_info" + SOH;
+		
+		
+
+		int flag = ret.flag;
+		response += boost::lexical_cast<std::string>(flag) + SOH;
+		response += boost::lexical_cast<std::string>(ret.last_login_date) + SOH;
+		response += boost::lexical_cast<std::string>(ret.last_login_time) + SOH;
+		response += boost::lexical_cast<std::string>(ret.last_full_note) + SOH;
+		response += boost::lexical_cast<std::string>(ret.reserved_auth_info) + SOH;
+		
+		
+		bRet = TRUE;
+	}
+
+	
+error:
+	if (pRequestBuf != NULL)
+	{
+		free(pRequestBuf);
+		pRequestBuf = NULL;
+	}
+
+	if (pResultBuf != NULL)
+	{
+		free(pResultBuf);
+		pResultBuf = NULL;
+	}
+
+	if (pReturnBuf != NULL)
+	{
+		free(pReturnBuf);
+		pReturnBuf = NULL;
+	}
+
+	return bRet;
+}
+*/
+
+
+/*
+BOOL CSywgConnect::BankTransfReq(std::map<std::string, std::string>& reqmap, std::string& response)
+{
+	std::string sErrMsg = "";
+	BOOL bRet = FALSE;
+	int nMsgHeaderSize = sizeof(struct SWI_BlockHead);
+	int nCRCBegin = 4; // sizeof(block_size) + sizeof(crc)	
+	char * pRequestBuf = NULL;
+	char * pReturnBuf = NULL;
+	char * pResultBuf = NULL;
+	boost::system::error_code ec;
+	int nPacketSize = 0; // nBlockSize的8的倍数
+	int nBlockSize = 0; // 真实大小
+	size_t nSendBytes = 0; // 发送的字节
+	int nRecvBytes = 0; // 累计接收的字节
+
+	SWI_AddOTCEntrustRequest request;
+	memset(&request, 0x00, sizeof(request));
+
+	SWI_AddOTCEntrustReturn ret;
+	memset(&ret, 0x00, sizeof(ret));
+
+	
+
+	// 消息内容
+	
+
+	
+	std::string account = reqmap["account"];
+	memcpy_s(request.account, sizeof(request.account), account.c_str(), account.length());
+
+	std::string branch_no = account.substr(0, 4);	
+	
+
+	std::string bs_type = reqmap["bs_type"];
+	memcpy_s(&request.bs_type, sizeof(request.bs_type), bs_type.c_str(), bs_type.size());
+
+	std::string ta_code = reqmap["ta_code"];
+	memcpy_s(request.ta_code, sizeof(request.ta_code), ta_code.c_str(), ta_code.size());
+
+	std::string security_code = reqmap["security_code"];
+	memcpy_s(request.security_code, sizeof(request.security_code), security_code.c_str(), security_code.size());
+
+	std::string fund_amount = reqmap["fund_amount"];
+	if (!fund_amount.empty())
+		request.fund_amount = boost::lexical_cast<double>(fund_amount);
+
+	std::string price = reqmap["price"];
+	if (!price.empty())
+		request.price = boost::lexical_cast<long>(price);
+	
+	std::string effect_days = reqmap["effect_days"];
+	if (!effect_days.empty())
+		request.effect_days = boost::lexical_cast<short>(effect_days);
+
+	std::string apply_amount = reqmap["apply_amount"];
+	if (!apply_amount.empty())
+		request.apply_amount = boost::lexical_cast<double>(apply_amount);
+
+	std::string mark = reqmap["mark"];
+	if (!mark.empty())
+		request.mark = boost::lexical_cast<BYTE>(mark);
+
+	std::string MarketOrder_type = reqmap["MarketOrder_type"];
+	memcpy_s(request.MarketOrder_type, sizeof(request.MarketOrder_type), MarketOrder_type.c_str(), MarketOrder_type.size());
+
+	std::string match_type = reqmap["match_type"];
+	memcpy_s(&request.match_type, sizeof(request.match_type), match_type.c_str(), match_type.size());
+
+	std::string contract_no = reqmap["contract_no"];
+	if (!contract_no.empty())
+		request.contract_no = boost::lexical_cast<long>(contract_no);
+
+	std::string contact_name = reqmap["contact_name"];
+	memcpy_s(request.contact_name, sizeof(request.contact_name), contact_name.c_str(), contact_name.size());
+
+	std::string contact_tel = reqmap["contact_tel"];
+	memcpy_s(request.contact_tel, sizeof(request.contact_tel), contact_tel.c_str(), contact_tel.size());
+
+	std::string Entrust_sign = reqmap["Entrust_sign"];
+	memcpy_s(request.Entrust_sign, sizeof(request.Entrust_sign), Entrust_sign.c_str(), Entrust_sign.size());
+
+
+	// 消息头
+	request.head.block_size = sizeof(SWI_AddOTCEntrustRequest);
+	request.head.block_type = 1; // request
+	request.head.function_no = 0x2601;
+	request.head.cn_id = cn_id; // 通过初始化返回
+	request.head.dest_dpt = boost::lexical_cast<WORD>(branch_no);
+
+	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
+
+	// 按理说应该放在crc操作之前啊，为什么要放在之后呢？
+	
+	int nRet = gSywg.desinit(0);
+	nRet = gSywg.dessetkey((char*)des_key); // 通过初始化返回
+
+	gSywg.endes(request.security_pwd);
+	gSywg.endes(request.bank_pwd);
+
+	nRet = gSywg.desdone();
+	if (nRet != 0)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_DES);
+		goto error;
+	}
+	
+	
+
+	nPacketSize = ComputeNetPackSize(request.head.block_size);
+	pRequestBuf = (char*) malloc(nPacketSize);
+    memset(pRequestBuf, 0x00, nPacketSize);
+    memcpy(pRequestBuf, &request, request.head.block_size);
+	
+	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
+
+	if (ec)
+	{
+		bRet = FALSE;
+		SetErrInfo(ec.value(), ec.message());
+		goto error;
+	}
+	
+	if (nSendBytes != nPacketSize)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_NETWORK);
+		goto error;
+	}
+	
+
+	nBlockSize = sizeof(SWI_AddOTCEntrustReturn);
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+
+	pReturnBuf = (char*)malloc(nPacketSize + EXTENSION_BUF_LEN); // extension_buf_len其实没必要
+	memset(pReturnBuf, 0x00, nPacketSize + EXTENSION_BUF_LEN);
+
+	// 读消息头
+	// 先读消息头，主要是用来判断包的类型是result还是return
+	nBlockSize = ReadMsgHeader(pReturnBuf); // 返回的是整个消息的大小，包括消息头和消息内容
+	if (nBlockSize <= 0)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_NETWORK);
+		
+		goto error;
+	}
+
+
+	
+
+	// 如果返回的类型不变，那么这里nPacketSize应该等于前面的nPakcetSize
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+
+	// 读消息内容
+	
+	
+	do 
+	{
+		int nBytes = 0;
+		nBytes = socket.read_some(boost::asio::buffer(pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
+		if (ec)
+		{
+			bRet = FALSE;
+			SetErrInfo(ec.value(), ec.message());
+			goto error;
+		}
+
+		if (nBytes > 0)
+		{
+			nRecvBytes += nBytes;
+		}
+		else if (nBytes <= 0)
+		{
+			bRet = FALSE;
+			SetErrInfo(ERR_CODE_NETWORK);
+			goto error;
+		}
+	} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
+	
+	memset(&ret, 0x00, sizeof(SWI_AddOTCEntrustReturn));
+	memcpy(&ret, pReturnBuf, sizeof(SWI_AddOTCEntrustReturn));
+	
+	
+
+	if (ret.head.function_no != 0x2601 || ret.head.block_type != BLOCK_TYPE_RETURN)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_PACKAGE);
+		goto error;
+	}
+
+	if (ret.return_status <= 0)
+	{
+		if (GetErrorMsg(ret.return_status, sErrMsg))
+		{
+			TRACE("打开账户失败：%s\n", sErrMsg.c_str());
+			
+		}
+
+		
+
+		bRet = FALSE;
+		SetErrInfo(ret.return_status, sErrMsg);
+		goto error;
+	}
+	else
+	{
+		TRACE("===================打开账户，返回连接号%d\n", ret.head.cn_id);
+
+		response = "1";
+		response += SOH;
+		response += "1";
+		response += SOH;
+
+		
+
+		response += "entrust_sn" + SOH;		
+		response += boost::lexical_cast<std::string>(ret.entrust_sn) + SOH;
+		
+		
+		
+		bRet = TRUE;
+	}
+
+	
+error:
+	if (pRequestBuf != NULL)
+	{
+		free(pRequestBuf);
+		pRequestBuf = NULL;
+	}
+
+	if (pResultBuf != NULL)
+	{
+		free(pResultBuf);
+		pResultBuf = NULL;
+	}
+
+	if (pReturnBuf != NULL)
+	{
+		free(pReturnBuf);
+		pReturnBuf = NULL;
+	}
+
+	return bRet;
+}
+*/
