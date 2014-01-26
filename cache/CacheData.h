@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CACHE_DATA_H
+#define CACHE_DATA_H
+
 #include <string>
 #include <map>
 
@@ -27,3 +29,5 @@ public:
 };
 
 extern CCacheData g_CacheData;
+
+#endif

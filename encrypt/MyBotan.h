@@ -35,6 +35,8 @@ public:
 private:
 	Botan::LibraryInitializer init_;
 };
+
+// 以后去掉全局变量，没必要，浪费性能
 extern CMyBotan g_MyBotan;
 
 #endif

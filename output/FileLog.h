@@ -1,5 +1,5 @@
-#ifndef _FILE_LOG_
-#define _FILE_LOG_
+#ifndef FILE_LOG_H
+#define FILE_LOG_H
 
 #include <string>
 

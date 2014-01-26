@@ -221,7 +221,7 @@ bool CMyBotan::AESDecrypt(std::string algo, std::string key, const unsigned char
 		Botan::Pipe pipeAESDec( Botan::get_cipher(algo, k, Botan::DECRYPTION) );
 
 		pipeAESDec.process_msg(src, len);
-
+		
 		plain = pipeAESDec.read_all_as_string();
 		if (plain.empty())
 			return false;

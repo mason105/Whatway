@@ -137,7 +137,7 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 		GetFilterMap(request, m_mXinyi_FilterField, reqmap);
 	}
 
-
+	
 
 	std::string sFilterRequest = "";
 	for (std::map<std::string, std::string>::iterator it = reqmap.begin(); it != reqmap.end(); it++)
@@ -147,6 +147,10 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 		sFilterRequest += it->second;
 		sFilterRequest += SOH;
 	}
+
+	if (sFilterRequest.empty())
+		sFilterRequest = request;
+
 
 	std::string sLogFileName = gConfigManager::instance().m_sLogFilePath;
 	sLogFileName += "\\";

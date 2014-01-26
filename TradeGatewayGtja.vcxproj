@@ -190,6 +190,7 @@
     <ClInclude Include="network\tcp\tcp_server_old.h" />
     <ClInclude Include="network\tcp\tcp_session_old.h" />
     <ClInclude Include="network\tcp\trade_server_tcp_old.h" />
+    <ClInclude Include="ocr\OCR.h" />
     <ClInclude Include="output\FileLog.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ISession.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="network\tcp\TcpTradeServer.cpp" />
     <ClCompile Include="network\tcp\tcp_session_old.cpp" />
     <ClCompile Include="network\tcp\trade_server_tcp_old.cpp" />
+    <ClCompile Include="ocr\OCR.cpp" />
     <ClCompile Include="output\FileLog.cpp" />
     <ClCompile Include="ISession.cpp" />
     <ClCompile Include="SSLServer.cpp" />
@@ -271,6 +273,8 @@
     <None Include="network\communication.proto" />
     <None Include="network\pkgheader.proto" />
     <None Include="network\proto2cpp.bat" />
+    <None Include="ocr\expire.traineddata" />
+    <None Include="ocr\id.traineddata" />
     <None Include="res\TradeGatewayGtja.rc2" />
     <None Include="bin\ca.crt" />
     <None Include="bin\client.crt" />
@@ -283,6 +287,12 @@
     <Xml Include="bin_debug\agc.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="bin_debug\apex_filterfield.xml" />
+    <Xml Include="bin_debug\apex_filterfunc.xml" />
+    <Xml Include="bin_debug\hundsun_t2_filterfield.xml" />
+    <Xml Include="bin_debug\hundsun_t2_filterfunc.xml" />
+    <Xml Include="bin_debug\kingdom_win_filterfield.xml" />
+    <Xml Include="bin_debug\kingdom_win_filterfunc.xml" />
     <Xml Include="bin_debug\tradegateway.xml">
       <SubType>Designer</SubType>
     </Xml>

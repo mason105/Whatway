@@ -23,22 +23,8 @@ public:
 	bool VerifyCaptcha(std::string captcha);
 
 	template<typename Rng>
-	std::string rand_bytes(int buf_len)
-	{
-		typedef boost::random::variate_generator<Rng, boost::random::uniform_smallint<>> var_gen;
-		static var_gen gen(Rng((typename Rng::result_type)std::time(0)), boost::random::uniform_smallint<>(0,9));
-
-		std::string captcha = "";
-		for (int i=0; i<buf_len; ++i)
-		{
-			captcha += boost::lexical_cast<char>(gen());
-			//OuputDebugString(buf[i]);
-		}
-
-		captcha_map[captcha] = time(NULL);
-
-		return captcha;
-	}
+	std::string rand_bytes(int buf_len);
+	
 
 private:
 	boost::unordered_map<std::string, time_t> captcha_map;
