@@ -498,7 +498,7 @@ void TradeBusinessComm::RetErrRes(Trade::TradeLog::LogLevel logLevel, std::strin
 
 void TradeBusinessComm::ComputePackID(long* lPackID)
 {
-	
+	/*
 
 	if (g_csPackID.Lock(INFINITE))
 	{
@@ -512,5 +512,5 @@ void TradeBusinessComm::ComputePackID(long* lPackID)
 		g_csPackID.Unlock();
 	}
 
-	
+	*/
 }

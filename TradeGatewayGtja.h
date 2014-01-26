@@ -32,6 +32,7 @@ public:
 };
 
 extern CTradeGatewayGtjaApp theApp;
-
+/*
 extern CCriticalSection g_csPackID;
 extern long	g_lPackID;
+*/

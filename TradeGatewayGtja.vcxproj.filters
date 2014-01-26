@@ -271,9 +271,6 @@
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h">
       <Filter>网络层\柜台系统\恒生T2</Filter>
     </ClInclude>
-    <ClInclude Include="business\szkingdom\Encrypt.h">
-      <Filter>网络层\柜台系统\金证windows版本</Filter>
-    </ClInclude>
     <ClInclude Include="business\szkingdom\TradeBusiness.h">
       <Filter>网络层\柜台系统\金证windows版本</Filter>
     </ClInclude>
@@ -326,9 +323,6 @@
       <Filter>第三方库\OpenCV</Filter>
     </ClInclude>
     <ClInclude Include="business\SunGuard\sywg.h">
-      <Filter>网络层\柜台系统\金仕达AGC/WGX</Filter>
-    </ClInclude>
-    <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h">
       <Filter>网络层\柜台系统\金仕达AGC/WGX</Filter>
     </ClInclude>
     <ClInclude Include="business\SunGuard\SywgConnect.h">
@@ -412,6 +406,12 @@
     <ClInclude Include="..\..\common\Network\TcpSession.h">
       <Filter>网络层\New TCP</Filter>
     </ClInclude>
+    <ClInclude Include="business\szkingdom\Encrypt.h">
+      <Filter>加解密Botan</Filter>
+    </ClInclude>
+    <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h">
+      <Filter>加解密Botan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -455,9 +455,6 @@
     </ClCompile>
     <ClCompile Include="business\hundsun_t2\TradeBusinessT2.cpp">
       <Filter>网络层\柜台系统\恒生T2</Filter>
-    </ClCompile>
-    <ClCompile Include="business\szkingdom\Encrypt.cpp">
-      <Filter>网络层\柜台系统\金证windows版本</Filter>
     </ClCompile>
     <ClCompile Include="business\szkingdom\TradeBusiness.cpp">
       <Filter>网络层\柜台系统\金证windows版本</Filter>
@@ -503,9 +500,6 @@
     </ClCompile>
     <ClCompile Include="network\pkgheader.pb.cc">
       <Filter>网络层\SSL\protobuf</Filter>
-    </ClCompile>
-    <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
-      <Filter>网络层\柜台系统\金仕达AGC/WGX</Filter>
     </ClCompile>
     <ClCompile Include="business\SunGuard\SywgConnect.cpp">
       <Filter>网络层\柜台系统\金仕达AGC/WGX</Filter>
@@ -566,6 +560,12 @@
     </ClCompile>
     <ClCompile Include="..\..\common\Network\TcpSession.cpp">
       <Filter>网络层\New TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="business\szkingdom\Encrypt.cpp">
+      <Filter>加解密Botan</Filter>
+    </ClCompile>
+    <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
+      <Filter>加解密Botan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
