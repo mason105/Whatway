@@ -45,17 +45,43 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
 public:
 	afx_msg void OnBnClickedStartup();
-
+	afx_msg void OnBnClickedOpenLog();
+	afx_msg void OnDestroy();
+	afx_msg void OnClose();
+	afx_msg void OnBnClickedExit();
+	afx_msg void OnBnClickedClearCache();
 
 	
 
+private:
+	int GetCPUCount();
+	
+	void start();
+	void stop();
+/*
+	bool verify_certificate(bool preverified,      boost::asio::ssl::verify_context& ctx)
+	{
+		// The verify callback can be used to check whether the certificate that is
+		// being presented is valid for the peer. For example, RFC 2818 describes
+		// the steps involved in doing this for HTTPS. Consult the OpenSSL
+		// documentation for more details. Note that the callback is called once
+		// for each certificate in the certificate chain, starting from the root
+		// certificate authority.
 
+		// In this example we will simply print the certificate's subject name.
+		char subject_name[256];
+		X509* cert = X509_STORE_CTX_get_current_cert(ctx.native_handle());
+		X509_NAME_oneline(X509_get_subject_name(cert), subject_name, 256);
+		OutputDebugString("Verifying " );
+		OutputDebugString(subject_name);
+		OutputDebugString("\n");
 
-
-	afx_msg void OnBnClickedOpenLog();
-
+		return preverified;
+	}
+*/
 	CString m_sSslAddr;
 	CString m_sSslStatus;
 	CString m_sSslWorker;
@@ -92,33 +118,10 @@ public:
 	int m_nLogMQEnable;
 	int m_nLogGUIEnable;
 
-	int GetCPUCount();
-	afx_msg void OnDestroy();
-	afx_msg void OnClose();
-
-/*
-	bool verify_certificate(bool preverified,      boost::asio::ssl::verify_context& ctx)
-	{
-		// The verify callback can be used to check whether the certificate that is
-		// being presented is valid for the peer. For example, RFC 2818 describes
-		// the steps involved in doing this for HTTPS. Consult the OpenSSL
-		// documentation for more details. Note that the callback is called once
-		// for each certificate in the certificate chain, starting from the root
-		// certificate authority.
-
-		// In this example we will simply print the certificate's subject name.
-		char subject_name[256];
-		X509* cert = X509_STORE_CTX_get_current_cert(ctx.native_handle());
-		X509_NAME_oneline(X509_get_subject_name(cert), subject_name, 256);
-		OutputDebugString("Verifying " );
-		OutputDebugString(subject_name);
-		OutputDebugString("\n");
-
-		return preverified;
-	}
-*/
-	void start();
-	void stop();
+	CString m_sLogFileThreadPool;
+	CString m_sLogDbThreadPool;
+	CString m_sLogMqThreadPool;
+	CString m_sLogShowThreadPool;
 
 	//io_service_pool iospool;
 
@@ -134,20 +137,15 @@ public:
 	TcpTradeServer * pTradeServerTcp;
 	TcpServer * pTcpServer;
 	
-	
 	io_service_pool * piospool_http;
 	trade_server_http * pTradeServerHttp;
 	http_server * pHttpServer;
 
-	afx_msg void OnBnClickedExit();
-	CString m_sLogFileThreadPool;
-	CString m_sLogDbThreadPool;
-	CString m_sLogMqThreadPool;
-	CString m_sLogShowThreadPool;
+	
+	
+
+public:
 	afx_msg void OnBnClickedTestCrash();
 	afx_msg void OnBnClickedButton3();
-	afx_msg void OnBnClickedClearCache();
 	afx_msg void OnBnClickedButton1();
-
-	
 };

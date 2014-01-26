@@ -128,9 +128,6 @@
     <Filter Include="网络层\会话层\业务层">
       <UniqueIdentifier>{72295626-05d9-4950-bd20-2a53a3a60e5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="加解密Botan">
-      <UniqueIdentifier>{a922be35-7208-4d6e-a48d-d85b7d0e7665}</UniqueIdentifier>
-    </Filter>
     <Filter Include="线程池ThreadPool">
       <UniqueIdentifier>{9dbc99d7-d101-450a-82e5-659947d5c14f}</UniqueIdentifier>
     </Filter>
@@ -194,6 +191,9 @@
     <Filter Include="日志\过滤查询功能号">
       <UniqueIdentifier>{ebb9dc6e-8be6-4da2-a5f5-87d1ed781ba4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="加解密">
+      <UniqueIdentifier>{a922be35-7208-4d6e-a48d-d85b7d0e7665}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -239,7 +239,7 @@
       <Filter>验证码imagemagick</Filter>
     </ClInclude>
     <ClInclude Include="encrypt\MyBotan.h">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClInclude>
     <ClInclude Include="output\FileLog.h">
       <Filter>调试输出</Filter>
@@ -407,10 +407,10 @@
       <Filter>网络层\New TCP</Filter>
     </ClInclude>
     <ClInclude Include="business\szkingdom\Encrypt.h">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClInclude>
     <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -433,10 +433,10 @@
       <Filter>验证码imagemagick</Filter>
     </ClCompile>
     <ClCompile Include="encrypt\MyBotan.cpp">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClCompile>
     <ClCompile Include="encrypt\testbotan.cpp">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClCompile>
     <ClCompile Include="output\FileLog.cpp">
       <Filter>调试输出</Filter>
@@ -562,10 +562,10 @@
       <Filter>网络层\New TCP</Filter>
     </ClCompile>
     <ClCompile Include="business\szkingdom\Encrypt.cpp">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClCompile>
     <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
-      <Filter>加解密Botan</Filter>
+      <Filter>加解密</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
