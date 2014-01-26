@@ -10,9 +10,6 @@
     <Filter Include="缓存">
       <UniqueIdentifier>{2a9f97cc-49c1-41ba-8f89-bd50d3496ab7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="监控">
-      <UniqueIdentifier>{edbc963e-d3bc-49a3-8666-02282c269995}</UniqueIdentifier>
-    </Filter>
     <Filter Include="验证码imagemagick">
       <UniqueIdentifier>{95aae920-3795-45ee-9960-b99ca9fa19b5}</UniqueIdentifier>
     </Filter>
@@ -170,9 +167,6 @@
     <Filter Include="网络层\New TCP">
       <UniqueIdentifier>{41fc8b71-479f-4a16-beab-029675894ec0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="共用代码\加解密Botan">
-      <UniqueIdentifier>{a922be35-7208-4d6e-a48d-d85b7d0e7665}</UniqueIdentifier>
-    </Filter>
     <Filter Include="共用代码\错误码定义">
       <UniqueIdentifier>{f455ef46-a0f9-44bc-82ad-e0b311419af3}</UniqueIdentifier>
     </Filter>
@@ -187,6 +181,9 @@
     </Filter>
     <Filter Include="网络层\会话层\业务层">
       <UniqueIdentifier>{72295626-05d9-4950-bd20-2a53a3a60e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="加解密Botan">
+      <UniqueIdentifier>{a922be35-7208-4d6e-a48d-d85b7d0e7665}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -236,7 +233,7 @@
       <Filter>验证码imagemagick</Filter>
     </ClInclude>
     <ClInclude Include="encrypt\MyBotan.h">
-      <Filter>共用代码\加解密Botan</Filter>
+      <Filter>加解密Botan</Filter>
     </ClInclude>
     <ClInclude Include="output\FileLog.h">
       <Filter>调试输出</Filter>
@@ -385,9 +382,6 @@
     <ClInclude Include="network\tcp\tcp_message_old.h">
       <Filter>网络层\TCP</Filter>
     </ClInclude>
-    <ClInclude Include="errcode.h">
-      <Filter>共用代码\错误码定义</Filter>
-    </ClInclude>
     <ClInclude Include="network\newssl\SSLServer.h">
       <Filter>网络层\New SSL</Filter>
     </ClInclude>
@@ -402,6 +396,9 @@
     </ClInclude>
     <ClInclude Include="ISession.h">
       <Filter>网络层\会话层</Filter>
+    </ClInclude>
+    <ClInclude Include="errcode.h">
+      <Filter>类型定义</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -427,10 +424,10 @@
       <Filter>验证码imagemagick</Filter>
     </ClCompile>
     <ClCompile Include="encrypt\MyBotan.cpp">
-      <Filter>共用代码\加解密Botan</Filter>
+      <Filter>加解密Botan</Filter>
     </ClCompile>
     <ClCompile Include="encrypt\testbotan.cpp">
-      <Filter>共用代码\加解密Botan</Filter>
+      <Filter>加解密Botan</Filter>
     </ClCompile>
     <ClCompile Include="output\FileLog.cpp">
       <Filter>调试输出</Filter>
