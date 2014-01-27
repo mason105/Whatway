@@ -67,11 +67,12 @@ private:
 	CustomMessage* create_request();
 	void read(CustomMessage* req);
 
-	virtual void write(CustomMessage* resp);
+	
 
 	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
 	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
 
+	virtual void write(CustomMessage* resp);
 	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
 	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
 
@@ -81,11 +82,6 @@ public:
 	int loginStatus;
 
 	
-	// 新意
-	//CTCPClientSync m_xinyi;
-
-	// 金仕达
-	//CSywgConnect * m_pAGC;
 
 	// 建立线程，发送心跳消息，调用业务连接的心跳自定义实现方法，保持活动
 	

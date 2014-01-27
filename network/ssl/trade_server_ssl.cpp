@@ -126,6 +126,7 @@ trade_server_ssl::req_queue_type& trade_server_ssl::recv_queue()
 
 bool trade_server_ssl::process_msg(ssl_request_ptr& req)
 {
+	/*
 	switch(req->header.msgtype())
 	{
 	case quote::PkgHeader::REQ_TRADE:
@@ -144,11 +145,14 @@ bool trade_server_ssl::process_msg(ssl_request_ptr& req)
 	}
 	
 	req->destroy();
+	*/
 	return true;
 }
 
 void trade_server_ssl::trade(ssl_request_ptr& req)
 {
+	/*
+	
 	int msgtype = req->header.msgtype();
 	if (msgtype != quote::PkgHeader::REQ_TRADE )
 	{
@@ -255,13 +259,14 @@ void trade_server_ssl::trade(ssl_request_ptr& req)
 	}
 
 	// 业务处理日志
-	resp->logMsg = logMsg;
+	resp->log = logMsg;
 
 	int msglen = response.length();
 	resp->set_body_size(msglen);
 	memcpy(&(resp->msg_body.front()), response.c_str(), response.length());
 	resp->encode_header(quote::PkgHeader::RES_TRADE, EC_SUCCESS);
 	sendq_.push(resp);
+	*/
 }
 
 void trade_server_ssl::captcha(ssl_request_ptr& req)

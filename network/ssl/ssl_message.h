@@ -21,12 +21,12 @@
 
 
 #include "./log/tradelog.pb.h"
-
+#include "network/imessage.h"
 
 class ssl_session;
 typedef boost::shared_ptr<ssl_session> ssl_session_ptr;
 
-class ssl_message : boost::noncopyable
+class ssl_message : public IMessage
 {
 public:
 	typedef boost::function<void(ssl_message*)> destroy_type;
@@ -138,8 +138,7 @@ public:
 	// 接收到请求的时间
 	boost::posix_time::ptime RecvTime;
 	
-	// 业务处理生成的日志
-	Trade::TradeLog logMsg;
+	
 
 	// 发送响应的时间
 	boost::posix_time::ptime SendTime;

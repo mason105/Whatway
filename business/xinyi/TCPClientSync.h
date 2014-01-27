@@ -29,7 +29,9 @@ public:
 	CTCPClientSync();
 	~CTCPClientSync(void);
 
-	virtual bool Connect();
+	virtual bool CreateConnect();
+	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
+
 	void Close();
 
 	bool ReConnect();
@@ -37,8 +39,7 @@ public:
 
 	// 心跳功能，由于后台业务不同，所以封装
 	bool HeartBeat();
-
-	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
+	
 
 	void SetConnectTimeout(int seconds);
 	void SetReadWriteTimeout(int seconds);

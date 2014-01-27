@@ -56,7 +56,7 @@ void CTCPClientSync::check_deadline()
 }
 
 // 建立连接
-bool CTCPClientSync::Connect()
+bool CTCPClientSync::CreateConnect()
 {
 	try
 	{
@@ -285,7 +285,7 @@ bool CTCPClientSync::ReConnect()
 {
 	Close();
 
-	return Connect();
+	return CreateConnect();
 }
 
 // 发送心跳包

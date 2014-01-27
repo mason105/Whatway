@@ -39,7 +39,7 @@ TradeBusinessComm::TradeBusinessComm(std::string type)
 {
 
 
-	m_pConn = NULL;
+	//m_pConn = NULL;
 
 	aeskey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
 
@@ -58,6 +58,7 @@ TradeBusinessComm::~TradeBusinessComm(void)
 
 void TradeBusinessComm::Process(std::string& request, std::string& response, Trade::TradeLog& logMsg)
 {
+	/*
 	// 开始处理时间
 	beginTime =  boost::posix_time::microsec_clock::local_time();
 
@@ -172,46 +173,8 @@ void TradeBusinessComm::Process(std::string& request, std::string& response, Tra
 	//newpwd = reqmap["newpwd"];
 
 
+	
 
-
-/*
-	// 处理缓存
-	if (funcid == "105001")
-	{
-		if (type == "web" && g_CacheData.m_sFundCompany_Web != "")
-		{
-			response = g_CacheData.m_sFundCompany_Web;
-			m_bEnableSendLog = false;
-			return response;
-		}
-
-		if ( (type == "mobile" || type == "flash") && g_CacheData.m_sFundCompany_Json != "" )
-		{
-			response = g_CacheData.m_sFundCompany_Json;
-			m_bEnableSendLog = false;
-			return response;
-		}
-
-		
-	}
-	if (funcid == "105002")
-	{
-		if (type == "web" && g_CacheData.m_sFund_Web != "")
-		{
-			response = g_CacheData.m_sFund_Web;
-			m_bEnableSendLog = false;
-			return response;
-		}
-
-		if ( (type == "mobile" || type == "flash") && g_CacheData.m_sFund_Json != "" )
-		{
-			response = g_CacheData.m_sFund_Json;
-			m_bEnableSendLog = false;
-			return response;
-		}
-	}
-	// 处理缓存
-*/
 
 
 
@@ -423,6 +386,7 @@ void TradeBusinessComm::Process(std::string& request, std::string& response, Tra
 	{
 		gateway_port = boost::lexical_cast<std::string>(gConfigManager::instance().m_nSslPort);
 	}
+	*/
 }
 
 

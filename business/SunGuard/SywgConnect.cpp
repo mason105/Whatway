@@ -40,7 +40,7 @@ CSywgConnect::~CSywgConnect(void)
 }
 
 // OK
-bool CSywgConnect::Connect()
+bool CSywgConnect::CreateConnect()
 {
 	m_sIP = counter->m_sIP;
 		m_nPort = counter->m_nPort;

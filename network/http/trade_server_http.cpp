@@ -44,6 +44,7 @@ bool trade_server_http::send_msg(http_response_ptr resp)
 
 bool trade_server_http::process_msg(http_request_ptr req)
 {
+	/*
 	// 分析原始http请求
 	std::string url = req->msg_header.data();
 	OutputDebugString(url.c_str());
@@ -216,7 +217,7 @@ bool trade_server_http::process_msg(http_request_ptr req)
 
 
 	// 发送响应包response到队列
-	resp->logMsg = logMsg;
+	resp->log = logMsg;
 
 	int msglen = response.length();
 	resp->set_body_size(msglen);
@@ -227,7 +228,7 @@ bool trade_server_http::process_msg(http_request_ptr req)
 	// 释放请求包
 	req->destroy();
 
-
+	*/
 	return true;
 }
 

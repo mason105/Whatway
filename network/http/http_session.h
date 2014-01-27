@@ -2,11 +2,9 @@
 #define _HTTP_SESSION_
 
 
-#include "http_message.h"
-#include "ThreadSafeQueue/job_queue.h"
-
 #include <iostream>
 #include <string>
+
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
@@ -15,13 +13,17 @@
 #include <boost/pool/object_pool.hpp>
 
 
+#include "http_message.h"
+#include "ThreadSafeQueue/job_queue.h"
+#include "network/isession.h"
+
 class http_message;
 typedef http_message http_request;
 typedef http_message http_response;
 typedef http_request* http_request_ptr;
 typedef http_response* http_response_ptr;
 
-class http_session : public boost::enable_shared_from_this<http_session>
+class http_session : public boost::enable_shared_from_this<http_session>, public ISession
 {
 public:
 	typedef boost::asio::ip::tcp::socket socket_type;

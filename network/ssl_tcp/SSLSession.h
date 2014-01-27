@@ -50,11 +50,12 @@ public:
 	void start();
 	void close();
 
-	virtual void write(CustomMessage* resp);
+	
 
 	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
 	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
-
+	
+	virtual void write(CustomMessage* resp);
 	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
 	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
 

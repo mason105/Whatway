@@ -2,11 +2,9 @@
 #define _SSL_SESSION_
 
 
-#include "ssl_message.h"
-#include "ThreadSafeQueue/job_queue.h"
-
 #include <iostream>
 #include <string>
+
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
@@ -15,6 +13,10 @@
 #include <boost/pool/object_pool.hpp>
 #include <boost/asio/ssl.hpp>
 
+#include "ssl_message.h"
+#include "ThreadSafeQueue/job_queue.h"
+
+#include "network/isession.h"
 
 class ssl_message;
 typedef ssl_message ssl_request;
@@ -22,7 +24,7 @@ typedef ssl_message ssl_response;
 typedef ssl_message* ssl_request_ptr;
 typedef ssl_message* ssl_response_ptr;
 
-class ssl_session : public boost::enable_shared_from_this<ssl_session>
+class ssl_session : public boost::enable_shared_from_this<ssl_session>, public ISession
 {
 public:
 	//typedef boost::asio::ip::tcp::socket socket_type;

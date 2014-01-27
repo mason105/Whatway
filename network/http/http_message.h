@@ -15,13 +15,13 @@
 
 
 #include "./log/tradelog.pb.h"
-
+#include "network/imessage.h"
 
 
 class http_session;
 typedef boost::shared_ptr<http_session> http_session_ptr;
 
-class http_message : boost::noncopyable
+class http_message : public IMessage
 {
 public:
 	typedef boost::function<void(http_message*)> destroy_type;
@@ -88,8 +88,7 @@ public:
 	// 接收到请求的时间
 	boost::posix_time::ptime RecvTime;
 	
-	// 业务处理生成的日志
-	Trade::TradeLog logMsg;
+	
 
 	// 发送响应的时间
 	boost::posix_time::ptime SendTime;

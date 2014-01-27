@@ -21,7 +21,8 @@ public:
 	TradeBusiness();
 	~TradeBusiness(void);
 
-	void Process(std::string& request, std::string& response, Trade::TradeLog& logMsg);
+	virtual bool CreateConnect();
+	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 	
 
 

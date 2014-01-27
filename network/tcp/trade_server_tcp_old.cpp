@@ -66,6 +66,7 @@ trade_server_tcp_old::req_queue_type& trade_server_tcp_old::recv_queue()
 
 bool trade_server_tcp_old::process_msg(tcp_old_request_ptr req)
 {
+	/*
 	//int size = req->msg_body.size();
 	//std::string request(req->msg_body.begin(), req->msg_body.end());
 
@@ -138,17 +139,19 @@ bool trade_server_tcp_old::process_msg(tcp_old_request_ptr req)
 	else
 	{
 		CounterType ct = gConfigManager::instance().GetCounterType(sysNo, busiType);
-
+		int status = 0;
+	std::string errCode = "";
+	std::string errMsg = "";
 		if (ct ==  CT_JZ_WIN)
 		{
 			TradeBusiness * trade = new TradeBusiness();
-			trade->Process(request, response, logMsg);
+			trade->Send(request, response, status, errCode, errMsg);
 			delete trade;
 		}
 		else if (ct ==  CT_HS_T2)
 		{
 			TradeBusinessT2 * trade = new TradeBusinessT2();
-			trade->Process(request, response, logMsg);
+			trade->Send(request, response, status, errCode, errMsg);
 			delete trade;
 		}
 		else if (ct == CT_DINGDIAN)
@@ -156,7 +159,7 @@ bool trade_server_tcp_old::process_msg(tcp_old_request_ptr req)
 			g_DingDian.Init();
 
 			TradeBusinessDingDian * trade = new TradeBusinessDingDian();
-			trade->Process(request, response, logMsg);
+			trade->Send(request, response, status, errCode, errMsg);
 			delete trade;
 		}
 		else if (ct == CT_JSD)
@@ -207,7 +210,7 @@ bool trade_server_tcp_old::process_msg(tcp_old_request_ptr req)
 	resp->set_body_size(msglen);
 
 	// 业务处理日志
-	resp->logMsg = logMsg;
+	resp->log = logMsg;
 
 //	std::string tmp = boost::lexical_cast<std::string>(msglen);
 //	OutputDebugString("reponse length:");
@@ -220,7 +223,7 @@ bool trade_server_tcp_old::process_msg(tcp_old_request_ptr req)
 
 	// 释放请求
 	req->destroy();
-
+	*/
 	return true;
 }
 

@@ -14,7 +14,8 @@
 
 #include "MsgHeader.h"
 //#include "tcpsession.h"
-#include "log/tradelog.pb.h"
+
+#include "network/imessage.h"
 
 /*
 独立出来的原因，
@@ -22,10 +23,10 @@
 2.异步调用的时候适合放入队列
 */
 
-class ISession;
-//class SSLSession;
 
-class CustomMessage
+
+
+class CustomMessage : public IMessage
 {
 public:
 	CustomMessage();
@@ -38,13 +39,11 @@ private:
 	// 消息内容
 	std::vector<char> m_MsgContent;
 
-	ISession* session;
+	
 	
 
 public:
-	void SetSession(ISession* session);
-	ISession* GetSession();
-
+	
 	
 
 	
@@ -68,8 +67,7 @@ public:
 
 	
 
-	// 业务处理生成的日志
-	Trade::TradeLog log;
+	
 
 	void Log(Trade::TradeLog::LogLevel logLevel, std::string sysNo, std::string sysVer, std::string busiType, std::string funcId, std::string account, std::string clientIp, std::string request, std::string response, int status, std::string errCode, std::string errMsg, std::string beginTime, int runtime, std::string gatewayIp, std::string gatewayPort, std::string counterIp, std::string counterPort, std::string counterType);
 };

@@ -41,6 +41,7 @@ bool CMyBotan::Base64Encoder(const unsigned char* src, int len, std::string& enc
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -79,6 +80,7 @@ bool CMyBotan::Base64Decoder(std::string& src, char* decoder, int * outlen)
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -108,6 +110,7 @@ bool CMyBotan::Base16Encoder(const unsigned char* src, int len, std::string& enc
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -146,6 +149,7 @@ bool CMyBotan::Base16Decoder(std::string& src, char* decoder, int * outlen)
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -193,6 +197,7 @@ bool CMyBotan::AESEncrypt(std::string algo, std::string key, std::string& src, c
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -230,6 +235,7 @@ bool CMyBotan::AESDecrypt(std::string algo, std::string key, const unsigned char
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -269,10 +275,12 @@ bool CMyBotan::AESEncrypt_Base64Encoder(std::string algo, std::string key, std::
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
 	{
+		
 		return false;
 	}
 }
@@ -306,6 +314,7 @@ bool CMyBotan::Base64Decoder_AESDecrypt(std::string algo, std::string key, std::
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -345,6 +354,7 @@ bool CMyBotan::AESEncrypt_Base16Encoder(std::string algo, std::string key, std::
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)
@@ -382,6 +392,7 @@ bool CMyBotan::Base16Decoder_AESDecrypt(std::string algo, std::string key, std::
 	}
 	catch (std::exception& e)
 	{
+		e.what();
 		return false;
 	}
 	catch (...)

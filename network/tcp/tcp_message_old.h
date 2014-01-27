@@ -5,26 +5,24 @@
 //#include "tcp_session.h"
 
 #include <vector>
+#include <string>
+
 #include <boost/array.hpp>
 #include <boost/scoped_array.hpp> 
 #include <boost/noncopyable.hpp>
 #include <boost/checked_delete.hpp>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
-
-#include <winsock2.h>
-
-#include <string>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "./log/tradelog.pb.h"
-
+#include "network/imessage.h"
 
 class tcp_session_old;
 typedef boost::shared_ptr<tcp_session_old> tcp_session_old_ptr;
 
-class tcp_message_old : boost::noncopyable
+class tcp_message_old : public IMessage
 {
 public:
 	typedef boost::function<void(tcp_message_old*)> destroy_type;
@@ -139,8 +137,7 @@ public:
 	// 接收到请求的时间
 	boost::posix_time::ptime RecvTime;
 	
-	// 业务处理生成的日志
-	Trade::TradeLog logMsg;
+	
 
 	// 发送响应的时间
 	boost::posix_time::ptime SendTime;

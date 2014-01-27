@@ -22,6 +22,11 @@ IBusiness::~IBusiness(void)
 {
 }
 
+void IBusiness::SetCounterServer(Counter * counter)
+{
+	this->counter = counter;
+}
+
 BUSI_TYPE IBusiness::ConvertIntToBusiType(int val)
 {
 	switch (val)
@@ -351,4 +356,26 @@ bool IBusiness::DecryptPassword(std::string algo, std::string key, std::string c
 		return false;
 
 	return false;
+}
+
+void IBusiness::GenResponse(std::string& response, std::string& errCode, std::string& errMsg)
+{
+	response = "1";
+	response += SOH;
+	response += "3";
+	response += SOH;
+
+	response += "cssweb_code";
+	response += SOH;
+	response += "cssweb_msg";
+	response += SOH;
+	response += "cssweb_gwInfo";
+	response += SOH;
+
+	response += errCode;
+	response += SOH;
+	response += errMsg;
+	response += SOH;
+	response += "0.0.0.0:5000";
+	response += SOH;
 }

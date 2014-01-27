@@ -12,14 +12,27 @@
 #include "common.h"
 #include "./log/tradelog.pb.h"
 #include "./connectpool/Connect.h"
-
+#include "ConnectPool/Counter.h"
 
 class IBusiness
 {
 public:
 	IBusiness(void);
 	~IBusiness(void);
-	virtual void Process(std::string& request, std::string& response,Trade::TradeLog& logMsg) = 0;
+
+	virtual bool IsConnected();
+	virtual void SetCounterServer(Counter * counter);
+	virtual bool CreateConnect() = 0;
+
+	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg) = 0;
+
+
+	
+	
+	
+
+	Counter * counter;
+	Connect * m_pConn;
 
 	std::string sysNo;
 
@@ -55,7 +68,7 @@ public:
 
 	std::map<std::string, std::string> reqmap;
 
-	Connect * m_pConn;
+	//Connect * m_pConn;
 
 	std::string sCounterType;
 
@@ -96,7 +109,7 @@ public:
 	void FreeConnect();
 
 	bool DecryptPassword(std::string algo, std::string key, std::string cipher, std::string plain);
-	
+	void GenResponse(std::string& response, std::string& errCode, std::string& errMsg);
 };
 
 #endif

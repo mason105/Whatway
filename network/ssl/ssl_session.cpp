@@ -195,11 +195,11 @@ void ssl_session::handle_write_msg(const boost::system::error_code& error, size_
 
 	boost::posix_time::ptime ptSendTime = boost::posix_time::microsec_clock::local_time();
 	std::string sSendTime = boost::gregorian::to_iso_extended_string(ptSendTime.date()) + " " + boost::posix_time::to_simple_string(ptSendTime.time_of_day());
-	resp->logMsg.set_sendtime(sSendTime);
+	resp->log.set_sendtime(sSendTime);
 
 	// 存入日志队列
 	
-	gFileLogManager::instance().push(resp->logMsg);
+	gFileLogManager::instance().push(resp->log);
 
 	resp->destroy();
 }

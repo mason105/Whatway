@@ -83,14 +83,6 @@ void CustomMessage::destroy()
 	boost::checked_delete(this);
 }
 
-ISession* CustomMessage::GetSession()
-{
-	return session;
-}
-void CustomMessage::SetSession(ISession* session)
-{
-	this->session = session;
-}
 
 void CustomMessage::SetRecvTime()
 {

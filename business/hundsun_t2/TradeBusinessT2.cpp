@@ -123,7 +123,7 @@ std::string TradeBusinessT2::GetOtherPWD(std::string isSafe, std::string sEncPwd
 	return sPwd;
 }
 */
-void TradeBusinessT2::Process(std::string& request, std::string& response, Trade::TradeLog& logMsg)
+bool TradeBusinessT2::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
 	// 开始处理时间
 	
@@ -462,5 +462,7 @@ FINISH:
 	FreeConnect();
 
 	// 生成日志
-	EndLog(response, logMsg);
+	//EndLog(response, log);
+
+	return true;
 }

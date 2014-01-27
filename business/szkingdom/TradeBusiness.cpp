@@ -116,7 +116,7 @@ std::string TradeBusiness::GetOtherPWD(std::string isSafe, std::string sEncPwd)
 	return sPwd;
 }
 
-void TradeBusiness::Process(std::string& request, std::string& response,Trade::TradeLog& logMsg)
+bool TradeBusiness::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
 	int nRet = 0;
 	char szErrMsg[256];
@@ -571,7 +571,7 @@ FINISH:
 	FreeConnect();
 
 	// 生成日志
-	EndLog(response, logMsg);
+	//EndLog(response, log);
 	
 	
 
@@ -619,4 +619,6 @@ FINISH:
 	}
 
 	*/		
+
+	return true;
 }

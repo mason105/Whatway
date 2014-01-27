@@ -149,7 +149,7 @@ void http_session::handle_write_msg(const boost::system::error_code& error, size
 	// 存入日志队列
 	boost::posix_time::ptime ptSendTime = boost::posix_time::microsec_clock::local_time();
 	std::string sSendTime = boost::gregorian::to_iso_extended_string(ptSendTime.date()) + " " + boost::posix_time::to_simple_string(ptSendTime.time_of_day());
-	resp->logMsg.set_sendtime(sSendTime);
+	resp->log.set_sendtime(sSendTime);
 
 //	log_.push(resp->logMsg);
 

@@ -55,7 +55,7 @@ TradeBusinessDingDian::~TradeBusinessDingDian(void)
 }
 
 
-void TradeBusinessDingDian::Process(std::string& request, std::string& response, Trade::TradeLog& logMsg)
+bool TradeBusinessDingDian::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
 
 
@@ -618,7 +618,9 @@ FINISH:
 	FreeConnect();
 
 	// 生成日志
-	EndLog(response, logMsg);
+	//EndLog(response, logMsg);
+
+	return true;
 
 }
 

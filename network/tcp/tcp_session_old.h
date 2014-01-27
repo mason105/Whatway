@@ -2,11 +2,10 @@
 #define _TCP_SESSION_OLD_
 
 
-#include "tcp_message_old.h"
-#include "ThreadSafeQueue/job_queue.h"
 
 #include <iostream>
 #include <string>
+
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
@@ -14,7 +13,9 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/pool/object_pool.hpp>
 
-
+#include "tcp_message_old.h"
+#include "ThreadSafeQueue/job_queue.h"
+#include "network/isession.h"
 
 //class tcp_message_old;
 //typedef tcp_message_old tcp_old_request;
@@ -22,8 +23,7 @@
 //typedef tcp_message_old* tcp_old_request_ptr;
 //typedef tcp_message_old* tcp_old_response_ptr;
 
-class tcp_session_old : public boost::enable_shared_from_this<tcp_session_old>
-	,private boost::noncopyable
+class tcp_session_old : public boost::enable_shared_from_this<tcp_session_old>, public ISession
 {
 public:
 	typedef boost::asio::ip::tcp::socket socket_type;
@@ -49,17 +49,18 @@ public:
 
 	void start();
 	void close();
-	void write(tcp_old_response_ptr resp);
+	
 
-private:
+
 	tcp_old_request_ptr create_request();
 	void read(tcp_old_request_ptr req);
 
-	void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, tcp_old_request_ptr req);
-	void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, tcp_old_request_ptr req);
-
-	void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, tcp_old_response_ptr resp);
-	void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, tcp_old_response_ptr resp);
+	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* req);
+	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* req);
+	
+	virtual void write(tcp_message_old* resp);
+	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* resp);
+	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* resp);
 };
 
 typedef boost::shared_ptr<tcp_session_old> tcp_session_old_ptr;

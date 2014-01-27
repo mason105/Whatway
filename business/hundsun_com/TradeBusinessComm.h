@@ -17,7 +17,7 @@
 #include "./business/IBusiness.h"
 
 
-class TradeBusinessComm : public IBusiness
+class TradeBusinessComm /*: public IBusiness*/
 {
 public:
 	TradeBusinessComm(std::string type);
@@ -39,7 +39,7 @@ public:
 
 	int row; // ·µ»ØÐÐÊý
 
-	Connect * m_pConn;
+	
 	long session; 
 
 	void BuildResponseSuccess(std::string& response);

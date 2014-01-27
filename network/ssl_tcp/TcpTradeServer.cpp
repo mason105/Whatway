@@ -280,7 +280,7 @@ bool TcpTradeServer::ProcessRequest(CustomMessage* req)
 				ptBeginTime = boost::posix_time::microsec_clock::local_time();
 				beginTime = boost::gregorian::to_iso_extended_string(ptBeginTime.date()) + " " + boost::posix_time::to_simple_string(ptBeginTime.time_of_day());;
 
-				if (req->GetSession()->counterConnect->Connect())
+				if (req->GetSession()->counterConnect->CreateConnect())
 				{
 					// 建立连接成功，跳出循环
 					bConnect = true;
