@@ -5,6 +5,8 @@ CustomMessage::CustomMessage()
 {
 	m_MsgHeaderSize = sizeof(MSG_HEADER);
 	m_MsgHeader.resize(m_MsgHeaderSize);
+
+	msgType = MSG_TYPE_TCP_NEW;
 }
 
 

@@ -10,7 +10,7 @@
 #include "common.h"
 
 
-class TcpTradeServer
+class TradeServer
 {
 public:
 	typedef job_queue<IMessage*> req_queue_type;
@@ -28,7 +28,7 @@ private:
 
 
 public:
-	TcpTradeServer();
+	TradeServer();
 	req_queue_type& recv_queue();
 	void start();
 	void stop();

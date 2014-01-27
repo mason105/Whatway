@@ -32,6 +32,8 @@ public:
 	{	
 		m_MsgHeaderSize = 23;
 		m_MsgHeader.resize(m_MsgHeaderSize);
+
+		msgType = MSG_TYPE_SSL_PB;
 	}
 
 	

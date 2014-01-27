@@ -13,7 +13,7 @@
 #include <boost/interprocess/mapped_region.hpp>
 #include <boost/functional/factory.hpp>
 
-#include "TcpTradeServer.h"
+#include "TradeServer.h"
 
 #include "common.h"
 #include "./config/configmanager.h"
@@ -44,10 +44,15 @@
 #include "network/ssl_tcp/TcpSession.h"
 #include "network/ssl_tcp/SSLSession.h"
 
+#include "network/http/http_message.h"
+#include "network/tcp/tcp_message_old.h"
+#include "network/ssl/ssl_message.h"
+#include "network/ssl_tcp/custommessage.h"
 
-TcpTradeServer::TcpTradeServer()
-	:req_worker_(recvq_, boost::bind(&TcpTradeServer::ProcessRequest, this, _1), gConfigManager::instance().m_nTcpWorkerThreadPool)
-	,resp_worker_(sendq_, boost::bind(&TcpTradeServer::ProcessResponse, this, _1), gConfigManager::instance().m_nTcpSendThreadPool)
+
+TradeServer::TradeServer()
+	:req_worker_(recvq_, boost::bind(&TradeServer::ProcessRequest, this, _1), gConfigManager::instance().m_nTcpWorkerThreadPool)
+	,resp_worker_(sendq_, boost::bind(&TradeServer::ProcessResponse, this, _1), gConfigManager::instance().m_nTcpSendThreadPool)
 	
 {
 }
@@ -56,32 +61,32 @@ TcpTradeServer::TcpTradeServer()
 
 
 
-void TcpTradeServer::start()
+void TradeServer::start()
 {
 	req_worker_.start();
 	resp_worker_.start();
 }
 
-void TcpTradeServer::stop()
+void TradeServer::stop()
 {
 	req_worker_.stop();
 	resp_worker_.stop();
 }
 
-TcpTradeServer::req_queue_type& TcpTradeServer::recv_queue()
+TradeServer::req_queue_type& TradeServer::recv_queue()
 {
 	return recvq_;
 }
 
 // 处理应答
-bool TcpTradeServer::ProcessResponse(IMessage* resp)
+bool TradeServer::ProcessResponse(IMessage* resp)
 {
 	resp->GetSession()->write(resp);
 	return true;
 }
 
 // 处理请求，由于是线程函数，不要使用共享数据
-bool TcpTradeServer::ProcessRequest(IMessage* req)
+bool TradeServer::ProcessRequest(IMessage* req)
 {
 	std::string SOH = "\x01";
 
@@ -204,36 +209,39 @@ bool TcpTradeServer::ProcessRequest(IMessage* req)
 		switch(counter->m_eCounterType)
 		{
 		case CT_HS_T2:
+			req->GetSession()->counterConnect = new TradeBusinessT2();
 			break;
 		case CT_HS_COM:
 			break;
 		case CT_JZ_WIN:
+			req->GetSession()->counterConnect = new TradeBusiness();
 			break;
 		case CT_JZ_LINUX:
 			break;
 		case CT_DINGDIAN:
+			req->GetSession()->counterConnect = new TradeBusinessDingDian();
 			break;
-		case CT_XINYI:
-			{
-			req->GetSession()->counterConnect = new CTCPClientSync();
-			req->GetSession()->counterConnect->SetCounterServer(counter);
-			counterIp = counter->m_sIP;
-			counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
-			counterType = GetCounterType(counter->m_eCounterType);
-			break;
-			}
 		case CT_JSD:
 			{
 			req->GetSession()->counterConnect = new CSywgConnect();
-			req->GetSession()->counterConnect->SetCounterServer(counter);
-			counterIp = counter->m_sIP;
-			counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
-			counterType = GetCounterType(counter->m_eCounterType);
+			
+			break;
+			}
+		case CT_XINYI:
+			{
+			req->GetSession()->counterConnect = new CTCPClientSync();
+			
 			break;
 			}
 		default:
 			break;
 		}
+
+		req->GetSession()->counterConnect->SetCounterServer(counter);
+
+		counterIp = counter->m_sIP;
+		counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
+		counterType = GetCounterType(counter->m_eCounterType);
 	}
 	else
 	{
@@ -367,10 +375,48 @@ bool TcpTradeServer::ProcessRequest(IMessage* req)
 
 finish:
 
-	CustomMessage * resp = new CustomMessage();
+	IMessage * resp = NULL;
+	
+	std::vector<char> msgHeader;
 
+	switch(req->msgType)
+	{
+	case MSG_TYPE_HTTP:
+		{
+		resp = new http_message();
+		}
+		break;
+	case MSG_TYPE_TCP_OLD:
+		{
+		resp = new tcp_message_old();
+		}
+		break;
+	case MSG_TYPE_SSL_PB:
+		{
+		resp = new ssl_message();
+		}
+		break;
+	case MSG_TYPE_TCP_NEW:
+		{
+		resp = new CustomMessage();
+
+		MSG_HEADER binRespMsgHeader;
+		binRespMsgHeader.CRC = 0;
+		binRespMsgHeader.FunctionNo = nFuncId;
+		binRespMsgHeader.MsgContentSize = response.size();
+		binRespMsgHeader.MsgType = MSG_TYPE_RESPONSE_END;
+		binRespMsgHeader.zip = 0;
+
+		//msgHeader.resize(sizeof(MSG_HEADER));
+
+		memcpy(&(resp->m_MsgHeader.front()), &binRespMsgHeader, sizeof(MSG_HEADER));
+		}
+		break;
+	}
+
+	// 拷贝日志消息
 	req->Log(logLevel, sysNo, sysVer, busiType, funcId, account, clientIp, request, response, status, errCode, errMsg, beginTime, runtime, gatewayIp, gatewayPort, counterIp, counterPort, counterType);
-	resp->log = req->log; // 拷贝日志消息
+	resp->log = req->log; 
 
 
 	// 设置会话
@@ -382,17 +428,7 @@ finish:
 	resp->SetMsgContent(response);
 
 
-	MSG_HEADER binRespMsgHeader;
-	binRespMsgHeader.CRC = 0;
-	binRespMsgHeader.FunctionNo = nFuncId;
 	
-	binRespMsgHeader.MsgContentSize = response.size();
-	binRespMsgHeader.MsgType = MSG_TYPE_RESPONSE_END;
-	binRespMsgHeader.zip = 0;
-
-	std::vector<char> msgHeader;
-	msgHeader.resize(sizeof(MSG_HEADER));
-	memcpy(&(msgHeader.front()), &binRespMsgHeader, sizeof(MSG_HEADER));
 
 	// 设置消息头
 	resp->SetMsgHeader(msgHeader);
@@ -409,7 +445,7 @@ finish:
 	return true;
 }
 
-bool TcpTradeServer::GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType, std::string& sysVer, std::string& account, std::string& funcId, std::string& clientIp)
+bool TradeServer::GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType, std::string& sysVer, std::string& account, std::string& funcId, std::string& clientIp)
 {
 	
 	std::string SOH = "\x01";
@@ -467,7 +503,7 @@ bool TcpTradeServer::GetSysNoAndBusiType(std::string& request, std::string& sysN
 	return true;
 }
 
-std::string TcpTradeServer::GetCounterType(COUNTER_TYPE counterType)
+std::string TradeServer::GetCounterType(COUNTER_TYPE counterType)
 {
 	switch (counterType)
 	{

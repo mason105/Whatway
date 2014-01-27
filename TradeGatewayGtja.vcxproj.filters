@@ -448,7 +448,7 @@
     <ClInclude Include="network\ssl_tcp\TcpServer.h">
       <Filter>核心代码\3.网络服务\TCP</Filter>
     </ClInclude>
-    <ClInclude Include="network\ssl_tcp\TcpTradeServer.h">
+    <ClInclude Include="network\ssl_tcp\TradeServer.h">
       <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
     </ClInclude>
   </ItemGroup>
@@ -600,7 +600,7 @@
     <ClCompile Include="network\ssl_tcp\SSLServer.cpp">
       <Filter>核心代码\3.网络服务\SSL</Filter>
     </ClCompile>
-    <ClCompile Include="network\ssl_tcp\TcpTradeServer.cpp">
+    <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
       <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
     </ClCompile>
   </ItemGroup>

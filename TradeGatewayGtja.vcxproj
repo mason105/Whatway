@@ -184,7 +184,7 @@
     <ClInclude Include="network\ssl_tcp\SSLSession.h" />
     <ClInclude Include="network\ssl_tcp\TcpServer.h" />
     <ClInclude Include="network\ssl_tcp\TcpSession.h" />
-    <ClInclude Include="network\ssl_tcp\TcpTradeServer.h" />
+    <ClInclude Include="network\ssl_tcp\TradeServer.h" />
     <ClInclude Include="network\tcp\tcp_message_old.h" />
     <ClInclude Include="network\tcp\tcp_server_old.h" />
     <ClInclude Include="network\tcp\tcp_session_old.h" />
@@ -242,7 +242,7 @@
     <ClCompile Include="network\ssl_tcp\SSLServer.cpp" />
     <ClCompile Include="network\ssl_tcp\SSLSession.cpp" />
     <ClCompile Include="network\ssl_tcp\TcpSession.cpp" />
-    <ClCompile Include="network\ssl_tcp\TcpTradeServer.cpp" />
+    <ClCompile Include="network\ssl_tcp\TradeServer.cpp" />
     <ClCompile Include="network\tcp\tcp_session_old.cpp" />
     <ClCompile Include="network\tcp\trade_server_tcp_old.cpp" />
     <ClCompile Include="ocr\OCR.cpp" />

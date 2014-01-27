@@ -17,7 +17,7 @@
 
 
 #include "./network/ssl_tcp/TcpServer.h"
-#include "./network/ssl_tcp/TcpTradeServer.h"
+#include "./network/ssl_tcp/TradeServer.h"
 
 #include "log/FileLogManager.h"
 
@@ -134,7 +134,7 @@ private:
 	tcp_server_old * pTcpServerOld;
 	
 	io_service_pool * piospool_tcp;
-	TcpTradeServer * pTradeServerTcp;
+	TradeServer * pTradeServerTcp;
 	TcpServer * pTcpServer;
 	
 	io_service_pool * piospool_http;
