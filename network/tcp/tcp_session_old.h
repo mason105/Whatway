@@ -17,11 +17,8 @@
 #include "ThreadSafeQueue/job_queue.h"
 #include "network/isession.h"
 
-//class tcp_message_old;
-//typedef tcp_message_old tcp_old_request;
-//typedef tcp_message_old tcp_old_response;
-//typedef tcp_message_old* tcp_old_request_ptr;
-//typedef tcp_message_old* tcp_old_response_ptr;
+class IMessage;
+
 
 class tcp_session_old : public boost::enable_shared_from_this<tcp_session_old>, public ISession
 {
@@ -30,8 +27,8 @@ public:
 	typedef boost::asio::io_service ios_type;
 
 	typedef ios_type::strand strand_type;
-	typedef job_queue<tcp_old_request_ptr> queue_type;
-	typedef boost::object_pool<tcp_message_old> object_pool_type;
+	typedef job_queue<IMessage*> queue_type;
+	typedef boost::object_pool<IMessage*> object_pool_type;
 
 private:
 	socket_type socket_;
@@ -52,15 +49,15 @@ public:
 	
 
 
-	tcp_old_request_ptr create_request();
-	void read(tcp_old_request_ptr req);
+	IMessage* create_request();
+	void read(IMessage* req);
 
-	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* req);
-	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* req);
-	
-	virtual void write(tcp_message_old* resp);
-	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* resp);
-	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, tcp_message_old* resp);
+	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+
+	virtual void write(IMessage* resp);
+	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
+	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 };
 
 typedef boost::shared_ptr<tcp_session_old> tcp_session_old_ptr;

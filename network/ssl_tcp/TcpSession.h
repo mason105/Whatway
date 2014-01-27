@@ -39,17 +39,17 @@ public:
 	typedef boost::asio::io_service ios_type;
 
 	typedef ios_type::strand strand_type;
-	typedef job_queue<CustomMessage*> queue_type;
+	typedef job_queue<IMessage*> queue_type;
 
 	//内存池，暂时不用
-	typedef boost::object_pool<CustomMessage*> object_pool_type;
+	//typedef boost::object_pool<CustomMessage*> object_pool_type;
 
 private:
 	socket_type socket_;
 	strand_type strand_;
 	queue_type& queue_;
 
-	static object_pool_type msg_pool_;
+	//static object_pool_type msg_pool_;
 
 
 public:
@@ -64,17 +64,17 @@ public:
 	
 
 private:
-	CustomMessage* create_request();
-	void read(CustomMessage* req);
+	IMessage* create_request();
+	void read(IMessage* req);
 
 	
 
-	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
-	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
+	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 
-	virtual void write(CustomMessage* resp);
-	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
-	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
+	virtual void write(IMessage* resp);
+	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
+	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 
 public:
 

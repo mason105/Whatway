@@ -12,10 +12,10 @@
 class trade_server_tcp_old
 {
 public:
-	typedef job_queue<tcp_old_request_ptr> req_queue_type;
+	typedef job_queue<IMessage*> req_queue_type;
 	typedef worker<req_queue_type> req_worker_type;
 
-	typedef job_queue<tcp_old_response_ptr> resp_queue_type;
+	typedef job_queue<IMessage*> resp_queue_type;
 	typedef worker<resp_queue_type> resp_worker_type;
 
 private:
@@ -33,9 +33,9 @@ public:
 	void stop();
 
 private:
-	bool process_msg(tcp_old_request_ptr req);
+	bool process_msg(IMessage* req);
 
-	bool send_msg(tcp_old_response_ptr resp);
+	bool send_msg(IMessage* resp);
 
 
 	bool GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType, bool& bIsHeartBeat);

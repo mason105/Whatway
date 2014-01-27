@@ -9,8 +9,6 @@
 #include <boost/checked_delete.hpp>
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/date_time/gregorian/gregorian.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "MsgHeader.h"
 //#include "tcpsession.h"
@@ -33,11 +31,10 @@ public:
 
 private:
 	// 消息头
-	struct MsgHeader m_MsgHeader;
-	//std::vector<char> m_MsgHeader;
+	struct MsgHeader binMsgHeader;
+	
 
-	// 消息内容
-	std::vector<char> m_MsgContent;
+	
 
 	
 	
@@ -47,29 +44,29 @@ public:
 	
 
 	
-	void SetMsgHeader(unsigned char MsgType, int FunctionNo, unsigned char zip=0);
-	bool ParseMsgHeader();
+	
+	bool DecoderMsgHeader();
+
+
+	/*
 	PMSG_HEADER GetMsgHeader();
-	size_t GetMsgHeaderSize();
+	
 
 
-	void SetMsgContent(std::string content);
+	
 	char * GetMsgContent();
-	size_t GetMsgContentSize();
-	std::string GetMsgContentString();
-
-	void destroy();
 	
-
-	// 日志的处理
-	void SetRecvTime();
-	void SetSendTime();
-
 	
 
 	
+	
 
-	void Log(Trade::TradeLog::LogLevel logLevel, std::string sysNo, std::string sysVer, std::string busiType, std::string funcId, std::string account, std::string clientIp, std::string request, std::string response, int status, std::string errCode, std::string errMsg, std::string beginTime, int runtime, std::string gatewayIp, std::string gatewayPort, std::string counterIp, std::string counterPort, std::string counterType);
+	
+	
+
+	*/
+
+	
 };
 
 

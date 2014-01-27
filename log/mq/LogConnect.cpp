@@ -240,7 +240,7 @@ bool LogConnect::ReadMsgContent(CustomMessage * pRes)
 {
 	boost::system::error_code ec = boost::asio::error::would_block;
 
-	if (!pRes->ParseMsgHeader())
+	if (!pRes->DecoderMsgHeader())
 	{
 		return false;
 	}
@@ -299,6 +299,9 @@ bool LogConnect::ReConnect()
 // 发送心跳包
 bool LogConnect::HeartBeat()
 {
+	bool bRet = false;
+
+	/*
 	if (!m_bConnected)
 		return false;
 
@@ -306,7 +309,7 @@ bool LogConnect::HeartBeat()
 
 	std::string request = "cssweb_funcid=999999" + SOH;
 
-	bool bRet = false;
+	
 
 	
 	
@@ -342,7 +345,7 @@ bool LogConnect::HeartBeat()
 	}
 	delete pRes;	
 
-	
+	*/
 
 	return bRet;
 }
@@ -361,7 +364,7 @@ bool LogConnect::Send(std::string& request, std::string& response)
 {
 	bool bRet = false;
 
-	
+	/*
 	deadline.expires_from_now( boost::posix_time::seconds(readWriteTimeout*1000) );
 
 	// 发送请求
@@ -392,6 +395,7 @@ bool LogConnect::Send(std::string& request, std::string& response)
 		// 失败
 	}
 	delete pRes;	
+	*/
 
 	return bRet;
 }

@@ -74,25 +74,28 @@ TcpTradeServer::req_queue_type& TcpTradeServer::recv_queue()
 }
 
 // 处理应答
-bool TcpTradeServer::ProcessResponse(CustomMessage* resp)
+bool TcpTradeServer::ProcessResponse(IMessage* resp)
 {
 	resp->GetSession()->write(resp);
 	return true;
 }
 
 // 处理请求，由于是线程函数，不要使用共享数据
-bool TcpTradeServer::ProcessRequest(CustomMessage* req)
+bool TcpTradeServer::ProcessRequest(IMessage* req)
 {
 	std::string SOH = "\x01";
 
 	Trade::TradeLog::LogLevel logLevel = Trade::TradeLog::INFO_LEVEL;
+
+	MSG_HEADER binMsgHeader;
+	memcpy(&binMsgHeader, req->GetMsgHeader().data(), req->GetMsgHeaderSize());
 
 	std::string sysNo = "";
 	std::string busiType = "";
 	int nBusiType;
 	std::string sysVer = "";
 	std::string funcId = "";
-	int nFuncId = req->GetMsgHeader()->FunctionNo;
+	int nFuncId = binMsgHeader.FunctionNo;
 	std::string account = "";
 	std::string clientIp = "";
 
@@ -118,7 +121,7 @@ bool TcpTradeServer::ProcessRequest(CustomMessage* req)
 	
 
 	// 如果消息类型不是请求类型
-	if (req->GetMsgHeader()->MsgType != MSG_TYPE_REQUEST)
+	if (binMsgHeader.MsgType != MSG_TYPE_REQUEST)
 	{
 		logLevel = Trade::TradeLog::ERROR_LEVEL;
 
@@ -378,8 +381,21 @@ finish:
 	// 设置消息内容
 	resp->SetMsgContent(response);
 
+
+	MSG_HEADER binRespMsgHeader;
+	binRespMsgHeader.CRC = 0;
+	binRespMsgHeader.FunctionNo = nFuncId;
+	
+	binRespMsgHeader.MsgContentSize = response.size();
+	binRespMsgHeader.MsgType = MSG_TYPE_RESPONSE_END;
+	binRespMsgHeader.zip = 0;
+
+	std::vector<char> msgHeader;
+	msgHeader.resize(sizeof(MSG_HEADER));
+	memcpy(&(msgHeader.front()), &binRespMsgHeader, sizeof(MSG_HEADER));
+
 	// 设置消息头
-	resp->SetMsgHeader(MSG_TYPE_RESPONSE_END, nFuncId);
+	resp->SetMsgHeader(msgHeader);
 
 	
 	

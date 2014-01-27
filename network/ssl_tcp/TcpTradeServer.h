@@ -13,10 +13,10 @@
 class TcpTradeServer
 {
 public:
-	typedef job_queue<CustomMessage*> req_queue_type;
+	typedef job_queue<IMessage*> req_queue_type;
 	typedef worker<req_queue_type> req_worker_type;
 
-	typedef job_queue<CustomMessage*> resp_queue_type;
+	typedef job_queue<IMessage*> resp_queue_type;
 	typedef worker<resp_queue_type> resp_worker_type;
 
 private:
@@ -35,10 +35,10 @@ public:
 
 private:
 	// 处理请求消息
-	bool ProcessRequest(CustomMessage* req);
+	bool ProcessRequest(IMessage* req);
 
 	// 处理应答消息
-	bool ProcessResponse(CustomMessage* resp);
+	bool ProcessResponse(IMessage* resp);
 
 
 	bool GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType, std::string& sysVer, std::string& account, std::string& funcId, std::string& clientIp);

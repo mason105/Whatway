@@ -10,10 +10,10 @@
 class trade_server_http
 {
 public:
-	typedef job_queue<http_request_ptr> req_queue_type;
+	typedef job_queue<IMessage*> req_queue_type;
 	typedef worker<req_queue_type> req_worker_type;
 
-	typedef job_queue<http_response_ptr> resp_queue_type;
+	typedef job_queue<IMessage*> resp_queue_type;
 	typedef worker<resp_queue_type> resp_worker_type;
 
 private:
@@ -32,11 +32,11 @@ public:
 	void log();
 
 private:
-	bool process_msg(http_request_ptr req);
-	void invalid_request(http_request_ptr req);
-	void crossdomain(http_request_ptr req);
+	bool process_msg(IMessage* req);
+	void invalid_request(IMessage* req);
+	void crossdomain(IMessage* req);
 
-	bool send_msg(http_response_ptr resp);
+	bool send_msg(IMessage* resp);
 
 
 	

@@ -73,7 +73,9 @@ private:
 			session));
 
 */
-		session_.reset(new tcp_session_old(ios_pool_.get(), queue_));
+		//session_.reset(new tcp_session_old(ios_pool_.get(), queue_));
+
+		boost::shared_ptr<tcp_session_old> session = boost::factory<boost::shared_ptr<tcp_session_old>>()(ios_pool_.get(), queue_);
 
 		acceptor_.async_accept(session_->socket(), 
 			boost::bind(&tcp_server_old::accept_handler, 

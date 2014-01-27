@@ -34,15 +34,15 @@ trade_server_http::trade_server_http()
 {
 }
 
-bool trade_server_http::send_msg(http_response_ptr resp)
+bool trade_server_http::send_msg(IMessage* resp)
 {
 	// 根据http request header判断 是否添加gzip压缩头和功能
-	resp->get_session()->write(resp);
+	resp->GetSession()->write(resp);
 
 	return true;
 }
 
-bool trade_server_http::process_msg(http_request_ptr req)
+bool trade_server_http::process_msg(IMessage* req)
 {
 	/*
 	// 分析原始http请求
@@ -257,8 +257,9 @@ void trade_server_http::log()
 	//log_.push();
 }
 
-void trade_server_http::crossdomain(http_request_ptr req)
+void trade_server_http::crossdomain(IMessage* req)
 {
+	/*
 	std::string response;
 
 	response = "HTTP/1.1 200 OK\r\n"; // HTTP 1.1
@@ -270,7 +271,7 @@ void trade_server_http::crossdomain(http_request_ptr req)
 	response += gConfigManager::instance().m_sFlashCrossDomain;
 
 
-	http_response_ptr resp = boost::factory<http_response_ptr>()(req->get_session());
+	IMessage* resp = boost::factory<IMessage*>()(req->get_session());
 	
 	int msglen = response.length();
 
@@ -281,17 +282,19 @@ void trade_server_http::crossdomain(http_request_ptr req)
 
 	// 释放请求包
 	req->destroy();
+	*/
 }
 
-void trade_server_http::invalid_request(http_request_ptr req)
+void trade_server_http::invalid_request(IMessage* req)
 {
+	/*
 	std::string response;
 
 	response = "HTTP/1.1 400 BadRquest\r\n";
 	response += "Content-Length: 0\r\n";
 	response += "\r\n";
 
-	http_response_ptr resp = boost::factory<http_response_ptr>()(req->get_session());
+	IMessage* resp = boost::factory<IMessage*>()(req->get_session());
 	
 	int msglen = response.length();
 
@@ -302,6 +305,7 @@ void trade_server_http::invalid_request(http_request_ptr req)
 
 	// 释放请求包
 	req->destroy();
+	*/
 }
 
 bool trade_server_http::GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType)

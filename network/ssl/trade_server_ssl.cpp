@@ -71,11 +71,11 @@ req_worker_(recvq_, boost::bind(&trade_server_ssl::process_msg, this, _1), gConf
 {
 }
 
-bool trade_server_ssl::send_msg(ssl_response_ptr resp)
+bool trade_server_ssl::send_msg(IMessage* resp)
 {
 	// 压缩
 
-	if (resp->msg_body.size() <= gConfigManager::instance().zlib)
+	if (resp->GetMsgContentSize() <= gConfigManager::instance().zlib)
 	{
 		//不压缩
 	}
@@ -88,18 +88,18 @@ bool trade_server_ssl::send_msg(ssl_response_ptr resp)
 		boost::iostreams::filtering_streambuf<boost::iostreams::output> compress_out;
 		compress_out.push(boost::iostreams::zlib_compressor());
 		compress_out.push(boost::iostreams::back_inserter(compressed));
-		boost::iostreams::copy(boost::make_iterator_range(resp->msg_body), compress_out);
+		boost::iostreams::copy(boost::make_iterator_range(resp->GetMsgContent()), compress_out);
 
 		int bodysize = compressed.size();
-		resp->set_body_size(bodysize);
-		memcpy(&(resp->msg_body.front()), &compressed[0], compressed.size());
+		//resp->set_body_size(bodysize);
+		//memcpy(&(resp->msg_body.front()), &compressed[0], compressed.size());
 
-		resp->encode_header(resp->header.msgtype(), resp->header.errcode(), 1);
+		//resp->encode_header(resp->header.msgtype(), resp->header.errcode(), 1);
 
 		//gFileLog::instance().Log("结束压缩");
 	}
 
-	resp->get_session()->write(resp);
+	resp->GetSession()->write(resp);
 
 	return true;
 }
@@ -124,7 +124,7 @@ trade_server_ssl::req_queue_type& trade_server_ssl::recv_queue()
 	return recvq_;
 }
 
-bool trade_server_ssl::process_msg(ssl_request_ptr& req)
+bool trade_server_ssl::process_msg(IMessage* req)
 {
 	/*
 	switch(req->header.msgtype())
@@ -149,7 +149,7 @@ bool trade_server_ssl::process_msg(ssl_request_ptr& req)
 	return true;
 }
 
-void trade_server_ssl::trade(ssl_request_ptr& req)
+void trade_server_ssl::trade(IMessage* req)
 {
 	/*
 	
@@ -269,15 +269,15 @@ void trade_server_ssl::trade(ssl_request_ptr& req)
 	*/
 }
 
-void trade_server_ssl::captcha(ssl_request_ptr& req)
+void trade_server_ssl::captcha(IMessage* req)
 {
-	int msgtype = req->header.msgtype();
-	if (msgtype != quote::PkgHeader::REQ_CAPTCHA)
-	{
-		return;
-	}
+//	int msgtype = req->header.msgtype();
+//	if (msgtype != quote::PkgHeader::REQ_CAPTCHA)
+//	{
+//		return;
+//	}
 
-	ssl_response_ptr resp = boost::factory<ssl_response_ptr>()(req->get_session());
+	IMessage* resp;// = boost::factory<ssl_message*>()(req->GetSession());
 
 	std::string text = captcha::instance().GetCaptcha();
 	int captcha = boost::lexical_cast<int>(text);
@@ -325,7 +325,7 @@ void trade_server_ssl::captcha(ssl_request_ptr& req)
 		
 		int msglen = jpeg_b64.length();
 
-		
+		/*
 		resp->set_body_size(msglen + text.length());
 		
 		
@@ -337,11 +337,12 @@ void trade_server_ssl::captcha(ssl_request_ptr& req)
 		resp->encode_header(quote::PkgHeader::RES_CAPTCHA, EC_SUCCESS);
 		
 		sendq_.push(resp);
-
+		*/
 }
 
-void trade_server_ssl::OCR(ssl_request_ptr& req)
+void trade_server_ssl::OCR(IMessage* req)
 {
+	/*
 	int msgtype = req->header.msgtype();
 	if (msgtype != quote::PkgHeader::REQ_OCR)
 	{
@@ -516,6 +517,7 @@ void trade_server_ssl::OCR(ssl_request_ptr& req)
 	resp->encode_header(quote::PkgHeader::RES_OCR, EC_SUCCESS);
 		
 	sendq_.push(resp);
+	*/
 	
 }
 
@@ -639,12 +641,12 @@ void trade_server_ssl::rotate_image_90n(cv::Mat &src, cv::Mat &dst, int angle)
    }
 }
 
-void trade_server_ssl::error(ssl_request_ptr& req)
+void trade_server_ssl::error(IMessage* req)
 {
-	ssl_response_ptr resp = boost::factory<ssl_response_ptr>()(req->get_session());
-	resp->set_body_size(0);
+	IMessage* resp;// = boost::factory<ssl_response_ptr>()(req->GetSession());
+	//resp->set_body_size(0);
 	//应该再定义一个类型
-	resp->encode_header(quote::PkgHeader::RES_TRADE, EC_REQ_INVALID);
+	//resp->encode_header(quote::PkgHeader::RES_TRADE, EC_REQ_INVALID);
 
 	sendq_.push(resp);
 }

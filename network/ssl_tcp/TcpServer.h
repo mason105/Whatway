@@ -38,16 +38,6 @@ private:
 
 
 public:
-	TcpServer(unsigned short port, queue_type& q, int n=4):
-	 
-	  ios_pool_(*boost::factory<io_service_pool*>()(n)),
-	  queue_(q),
-	  acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-	  {
-		  acceptor_.set_option(acceptor_type::reuse_address(true));
-		  start_accept();
-	  }
-
 	  TcpServer(io_service_pool& ios, unsigned short port, queue_type& q):
 		
 		ios_pool_(ios),
@@ -58,6 +48,18 @@ public:
 			start_accept();
 		}
 
+
+	TcpServer(unsigned short port, queue_type& q, int n=4):
+	 
+	  ios_pool_(*boost::factory<io_service_pool*>()(n)),
+	  queue_(q),
+	  acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+	  {
+		  acceptor_.set_option(acceptor_type::reuse_address(true));
+		  start_accept();
+	  }
+
+	
 
 
 private:

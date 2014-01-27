@@ -29,7 +29,7 @@ public:
 	typedef boost::asio::io_service ios_type;
 
 	typedef ios_type::strand strand_type;
-	typedef job_queue<CustomMessage*> queue_type;
+	typedef job_queue<IMessage*> queue_type;
 	
 
 private:
@@ -52,17 +52,15 @@ public:
 
 	
 
-	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
-	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req);
+	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 	
-	virtual void write(CustomMessage* resp);
-	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
-	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp);
+	virtual void write(IMessage* resp);
+	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
+	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 
 
-private:
-	CustomMessage* create_request();
-	
+	IMessage* create_request();
 	void read();
 	void handle_handshake(const boost::system::error_code& error);
 

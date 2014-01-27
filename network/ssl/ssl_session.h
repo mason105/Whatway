@@ -18,11 +18,8 @@
 
 #include "network/isession.h"
 
-class ssl_message;
-typedef ssl_message ssl_request;
-typedef ssl_message ssl_response;
-typedef ssl_message* ssl_request_ptr;
-typedef ssl_message* ssl_response_ptr;
+class IMessage;
+
 
 class ssl_session : public boost::enable_shared_from_this<ssl_session>, public ISession
 {
@@ -32,8 +29,8 @@ public:
 	typedef boost::asio::io_service ios_type;
 
 	typedef ios_type::strand strand_type;
-	typedef job_queue<ssl_request_ptr> queue_type;
-	typedef boost::object_pool<ssl_message> object_pool_type;
+	typedef job_queue<IMessage*> queue_type;
+	typedef boost::object_pool<IMessage*> object_pool_type;
 
 private:
 	socket_type socket_;
@@ -56,7 +53,7 @@ public:
 
 	void start();
 	void close();
-	void write(ssl_response_ptr resp);
+	
 
 	bool verify_certificate(bool preverified,      boost::asio::ssl::verify_context& ctx)
 	{
@@ -78,17 +75,18 @@ public:
 		return preverified;
 	}
 
-private:
-	ssl_request_ptr create_request();
+public:
+	IMessage* create_request();
 	//void read(ssl_request_ptr req);
 	void read();
 	void handle_handshake(const boost::system::error_code& error);
 
-	void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, ssl_request_ptr req);
-	void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, ssl_request_ptr req);
+	void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+	void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 
-	void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, ssl_response_ptr resp);
-	void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, ssl_response_ptr resp);
+	void write(IMessage* resp);
+	void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
+	void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 };
 
 typedef boost::shared_ptr<ssl_session> ssl_session_ptr;

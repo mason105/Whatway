@@ -66,9 +66,9 @@ void SSLSession::handle_handshake(const boost::system::error_code& error)
 	read();
 }
 
-CustomMessage* SSLSession::create_request()
+IMessage* SSLSession::create_request()
 {
-	CustomMessage* req = new CustomMessage();
+	IMessage* req = new CustomMessage();
 	req->SetSession(this);
 	return req;
 	/*
@@ -81,7 +81,7 @@ CustomMessage* SSLSession::create_request()
 // 读请求
 void SSLSession::read()
 {
-	CustomMessage* req = create_request();
+	IMessage* req = create_request();
 
 	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
@@ -92,7 +92,7 @@ void SSLSession::read()
 	);
 }
 
-void SSLSession::handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req)
+void SSLSession::handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)
 {
 	if (error)
 	{
@@ -111,7 +111,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 	}
 
 	
-	if (!req->ParseMsgHeader())
+	if (!req->DecoderMsgHeader())
 	{
 		gFileLog::instance().Log("解码包头失败");
 
@@ -130,7 +130,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 
 
 
-void SSLSession::handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* req)
+void SSLSession::handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)
 {
 	
 		
@@ -162,7 +162,7 @@ void SSLSession::handle_read_msg(const boost::system::error_code& error, size_t 
 
 
 // 写应答数据
-void SSLSession::write(CustomMessage* resp)
+void SSLSession::write(IMessage* resp)
 {
 	boost::asio::async_write(socket_,
 		boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
@@ -172,7 +172,7 @@ void SSLSession::write(CustomMessage* resp)
 		)
 	);
 }
-void SSLSession::handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp)
+void SSLSession::handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
 {
 	if (error)
 	{
@@ -202,7 +202,7 @@ void SSLSession::handle_write_head(const boost::system::error_code& error, size_
 	
 }
 
-void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, CustomMessage* resp)
+void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
 {
 
 	if (error)
@@ -225,7 +225,7 @@ void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t
 	// 存入日志队列
 	resp->SetSendTime();
 
-
+	/*
 	if (resp->GetMsgHeader()->FunctionNo == 0)
 	{
 		// 心跳功能不写日志
@@ -234,6 +234,7 @@ void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t
 	{
 		gFileLogManager::instance().push(resp->log);
 	}
+	*/
 
 	// 删除应答包
 	resp->destroy();

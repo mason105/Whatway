@@ -19,10 +19,10 @@
 class trade_server_ssl
 {
 public:
-	typedef job_queue<ssl_request_ptr> req_queue_type;
+	typedef job_queue<IMessage*> req_queue_type;
 	typedef worker<req_queue_type> req_worker_type;
 
-	typedef job_queue<ssl_response_ptr> resp_queue_type;
+	typedef job_queue<IMessage*> resp_queue_type;
 	typedef worker<resp_queue_type> resp_worker_type;
 
 private:
@@ -39,13 +39,13 @@ public:
 	void stop();
 
 private:
-	bool process_msg(ssl_request_ptr& req);
-	void trade(ssl_request_ptr& req);
-	void captcha(ssl_request_ptr& req);
-	void OCR(ssl_request_ptr& req);
-	void error(ssl_request_ptr& req);
+	bool process_msg(IMessage* req);
+	void trade(IMessage* req);
+	void captcha(IMessage* req);
+	void OCR(IMessage* req);
+	void error(IMessage* req);
 
-	bool send_msg(ssl_response_ptr resp);
+	bool send_msg(IMessage* resp);
 
 
 	

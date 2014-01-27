@@ -38,9 +38,9 @@ trade_server_tcp_old::trade_server_tcp_old()
 {
 }
 
-bool trade_server_tcp_old::send_msg(tcp_old_response_ptr resp)
+bool trade_server_tcp_old::send_msg(IMessage* resp)
 {
-	resp->get_session()->write(resp);
+	resp->GetSession()->write(resp);
 	return true;
 }
 
@@ -64,7 +64,7 @@ trade_server_tcp_old::req_queue_type& trade_server_tcp_old::recv_queue()
 }
 
 
-bool trade_server_tcp_old::process_msg(tcp_old_request_ptr req)
+bool trade_server_tcp_old::process_msg(IMessage* req)
 {
 	/*
 	//int size = req->msg_body.size();

@@ -35,21 +35,21 @@ void http_session::close()
 
 void http_session::start()
 {
-	http_request_ptr req = create_request();
+	IMessage* req = create_request();
 	read(req);
 }
 
-http_request_ptr http_session::create_request()
+IMessage* http_session::create_request()
 {
 	// 内存池
 	//return msg_pool_.construct(shared_from_this(), bind(&object_pool_type::destroy, ref(msg_pool_), _1));
 		// 记得要释放
 	http_session_ptr sess = shared_from_this();
-	http_request_ptr req = boost::factory<http_request_ptr>()(sess);
+	IMessage* req;//= boost::factory<http_request_ptr>()(sess);
 	return req;
 }
 
-void http_session::read(http_request_ptr req)
+void http_session::read(IMessage* req)
 {
 //	boost::asio::async_read(socket_, boost::asio::buffer(RequestMsg.msg_header, http_message::header_length),
 //		bind(&TcpConnection::handle_read_header, shared_from_this(), boost::asio::placeholders::error));
@@ -84,7 +84,7 @@ void http_session::read(http_request_ptr req)
 
 	socket_.async_read_some(
 	
-		boost::asio::buffer(req->msg_header, http_message::header_length), 
+		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
 		strand_.wrap(
 			boost::bind(
 				&http_session::handle_read_msg, 
@@ -100,7 +100,7 @@ void http_session::read(http_request_ptr req)
 }
 
 
-void http_session::handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, http_request_ptr req)
+void http_session::handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)
 {
 	TRACE("handle_read_msg\n");
 	//std::cout << "handle_read_msg bytes_transferred" << bytes_transferred << std::endl;
@@ -114,7 +114,7 @@ void http_session::handle_read_msg(const boost::system::error_code& error, size_
 	}
 
 	// 得到请求接收时间
-	req->genreq();
+	//req->genreq();
 
 	//req->decode_header();
 	queue_.push(req);
@@ -123,10 +123,10 @@ void http_session::handle_read_msg(const boost::system::error_code& error, size_
 }
 
 
-void http_session::write(http_response_ptr resp)
+void http_session::write(IMessage* resp)
 {
 	async_write(socket_,
-		boost::asio::buffer(resp->msg_body, resp->msg_body.size()),
+		boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
 		strand_.wrap(
 			bind(&http_session::handle_write_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 		)
@@ -136,9 +136,9 @@ void http_session::write(http_response_ptr resp)
 }
 
 
-void http_session::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, http_response_ptr resp)
+void http_session::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
 {
-	if (error || bytes_transferred != resp->msg_body.size())
+	if (error || bytes_transferred != resp->GetMsgContentSize())
 	{
 		//std::cout << "handle_write_msg error" << std::endl;
 		close();

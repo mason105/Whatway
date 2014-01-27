@@ -133,8 +133,6 @@
     <ClInclude Include="..\..\common\ThreadSafeQueue\job_queue.h" />
     <ClInclude Include="business\apexsoft\DingDian.h" />
     <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h" />
-    <ClInclude Include="business\hundsun_com\CComm.h" />
-    <ClInclude Include="business\hundsun_com\TradeBusinessComm.h" />
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h" />
     <ClInclude Include="business\IBusiness.h" />
     <ClInclude Include="business\SunGuard\AGC.h" />
@@ -204,7 +202,6 @@
   <ItemGroup>
     <ClCompile Include="business\apexsoft\DingDian.cpp" />
     <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp" />
-    <ClCompile Include="business\hundsun_com\TradeBusinessComm.cpp" />
     <ClCompile Include="business\hundsun_t2\TradeBusinessT2.cpp" />
     <ClCompile Include="business\IBusiness.cpp" />
     <ClCompile Include="business\SunGuard\AGC.cpp" />
@@ -265,8 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\tradeparam.map" />
-    <None Include="Debug\hscommx.tlh" />
-    <None Include="Debug\hscommx.tli" />
     <None Include="innosetup\TradeGateway.iss" />
     <None Include="log\tradelog.bat" />
     <None Include="log\tradelog.proto" />

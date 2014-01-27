@@ -236,6 +236,9 @@
     <Filter Include="核心代码\会话管理">
       <UniqueIdentifier>{eff467c9-996d-4ffd-9678-f81404cb33cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="核心代码\5.柜台系统\顶点\NewFilter1">
+      <UniqueIdentifier>{9b70e119-f458-4402-9376-47b2d0c993a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -304,9 +307,6 @@
     <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h">
       <Filter>核心代码\5.柜台系统\顶点</Filter>
     </ClInclude>
-    <ClInclude Include="business\hundsun_com\TradeBusinessComm.h">
-      <Filter>核心代码\5.柜台系统\恒生COM</Filter>
-    </ClInclude>
     <ClInclude Include="ConnectPool\BusinessSystem.h">
       <Filter>核心代码\柜台连接池</Filter>
     </ClInclude>
@@ -324,9 +324,6 @@
     </ClInclude>
     <ClInclude Include="business\IBusiness.h">
       <Filter>核心代码\5.柜台系统</Filter>
-    </ClInclude>
-    <ClInclude Include="business\hundsun_com\CComm.h">
-      <Filter>核心代码\5.柜台系统\恒生COM</Filter>
     </ClInclude>
     <ClInclude Include="network\tcp\tcp_server_old.h">
       <Filter>核心代码\3.网络服务\TCP old</Filter>
@@ -495,9 +492,6 @@
     <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp">
       <Filter>核心代码\5.柜台系统\顶点</Filter>
     </ClCompile>
-    <ClCompile Include="business\hundsun_com\TradeBusinessComm.cpp">
-      <Filter>核心代码\5.柜台系统\恒生COM</Filter>
-    </ClCompile>
     <ClCompile Include="ConnectPool\BusinessSystem.cpp">
       <Filter>核心代码\柜台连接池</Filter>
     </ClCompile>
@@ -639,15 +633,6 @@
     <None Include="bin\serverkey.pem">
       <Filter>核心代码\3.网络服务\SSL old\SSL证书</Filter>
     </None>
-    <None Include="Debug\hscommx.tlh">
-      <Filter>核心代码\5.柜台系统\恒生COM</Filter>
-    </None>
-    <None Include="Debug\hscommx.tli">
-      <Filter>核心代码\5.柜台系统\恒生COM</Filter>
-    </None>
-    <None Include="bin\tradeparam.map">
-      <Filter>核心代码\5.柜台系统\顶点</Filter>
-    </None>
     <None Include="innosetup\TradeGateway.iss">
       <Filter>安装包innosetup</Filter>
     </None>
@@ -672,11 +657,11 @@
     <None Include="network\ssl\proto2cpp.bat">
       <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
     </None>
+    <None Include="bin\tradeparam.map">
+      <Filter>核心代码\5.柜台系统\顶点\NewFilter1</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="bin\OutputDomain.xml">
-      <Filter>核心代码\5.柜台系统\顶点</Filter>
-    </Xml>
     <Xml Include="bin_release\tradegateway.xml">
       <Filter>配置文件\release</Filter>
     </Xml>
@@ -703,6 +688,9 @@
     </Xml>
     <Xml Include="bin_debug\kingdom_win_filterfield.xml">
       <Filter>日志\过滤敏感字段</Filter>
+    </Xml>
+    <Xml Include="bin\OutputDomain.xml">
+      <Filter>核心代码\5.柜台系统\顶点\NewFilter1</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>

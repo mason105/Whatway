@@ -69,31 +69,31 @@ void ssl_session::handle_handshake(const boost::system::error_code& error)
 	read();
 }
 
-ssl_request_ptr ssl_session::create_request()
+IMessage* ssl_session::create_request()
 {
 	// 内存池
 	//return msg_pool_.construct(shared_from_this(), bind(&object_pool_type::destroy, ref(msg_pool_), _1));
 	ssl_session_ptr sess = shared_from_this();
-	ssl_request_ptr req = boost::factory<ssl_request_ptr>()(sess);
+	IMessage* req;// = boost::factory<ssl_request_ptr>()(sess);
 	return req;
 }
 
 void ssl_session::read()
 {
-	ssl_request_ptr req = create_request();
+	IMessage* req = create_request();
 
 //	boost::asio::async_read(socket_, boost::asio::buffer(RequestMsg.msg_header, tcp_message::header_length),
 //		bind(&TcpConnection::handle_read_header, shared_from_this(), boost::asio::placeholders::error));
 	// this换成shared_from_this()
 	async_read(socket_, 
-		boost::asio::buffer(req->msg_header, ssl_message::header_length), 
+		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
 		strand_.wrap(
 			boost::bind(&ssl_session::handle_read_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
 	);
 }
 
-void ssl_session::handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, ssl_request_ptr req)
+void ssl_session::handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)
 {
 	if (error) // req->check_head()
 	{
@@ -105,11 +105,11 @@ void ssl_session::handle_read_head(const boost::system::error_code& error, size_
 
 		//boost::asio::async_read(socket_, boost::asio::buffer(RequestMsg.msg_body, RequestMsg.header.bodysize()), 
 		//	boost::bind(&TcpConnection::handle_read_body, shared_from_this(), boost::asio::placeholders::error));
-	req->decode_header();
+	req->DecoderMsgHeader();
 
 	// this换成shared_from_this()
 	async_read(socket_, 
-		boost::asio::buffer(req->msg_body, req->header.bodysize()),
+		boost::asio::buffer(req->GetMsgContent(), req->GetMsgContentSize()),
 		strand_.wrap(
 			bind(&ssl_session::handle_read_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
@@ -118,7 +118,7 @@ void ssl_session::handle_read_head(const boost::system::error_code& error, size_
 
 
 
-void ssl_session::handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, ssl_request_ptr req)
+void ssl_session::handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)
 {
 	//std::cout << "handle_read_msg bytes_transferred" << bytes_transferred << std::endl;
 		
@@ -131,7 +131,7 @@ void ssl_session::handle_read_msg(const boost::system::error_code& error, size_t
 	}
 
 	// 得到请求接收时间
-	req->genreq();
+	//req->genreq();
 
 	queue_.push(req);
 
@@ -141,7 +141,7 @@ void ssl_session::handle_read_msg(const boost::system::error_code& error, size_t
 }
 
 
-void ssl_session::write(ssl_response_ptr resp)
+void ssl_session::write(IMessage* resp)
 {
 	
 /*
@@ -149,21 +149,22 @@ void ssl_session::write(ssl_response_ptr resp)
 			boost::bind(&TcpConnection::handle_write_header, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
 */
-	// this换成shared_from_this()
 
+	/*
 	async_write(socket_,
 		boost::asio::buffer(resp->msg_header, ssl_message::header_length),
 		strand_.wrap(
 			bind(&ssl_session::handle_write_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 		)
 	);
+	*/
 }
 
-void ssl_session::handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, ssl_response_ptr resp)
+void ssl_session::handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
 {
 	//std::cout << "handle_write_head bytes_transferred " << bytes_transferred << std::endl;
 
-	if (error || bytes_transferred != resp->msg_header.size())
+	if (error || bytes_transferred != resp->GetMsgHeaderSize())
 	{
 	//	std::cout << "handle_write_head error" << std::endl;
 		close();
@@ -176,7 +177,7 @@ void ssl_session::handle_write_head(const boost::system::error_code& error, size
 	// this换成shared_from_this()
 
 	async_write(socket_,
-		boost::asio::buffer(resp->msg_body, resp->msg_body.size()),
+		boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
 		strand_.wrap(
 			bind(&ssl_session::handle_write_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 		)
@@ -184,9 +185,9 @@ void ssl_session::handle_write_head(const boost::system::error_code& error, size
 	
 }
 
-void ssl_session::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, ssl_response_ptr resp)
+void ssl_session::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
 {
-	if (error || bytes_transferred != resp->msg_body.size())
+	if (error || bytes_transferred != resp->GetMsgContentSize())
 	{
 		//std::cout << "handle_write_msg error" << std::endl;
 		close();

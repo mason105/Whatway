@@ -232,7 +232,7 @@ bool CTCPClientSync::ReadMsgContent(CustomMessage * pRes)
 {
 	boost::system::error_code ec = boost::asio::error::would_block;
 
-	if (!pRes->ParseMsgHeader())
+	if (!pRes->DecoderMsgHeader())
 	{
 		return false;
 	}
@@ -291,6 +291,8 @@ bool CTCPClientSync::ReConnect()
 // 发送心跳包
 bool CTCPClientSync::HeartBeat()
 {
+	bool bRet = false;
+	/*
 	if (!m_bConnected)
 		return false;
 
@@ -298,7 +300,7 @@ bool CTCPClientSync::HeartBeat()
 
 	std::string request = "cssweb_funcid=999999" + SOH;
 
-	bool bRet = false;
+	
 
 	// 开始时间
 	 boost::posix_time::ptime time_sent = boost::posix_time::microsec_clock::universal_time();
@@ -341,7 +343,7 @@ bool CTCPClientSync::HeartBeat()
 	// 运行时间
 	int nRuntime = (time_received - time_sent).total_microseconds();
 	//gFileLog::instance().Log("执行时间：" + boost::lexical_cast<std::string>(nRuntime));
-
+	*/
 	return bRet;
 }
 
@@ -358,7 +360,7 @@ void CTCPClientSync::SetReadWriteTimeout(int readWriteTimeout)
 bool CTCPClientSync::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
 	bool bRet = false;
-	
+	/*
 
 	// 发送请求
 	CustomMessage * pReq = new CustomMessage();
@@ -376,7 +378,7 @@ bool CTCPClientSync::Send(std::string& request, std::string& response, int& stat
 		return false;
 
 	// 接收应答
-	CustomMessage * pRes = new CustomMessage();
+	IMessage* pRes = new CustomMessage();
 	bRet = Read(pRes);
 	if (bRet)
 	{
@@ -388,6 +390,6 @@ bool CTCPClientSync::Send(std::string& request, std::string& response, int& stat
 	{
 	}
 	delete pRes;	
-
+	*/
 	return true;
 }

@@ -19,12 +19,12 @@ public:
 
 	
 
-	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)=0;
-	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)=0;
+//	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)=0;
+//	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)=0;
 
 	virtual void write(IMessage* resp)=0;
-	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)=0;
-	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)=0;
+//	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)=0;
+//	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)=0;
 };
 
 #endif

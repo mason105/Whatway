@@ -44,6 +44,8 @@ typedef struct MsgHeader
 	//unsigned char SystemId; // 客户端系统编号
 	//unsigned char SystemVersion; // 客户端终端类型
 	//unsigned char BusinessType; // 业务类型
+
+	
 }MSG_HEADER, *PMSG_HEADER;
 
 #pragma pack()
