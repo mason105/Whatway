@@ -466,3 +466,48 @@ FINISH:
 
 	return true;
 }
+
+
+bool TradeBusinessT2::CreateConnect()
+{
+	int nRetry = gConfigManager::instance().m_nConnectRetry;
+
+
+	int nRet = 0;
+
+	lpConfig = NewConfig();
+	lpConfig->AddRef();
+
+	std::string s = m_Counter->m_sIP;
+	s += ":";
+	s += boost::lexical_cast<std::string>(m_Counter->m_nPort);
+	lpConfig->SetString("t2sdk", "servers", s.c_str());
+
+	std::string license_file;
+	license_file = gConfigManager::instance().m_sPath + "\\license.dat";
+	lpConfig->SetString("t2sdk", "license_file", license_file.c_str());
+	lpConfig->SetString("t2sdk", "lang", "1033");
+	lpConfig->SetString("t2sdk", "send_queue_size", "100");
+	lpConfig->SetString("safe", "safe_level", "none");
+
+
+		lpConnection = NewConnection(lpConfig);
+		lpConnection->AddRef();
+
+		nRet = lpConnection->Create(NULL);
+
+		
+		nRet = lpConnection->Connect(m_Counter->m_nConnectTimeout*1000);
+
+		if (nRet != 0)
+		{
+			return false;
+		}
+		else
+		{
+			
+
+			return true;
+		}
+
+}

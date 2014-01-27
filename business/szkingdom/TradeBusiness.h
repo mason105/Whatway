@@ -33,4 +33,8 @@ public:
 	std::string trdpwd;
 	std::string newpwd;
 	std::string newpwd_enc;
+
+	// 金证
+	void * handle; // 柜台连接句柄
+	
 };

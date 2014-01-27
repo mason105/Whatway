@@ -24,7 +24,7 @@ IBusiness::~IBusiness(void)
 
 void IBusiness::SetCounterServer(Counter * counter)
 {
-	this->counter = counter;
+	this->m_Counter = counter;
 }
 
 BUSI_TYPE IBusiness::ConvertIntToBusiType(int val)
@@ -379,3 +379,10 @@ void IBusiness::GenResponse(std::string& response, std::string& errCode, std::st
 	response += "0.0.0.0:5000";
 	response += SOH;
 }
+
+bool IBusiness::IsConnected()
+{
+	
+	return m_bConnected;
+}
+

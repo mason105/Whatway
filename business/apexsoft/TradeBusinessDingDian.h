@@ -36,4 +36,9 @@ public:
 	std::string newpwd;
 	std::string newpwd_enc;
 	char* EncryptPwd(const char* plainText, char* szPwd);
+
+	
+
+	// ¶¥µã
+	long m_hHandle;
 };

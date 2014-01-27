@@ -237,9 +237,9 @@ bool TcpTradeServer::ProcessRequest(IMessage* req)
 	}
 	else
 	{
-		counterIp = req->GetSession()->counterConnect->counter->m_sIP;
-		counterPort = boost::lexical_cast<std::string>(req->GetSession()->counterConnect->counter->m_nPort);
-		counterType = GetCounterType(req->GetSession()->counterConnect->counter->m_eCounterType);
+		counterIp = req->GetSession()->counterConnect->m_Counter->m_sIP;
+		counterPort = boost::lexical_cast<std::string>(req->GetSession()->counterConnect->m_Counter->m_nPort);
+		counterType = GetCounterType(req->GetSession()->counterConnect->m_Counter->m_eCounterType);
 	}
 
 	

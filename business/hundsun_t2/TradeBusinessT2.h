@@ -31,4 +31,11 @@ public:
 	std::string trdpwd;
 	std::string newpwd;
 	std::string newpwd_enc;
+
+	
+
+	// ∫„…˙T2
+	CConfigInterface * lpConfig;
+	CConnectionInterface * lpConnection;
+	
 };

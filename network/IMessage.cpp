@@ -114,3 +114,8 @@ std::string IMessage::GetMsgContentString()
 	return str;
 
 }
+
+void IMessage::SetMsgHeader(std::vector<char> header)
+{
+	m_MsgHeader = header;
+}

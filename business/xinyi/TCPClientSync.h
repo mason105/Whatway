@@ -65,7 +65,7 @@ private:
 	std::string m_sIP;
 	int m_nPort;
 
-	bool m_bConnected;
+
 
 	int connectTimeout;
 	int readWriteTimeout;

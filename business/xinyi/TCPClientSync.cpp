@@ -62,8 +62,8 @@ bool CTCPClientSync::CreateConnect()
 	{
 		m_bConnected = false;
 	
-		m_sIP = counter->m_sIP;
-		m_nPort = counter->m_nPort;
+		m_sIP = m_Counter->m_sIP;
+		m_nPort = m_Counter->m_nPort;
 
 		boost::system::error_code ec;
 

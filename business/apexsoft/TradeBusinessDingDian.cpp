@@ -636,3 +636,27 @@ char* TradeBusinessDingDian::EncryptPwd(const char* plainText, char* szPwd)
 	return szPwd;
 }
 
+
+bool TradeBusinessDingDian::CreateConnect()
+{
+	
+
+	int nRet = 0;
+
+	
+
+		std::string gtAddr = m_Counter->m_sIP + "@" + boost::lexical_cast<std::string>(m_Counter->m_nPort) + "/tcp";
+		m_hHandle = Fix_Connect(gtAddr.c_str(), m_Counter->m_sUserName.c_str(), m_Counter->m_sPassword.c_str(), m_Counter->m_nConnectTimeout); 
+
+		
+		if (m_hHandle == 0)
+		{return false;
+		}
+		else
+		{
+			
+
+			return true;
+		}
+
+}

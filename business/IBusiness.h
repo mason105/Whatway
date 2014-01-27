@@ -20,7 +20,9 @@ public:
 	IBusiness(void);
 	~IBusiness(void);
 
+	bool m_bConnected;
 	virtual bool IsConnected();
+
 	virtual void SetCounterServer(Counter * counter);
 	virtual bool CreateConnect() = 0;
 
@@ -31,7 +33,7 @@ public:
 	
 	
 
-	Counter * counter;
+	Counter * m_Counter;
 	Connect * m_pConn;
 
 	std::string sysNo;

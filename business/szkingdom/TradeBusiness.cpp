@@ -622,3 +622,43 @@ FINISH:
 
 	return true;
 }
+
+bool TradeBusiness::CreateConnect()
+{
+	int nRet = 0;
+
+
+		tagKCBPConnectOption stKCBPConnection;
+		memset(&stKCBPConnection, 0x00, sizeof(stKCBPConnection));
+		strcpy(stKCBPConnection.szServerName, m_Counter->m_sServerName.c_str());
+		stKCBPConnection.nProtocal = 0;
+		strcpy(stKCBPConnection.szAddress, m_Counter->m_sIP.c_str());
+		stKCBPConnection.nPort = m_Counter->m_nPort;
+		strcpy(stKCBPConnection.szSendQName, m_Counter->m_sReq.c_str());
+		strcpy(stKCBPConnection.szReceiveQName, m_Counter->m_sRes.c_str());
+
+		nRet = KCBPCLI_Init( &handle );
+		nRet = KCBPCLI_SetConnectOption( handle, stKCBPConnection );		
+
+		//设置超时
+		nRet = KCBPCLI_SetCliTimeOut( handle, m_Counter->m_nConnectTimeout);
+
+		// 设置是否输出调试信息
+		//nRet = KCBPCLI_SetOptions( handle, KCBP_OPTION_TRACE, &gConfigManager::instance().m_nIsTradeServerDebug, sizeof(int));
+
+		nRet = KCBPCLI_SQLConnect( handle, stKCBPConnection.szServerName, (char*)m_Counter->m_sUserName.c_str(), (char*)m_Counter->m_sPassword.c_str());
+
+		if (nRet != 0)
+		{
+			
+
+			return false;
+		}
+		else
+		{
+			
+
+			return true;
+		}
+	
+}
