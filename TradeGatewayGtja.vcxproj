@@ -128,18 +128,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\common\log\mq\LogConnect.h" />
-    <ClInclude Include="..\..\common\log\mq\LogConnectPool.h" />
-    <ClInclude Include="..\..\common\log\tradelog.pb.h" />
-    <ClInclude Include="..\..\common\network\CustomMessage.h" />
     <ClInclude Include="..\..\common\Network\io_service_pool.h" />
-    <ClInclude Include="..\..\common\network\MsgHeader.h" />
-    <ClInclude Include="..\..\common\Network\TCPClientSync.h" />
-    <ClInclude Include="..\..\common\Network\TcpServer.h" />
-    <ClInclude Include="..\..\common\Network\TcpSession.h" />
     <ClInclude Include="..\..\common\ThreadPool\worker.h" />
     <ClInclude Include="..\..\common\ThreadSafeQueue\job_queue.h" />
-    <ClInclude Include="AbstractBusiness.h" />
     <ClInclude Include="business\apexsoft\DingDian.h" />
     <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h" />
     <ClInclude Include="business\hundsun_com\CComm.h" />
@@ -152,6 +143,7 @@
     <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h" />
     <ClInclude Include="business\szkingdom\Encrypt.h" />
     <ClInclude Include="business\szkingdom\TradeBusiness.h" />
+    <ClInclude Include="business\xinyi\TCPClientSync.h" />
     <ClInclude Include="cache\CacheData.h" />
     <ClInclude Include="captcha\CaptchaManager.h" />
     <ClInclude Include="captcha\VerificationCode.h" />
@@ -163,9 +155,7 @@
     <ClInclude Include="ConnectPool\ConnectManager.h" />
     <ClInclude Include="ConnectPool\ConnectPool.h" />
     <ClInclude Include="ConnectPool\Counter.h" />
-    <ClInclude Include="DistributedLogManager.h" />
     <ClInclude Include="encrypt\MyBotan.h" />
-    <ClInclude Include="FileLogManager.h" />
     <ClInclude Include="lib\OpenCV\opencv_h.h" />
     <ClInclude Include="lib\XML\pugiconfig.hpp" />
     <ClInclude Include="lib\XML\pugixml.hpp" />
@@ -173,19 +163,30 @@
     <ClInclude Include="lib\XML\rapidxml_iterators.hpp" />
     <ClInclude Include="lib\XML\rapidxml_print.hpp" />
     <ClInclude Include="lib\XML\rapidxml_utils.hpp" />
-    <ClInclude Include="network\communication.pb.h" />
+    <ClInclude Include="log\DistributedLogManager.h" />
+    <ClInclude Include="log\FileLogManager.h" />
+    <ClInclude Include="log\mq\LogConnect.h" />
+    <ClInclude Include="log\mq\LogConnectPool.h" />
+    <ClInclude Include="log\tradelog.pb.h" />
+    <ClInclude Include="network\IMessage.h" />
     <ClInclude Include="network\http\http_message.h" />
     <ClInclude Include="network\http\http_server.h" />
     <ClInclude Include="network\http\http_session.h" />
     <ClInclude Include="network\http\trade_server_http.h" />
-    <ClInclude Include="network\newssl\SSLServer.h" />
-    <ClInclude Include="network\newssl\SSLSession.h" />
-    <ClInclude Include="network\pkgheader.pb.h" />
+    <ClInclude Include="network\ISession.h" />
+    <ClInclude Include="network\ssl\communication.pb.h" />
+    <ClInclude Include="network\ssl\pkgheader.pb.h" />
     <ClInclude Include="network\ssl\ssl_message.h" />
     <ClInclude Include="network\ssl\ssl_server.h" />
     <ClInclude Include="network\ssl\ssl_session.h" />
     <ClInclude Include="network\ssl\trade_server_ssl.h" />
-    <ClInclude Include="network\tcp\TcpTradeServer.h" />
+    <ClInclude Include="network\ssl_tcp\CustomMessage.h" />
+    <ClInclude Include="network\ssl_tcp\MsgHeader.h" />
+    <ClInclude Include="network\ssl_tcp\SSLServer.h" />
+    <ClInclude Include="network\ssl_tcp\SSLSession.h" />
+    <ClInclude Include="network\ssl_tcp\TcpServer.h" />
+    <ClInclude Include="network\ssl_tcp\TcpSession.h" />
+    <ClInclude Include="network\ssl_tcp\TcpTradeServer.h" />
     <ClInclude Include="network\tcp\tcp_message_old.h" />
     <ClInclude Include="network\tcp\tcp_server_old.h" />
     <ClInclude Include="network\tcp\tcp_session_old.h" />
@@ -193,7 +194,6 @@
     <ClInclude Include="ocr\OCR.h" />
     <ClInclude Include="output\FileLog.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="ISession.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TradeGatewayGtja.h" />
@@ -202,13 +202,6 @@
     <ClInclude Include="errcode.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\common\log\mq\LogConnect.cpp" />
-    <ClCompile Include="..\..\common\log\mq\LogConnectPool.cpp" />
-    <ClCompile Include="..\..\common\log\tradelog.pb.cc" />
-    <ClCompile Include="..\..\common\network\CustomMessage.cpp" />
-    <ClCompile Include="..\..\common\Network\TCPClientSync.cpp" />
-    <ClCompile Include="..\..\common\Network\TcpSession.cpp" />
-    <ClCompile Include="AbstractBusiness.cpp" />
     <ClCompile Include="business\apexsoft\DingDian.cpp" />
     <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp" />
     <ClCompile Include="business\hundsun_com\TradeBusinessComm.cpp" />
@@ -219,6 +212,7 @@
     <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp" />
     <ClCompile Include="business\szkingdom\Encrypt.cpp" />
     <ClCompile Include="business\szkingdom\TradeBusiness.cpp" />
+    <ClCompile Include="business\xinyi\TCPClientSync.cpp" />
     <ClCompile Include="cache\CacheData.cpp" />
     <ClCompile Include="captcha\captchamanager.cpp" />
     <ClCompile Include="captcha\VerificationCode.cpp" />
@@ -230,26 +224,32 @@
     <ClCompile Include="ConnectPool\ConnectManager.cpp" />
     <ClCompile Include="ConnectPool\ConnectPool.cpp" />
     <ClCompile Include="ConnectPool\Counter.cpp" />
-    <ClCompile Include="DistributedLogManager.cpp" />
     <ClCompile Include="encrypt\MyBotan.cpp" />
     <ClCompile Include="encrypt\testbotan.cpp" />
-    <ClCompile Include="FileLogManager.cpp" />
     <ClCompile Include="lib\import_lib.cpp" />
     <ClCompile Include="lib\XML\pugixml.cpp" />
-    <ClCompile Include="network\communication.pb.cc" />
+    <ClCompile Include="log\DistributedLogManager.cpp" />
+    <ClCompile Include="log\FileLogManager.cpp" />
+    <ClCompile Include="log\mq\LogConnect.cpp" />
+    <ClCompile Include="log\mq\LogConnectPool.cpp" />
+    <ClCompile Include="log\tradelog.pb.cc" />
+    <ClCompile Include="network\IMessage.cpp" />
     <ClCompile Include="network\http\http_session.cpp" />
     <ClCompile Include="network\http\trade_server_http.cpp" />
-    <ClCompile Include="network\newssl\SSLSession.cpp" />
-    <ClCompile Include="network\pkgheader.pb.cc" />
+    <ClCompile Include="network\ISession.cpp" />
+    <ClCompile Include="network\ssl\communication.pb.cc" />
+    <ClCompile Include="network\ssl\pkgheader.pb.cc" />
     <ClCompile Include="network\ssl\ssl_session.cpp" />
     <ClCompile Include="network\ssl\trade_server_ssl.cpp" />
-    <ClCompile Include="network\tcp\TcpTradeServer.cpp" />
+    <ClCompile Include="network\ssl_tcp\CustomMessage.cpp" />
+    <ClCompile Include="network\ssl_tcp\SSLServer.cpp" />
+    <ClCompile Include="network\ssl_tcp\SSLSession.cpp" />
+    <ClCompile Include="network\ssl_tcp\TcpSession.cpp" />
+    <ClCompile Include="network\ssl_tcp\TcpTradeServer.cpp" />
     <ClCompile Include="network\tcp\tcp_session_old.cpp" />
     <ClCompile Include="network\tcp\trade_server_tcp_old.cpp" />
     <ClCompile Include="ocr\OCR.cpp" />
     <ClCompile Include="output\FileLog.cpp" />
-    <ClCompile Include="ISession.cpp" />
-    <ClCompile Include="SSLServer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -264,15 +264,15 @@
     <ResourceCompile Include="TradeGatewayGtja.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\common\log\tradelog.bat" />
-    <None Include="..\..\common\log\tradelog.proto" />
     <None Include="bin\tradeparam.map" />
     <None Include="Debug\hscommx.tlh" />
     <None Include="Debug\hscommx.tli" />
     <None Include="innosetup\TradeGateway.iss" />
-    <None Include="network\communication.proto" />
-    <None Include="network\pkgheader.proto" />
-    <None Include="network\proto2cpp.bat" />
+    <None Include="log\tradelog.bat" />
+    <None Include="log\tradelog.proto" />
+    <None Include="network\ssl\communication.proto" />
+    <None Include="network\ssl\pkgheader.proto" />
+    <None Include="network\ssl\proto2cpp.bat" />
     <None Include="ocr\expire.traineddata" />
     <None Include="ocr\id.traineddata" />
     <None Include="res\TradeGatewayGtja.rc2" />
@@ -313,7 +313,6 @@
     <Text Include="lib\OpenSSL\OpenSSL.txt" />
     <Text Include="lib\ProtoBuf\ProtoBuf.txt" />
     <Text Include="network\http\flash交易密码处理规则.txt" />
-    <Text Include="network\http\http.txt" />
     <Text Include="sywg代码备份.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

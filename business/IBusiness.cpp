@@ -349,4 +349,6 @@ bool IBusiness::DecryptPassword(std::string algo, std::string key, std::string c
 	}
 	else
 		return false;
+
+	return false;
 }

@@ -1,10 +1,12 @@
+#include "stdafx.h"
+
 #include "ssl_session.h"
 
 #include <boost/bind.hpp>
 #include <boost/functional/factory.hpp>
 
 
-#include "FileLogManager.h"
+#include "log/FileLogManager.h"
 
 ssl_session::object_pool_type ssl_session::msg_pool_;
 

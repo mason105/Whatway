@@ -147,8 +147,9 @@ void TradeBusinessT2::Process(std::string& request, std::string& response, Trade
 		{
 			nRoute = boost::lexical_cast<int>(route);
 		}
-		catch(boost::exception& e)
+		catch(std::exception& e)
 		{
+			e.what();
 			RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1001", "缺少参数cssweb_route");
 			goto FINISH;
 		}
@@ -159,8 +160,9 @@ void TradeBusinessT2::Process(std::string& request, std::string& response, Trade
 	{
 		lFuncId = boost::lexical_cast<long>(funcid);
 	}
-	catch(boost::exception& e)
+	catch(std::exception& e)
 	{
+		e.what();
 		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1001", "缺少参数cssweb_funcid");
 		goto FINISH;
 	}

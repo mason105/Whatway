@@ -16,10 +16,10 @@
 #include "./network/http/trade_server_http.h"
 
 
-#include "./network/TcpServer.h"
-#include "./network/tcp/TcpTradeServer.h"
+#include "./network/ssl_tcp/TcpServer.h"
+#include "./network/ssl_tcp/TcpTradeServer.h"
 
-#include "FileLogManager.h"
+#include "log/FileLogManager.h"
 
 
 // CTradeGatewayGtjaDlg ¶Ô»°¿ò

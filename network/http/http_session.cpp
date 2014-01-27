@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "http_session.h"
 #include <boost/bind.hpp>
 #include <boost/functional/factory.hpp>

@@ -15,8 +15,8 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 
-#include "./network/pkgheader.pb.h"
-#include "./network/communication.pb.h"
+#include "./network/ssl/pkgheader.pb.h"
+#include "./network/ssl/communication.pb.h"
 //#include "ssl_session.h"
 
 

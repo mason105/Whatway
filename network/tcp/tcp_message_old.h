@@ -1,8 +1,7 @@
 #ifndef _TCP_MESSAGE_OLD_
 #define _TCP_MESSAGE_OLD_
 
-#include "./network/pkgheader.pb.h"
-#include "./network/communication.pb.h"
+
 //#include "tcp_session.h"
 
 #include <vector>

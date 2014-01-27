@@ -8,7 +8,7 @@
 
 #include <boost/asio.hpp>
 
-#include "AbstractBusiness.h"
+#include "business/IBusiness.h"
 
 // 采用同步模式实现
 // 采用boost::asio，实现跨平台
@@ -17,7 +17,7 @@
 // 连接号和des密钥和具体业务无关
 // 要定义业务接口xml
 
-class CSywgConnect : public AbstractBusiness
+class CSywgConnect : public IBusiness
 {
 public:
 	CSywgConnect(void);

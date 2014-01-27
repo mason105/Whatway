@@ -1,9 +1,11 @@
+#include "stdafx.h"
+
 #include "tcp_session_old.h"
 #include <boost/bind.hpp>
 #include <boost/functional/factory.hpp>
 //#include <windows.h>
 #include "./output/FileLog.h"
-#include "FileLogManager.h"
+#include "log/FileLogManager.h"
 
 
 tcp_session_old::object_pool_type tcp_session_old::msg_pool_;

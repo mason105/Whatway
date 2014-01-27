@@ -82,9 +82,9 @@ bool ConfigManager::LoadConfig(std::string sPath)
 
 	pugi::xpath_node node;
 	std::string node_path;
-	int node_size;
+
 	pugi::xpath_node_set nodes;
-	int enable;
+
 	std::string node_value;
 
 	// Í¨ÐÅ²ã

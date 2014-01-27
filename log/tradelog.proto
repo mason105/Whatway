@@ -1,0 +1,71 @@
+package Trade;
+
+message TradeLog
+{
+	enum LogLevel
+	{
+		DEBUG_LEVEL = 0;
+		INFO_LEVEL = 1;
+		WARN_LEVEL = 2;
+		ERROR_LEVEL = 3;
+	}
+	required LogLevel level = 5;
+
+
+	required string sysNo = 1;
+	required string busiType = 2;
+	required string sysVer = 3;
+	required string account = 4;
+	// 客户端ip
+	required string ip = 21;
+
+	// 功能号，用于过滤老版本的心跳功能
+	required string funcid = 22;
+	
+
+	// 网关信息
+	required string gatewayip = 6;
+	required string gatewayport = 7;
+
+	// 柜台信息
+	required string gtip = 8;
+	required string gtport = 9;
+	// 柜台类型，过滤日志需要用到
+	required string counterType = 23;
+
+	// 网络层接收到请求的时间
+	required string recvtime = 10;
+	// 网络层发送时间
+	required string sendtime = 13;
+
+	// 开始处理的时间
+	required string begintime = 11;
+
+	required int64 runtime = 12;
+
+	
+
+	
+	// 日志原始内容
+	required string enc_request = 14;
+
+	//解码后请求
+	required string request=15;
+
+	//请求执行结果
+	required int32 status = 16;
+
+	//请求执行返回码
+	required string retcode = 17;
+	required string retmsg = 18;
+
+	// 返回响应
+	required string response = 19;
+
+	// 返回编码后响应
+	required string enc_response = 20;
+
+	
+
+	
+}
