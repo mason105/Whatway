@@ -59,7 +59,8 @@ public:
 	void start();
 	void run();
 	void stop();
-	void SetMsgType();
+	void SetMsgType(int m_msgType);
+	int m_msgType;
 };
 
 #endif

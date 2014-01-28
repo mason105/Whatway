@@ -13,9 +13,13 @@
 #include "log/FileLogManager.h"
 #include "output/filelog.h"
 
+#include "network/imessage.h"
+#include "network/http/http_message.h"
+#include "network/tcp/tcp_message_old.h"
+#include "network/ssl/ssl_message.h"
 
 
-SSLSession::SSLSession(ios_type& ios, queue_type& q, boost::asio::ssl::context& context)
+SSLSession::SSLSession(ios_type& ios, queue_type& q, int msgType, boost::asio::ssl::context& context)
 	:socket_(ios, context), 
 	strand_(ios), 
 	queue_(q)
@@ -23,6 +27,7 @@ SSLSession::SSLSession(ios_type& ios, queue_type& q, boost::asio::ssl::context& 
 	//socket_.set_verify_mode(boost::asio::ssl::verify_fail_if_no_peer_cert);
 	//socket_.set_verify_callback(boost::bind(&ssl_session::verify_certificate, this, _1, _2));
 	counterConnect = NULL;
+	m_msgType = msgType;
 }
 
 
@@ -77,7 +82,24 @@ void SSLSession::handle_handshake(const boost::system::error_code& error)
 
 IMessage* SSLSession::create_request()
 {
-	IMessage* req = new CustomMessage();
+	IMessage* req = NULL;
+	
+	switch (m_msgType)
+	{
+	case MSG_TYPE_HTTP:
+		req = new http_message();
+		break;
+	case MSG_TYPE_TCP_OLD:
+		req = new tcp_message_old();
+		break;
+	case MSG_TYPE_SSL_PB:
+		req = new ssl_message();
+		break;
+	case MSG_TYPE_TCP_NEW:
+		req = new CustomMessage();
+		break;
+	}
+			
 	req->SetSession(this);
 	return req;
 	/*

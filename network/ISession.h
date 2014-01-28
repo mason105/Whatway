@@ -17,6 +17,9 @@ public:
 	// 柜台连接
 	IBusiness * counterConnect;
 
+	// 消息类型
+	int m_msgType;
+
 	virtual void start()=0;
 	virtual void close()=0;
 	

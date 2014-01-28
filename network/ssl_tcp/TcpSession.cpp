@@ -1,23 +1,31 @@
 #include "stdafx.h"
 
-#include "TcpSession.h"
-
 #include <boost/bind.hpp>
 #include <boost/functional/factory.hpp>
 
+#include "TcpSession.h"
+
+
+
 #include "./output/FileLog.h"
-#include "network/ssl_tcp/custommessage.h" 
 #include "log/FileLogManager.h"
 
 
 
+#include "network/imessage.h"
+#include "network/http/http_message.h"
+#include "network/tcp/tcp_message_old.h"
+#include "network/ssl/ssl_message.h"
+#include "network/ssl_tcp/custommessage.h" 
 
-TcpSession::TcpSession( ios_type& ios, queue_type& q):
+
+TcpSession::TcpSession( ios_type& ios, queue_type& q, int msgType):
 	socket_(ios), 
 	strand_(ios), 
 	queue_(q)
 {
 	counterConnect = NULL;
+	m_msgType = msgType;
 }
 
 TcpSession::~TcpSession()
@@ -63,7 +71,24 @@ void TcpSession::start()
 
 IMessage* TcpSession::create_request()
 {
-	IMessage* req = new CustomMessage();
+	IMessage* req = NULL;
+
+	switch (m_msgType)
+	{
+	case MSG_TYPE_HTTP:
+		req = new http_message();
+		break;
+	case MSG_TYPE_TCP_OLD:
+		req = new tcp_message_old();
+		break;
+	case MSG_TYPE_SSL_PB:
+		req = new ssl_message();
+		break;
+	case MSG_TYPE_TCP_NEW:
+		req = new CustomMessage();
+		break;
+	}
+
 	req->SetSession(this);
 	return req;
 

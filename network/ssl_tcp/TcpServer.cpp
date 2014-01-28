@@ -26,7 +26,7 @@ TcpServer::TcpServer(unsigned short port, queue_type& q, int n):
 
 void TcpServer::start_accept()
 {
-	TcpSession * session = new TcpSession(ios_pool_.get(), queue_);
+	TcpSession * session = new TcpSession(ios_pool_.get(), queue_, m_msgType);
 
 		acceptor_.async_accept(session->socket(), 
 			boost::bind(&TcpServer::accept_handler, 
@@ -72,6 +72,7 @@ void TcpServer::stop()
 	ios_pool_.stop();
 }
 
-void TcpServer::SetMsgType()
+void TcpServer::SetMsgType(int msgType)
 {
+	m_msgType = msgType;
 }

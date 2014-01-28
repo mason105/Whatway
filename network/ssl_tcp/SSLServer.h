@@ -41,8 +41,8 @@ public:
 
 	bool verify_certificate(bool preverified,      boost::asio::ssl::verify_context& ctx);
 	std::string get_password();
-	void SetMsgType();
-	
+	void SetMsgType(int msgType);
+	int m_msgType;
 
 private:
 	void start_accept();

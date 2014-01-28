@@ -110,7 +110,7 @@ void SSLServer::accept_handler(const boost::system::error_code& error, SSLSessio
 
 void SSLServer::start_accept()
 {
-	SSLSession * session = new SSLSession(ios_pool_.get(), queue_, context_);
+	SSLSession * session = new SSLSession(ios_pool_.get(), queue_, m_msgType, context_);
 
 	acceptor_.async_accept(session->socket(), 
 		boost::bind(&SSLServer::accept_handler, this, boost::asio::placeholders::error, session));
@@ -121,6 +121,7 @@ std::string SSLServer::get_password()
 	return "chenhf2011";
 }
 
-void SSLServer::SetMsgType()
+void SSLServer::SetMsgType(int msgType)
 {
+	m_msgType = msgType;
 }
