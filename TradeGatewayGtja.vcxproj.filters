@@ -721,12 +721,6 @@
     <Text Include="business\szkingdom\业务加解密.txt">
       <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
     </Text>
-    <Text Include="business\szkingdom\ConnectKCBP.cpp.txt">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
-    </Text>
-    <Text Include="business\szkingdom\ConnectKCBP.h.txt">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
-    </Text>
     <Text Include="ConnectPool\连接池开发说明.txt">
       <Filter>核心代码\柜台连接池</Filter>
     </Text>

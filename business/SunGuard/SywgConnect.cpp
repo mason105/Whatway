@@ -508,12 +508,9 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string account = reqmap["account"];
 	if (account.empty())
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(PARAM_ERROR);
-		errMsg = gError::instance().GetErrMsg(PARAM_ERROR);
+		this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 
-		this->GenResponse(response, errCode, errMsg);
 
 		bRet = true;
 		return bRet;
@@ -525,12 +522,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string account_type = reqmap["account_type"];
 	if (account_type.empty())
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(PARAM_ERROR);
-		errMsg = gError::instance().GetErrMsg(PARAM_ERROR);
-
-
-		this->GenResponse(response, errCode, errMsg);
+		this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 		bRet = true;
 		return bRet;
@@ -540,12 +532,9 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string flag = reqmap["flag"];
 	if (flag.empty())
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(PARAM_ERROR);
-		errMsg = gError::instance().GetErrMsg(PARAM_ERROR);
+		
 
-
-		this->GenResponse(response, errCode, errMsg);
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 		bRet = true;
 		return bRet;
@@ -556,12 +545,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string note = reqmap["cssweb_hardinfo"];
 	if (note.empty())
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(PARAM_ERROR);
-		errMsg = gError::instance().GetErrMsg(PARAM_ERROR);
-
-
-		this->GenResponse(response, errCode, errMsg);
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 		bRet = true;
 		return bRet;
@@ -571,12 +555,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string productno = reqmap["productno"];
 	if (productno.empty())
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(PARAM_ERROR);
-		errMsg = gError::instance().GetErrMsg(PARAM_ERROR);
-
-
-		this->GenResponse(response, errCode, errMsg);
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 		bRet = true;
 		return bRet;
@@ -586,12 +565,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string pwd = reqmap["pwd"];
 	if (pwd.empty())
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(PARAM_ERROR);
-		errMsg = gError::instance().GetErrMsg(PARAM_ERROR);
-
-
-		this->GenResponse(response, errCode, errMsg);
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 		bRet = true;
 		return bRet;
@@ -614,12 +588,8 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	nRet = gSywg.desdone();
 	if (nRet != 0)
 	{
-		status = 0;
-		errCode = boost::lexical_cast<std::string>(BUSI_CRYPT_ERROR);
-		errMsg = gError::instance().GetErrMsg(BUSI_CRYPT_ERROR);
-
-
-		this->GenResponse(response, errCode, errMsg);
+		GenResponse(BUSI_CRYPT_ERROR, gError::instance().GetErrMsg(BUSI_CRYPT_ERROR), response, status, errCode, errMsg);
+		
 
 		bRet = true;
 		return bRet;
@@ -799,12 +769,8 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	{
 		if (GetErrorMsg(ret.return_status, sErrMsg))
 		{
-			status = 0;
-			errCode = boost::lexical_cast<std::string>(ret.return_status);
-			errMsg = sErrMsg;
-
-
-			this->GenResponse(response, errCode, errMsg);
+			GenResponse(ret.return_status, sErrMsg, response, status, errCode, errMsg);
+			
 
 			bRet = true;
 			
@@ -953,8 +919,9 @@ bool CSywgConnect::Send(std::string& request, std::string& response, int& status
 
 bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
+	bool bRet = true;
 	std::string sErrMsg = "";
-	BOOL bRet = FALSE;
+	
 	int nMsgHeaderSize = sizeof(struct SWI_BlockHead);
 	int nCRCBegin = 4; // sizeof(block_size) + sizeof(crc)	
 	char * pRequestBuf = NULL;
@@ -1176,12 +1143,11 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 			nRet = gSywg.desdone();
 			if (nRet != 0)
 			{
-				status = 0;
-				errCode = boost::lexical_cast<std::string>(BUSI_CRYPT_ERROR);
+				
 				errMsg = gError::instance().GetErrMsg(BUSI_CRYPT_ERROR);
 
 		
-				this->GenResponse(response, errCode, errMsg);
+				GenResponse(BUSI_CRYPT_ERROR, errMsg, response, status, errCode, errMsg);
 
 				bRet = true;
 				goto error;
@@ -1583,12 +1549,9 @@ RETURN:
 			}// end for vReturn
 
 			
-			status = 0;
-			errCode = boost::lexical_cast<std::string>(return_status);
-			errMsg = sErrMsg;
+			
 
-
-			this->GenResponse(response, errCode, errMsg);
+			GenResponse(return_status, sErrMsg, response, status, errCode, errMsg);
 
 			bRet = true;
 

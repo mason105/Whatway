@@ -26,14 +26,6 @@ public:
 	
 
 
-	char * aeskey;
-	std::string m_sNewPwd;
-	std::string GetTradePWD(std::string isSafe, std::string sEncPwd);
-	std::string GetOtherPWD(std::string isSafe, std::string sEncPwd);
-	std::string trdpwd;
-	std::string newpwd;
-	std::string newpwd_enc;
-
 	// 金证
 	void * handle; // 柜台连接句柄
 	

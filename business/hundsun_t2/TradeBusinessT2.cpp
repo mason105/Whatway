@@ -1,6 +1,5 @@
-
-
 #include "StdAfx.h"
+
 #include "TradeBusinessT2.h"
 //#include "LogManager.h"
 #include "./connectpool/ConnectManager.h"
@@ -30,7 +29,7 @@
 
 
 #include "./output/FileLog.h"
-
+#include "errcode.h"
 
 
 
@@ -38,7 +37,7 @@ TradeBusinessT2::TradeBusinessT2()
 {
 	m_pConn = NULL;
 
-	aeskey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
+
 
 	sCounterType = "1";
 }
@@ -48,92 +47,11 @@ TradeBusinessT2::TradeBusinessT2()
 TradeBusinessT2::~TradeBusinessT2(void)
 {
 }
-/*
-std::string TradeBusinessT2::GetTradePWD(std::string isSafe, std::string sEncPwd)
-{
 
-	// 因为base64有可能产生=，会打乱原先的格式
-	boost::algorithm::replace_all(sEncPwd, "$", "=");
-
-	std::string sPwd = "";
-
-	if (isSafe == "0")
-	{
-		// 标准登录采用weblogic密钥解密
-		std::string algo = "AES-256/ECB/PKCS7";
-		std::string pubKey = "23dpasd23d-23l;df9302hzv/3lvjh*5";
-		std::string cipher = sEncPwd;
-		
-		bool bRet = g_MyBotan.Base64Decoder_AESDecrypt(algo, pubKey, cipher, sPwd);
-	}
-	else if (isSafe == "1")
-	{
-		// 加强登录采用控件密钥解密
-		sPwd = GetOtherPWD("1", sEncPwd);
-	}
-	else
-	{
-		// windows phone
-		return sEncPwd;
-	}
-
-	return sPwd;
-}
-
-std::string TradeBusinessT2::GetOtherPWD(std::string isSafe, std::string sEncPwd)
-{
-	// 因为base64有可能产生=，会打乱原先的格式
-	boost::algorithm::replace_all(sEncPwd, "$", "=");
-
-	std::string sPwd = "";
-
-	if (isSafe == "0")
-	{
-		char decoder[50];
-		memset(decoder, 0x00, sizeof(decoder));
-		int outlen;
-
-		g_MyBotan.Base64Decoder(sEncPwd, decoder, &outlen);
-		sPwd = decoder;
-	}
-	else if (isSafe == "1")
-	{
-			// 加强登录采用控件密钥解密
-		
-
-		int outlen;
-		char out[256];
-		memset(out, 0, sizeof(out));
-		//int outlen = sEncPwd.length()/2;
-		//outlen = HexDataToBinData((unsigned char*)sEncPwd.c_str(), sEncPwd.length(), (unsigned char*)out, sizeof(out));
-
-
-		std::string algo = "AES-256/ECB/PKCS7";
-		std::string pubKey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
-		bool bRet = g_MyBotan.AESDecrypt(algo, pubKey, (const unsigned char*)out, outlen, sPwd);
-
-
-	}
-	else
-	{
-		// windows phone
-		return sEncPwd;
-	}
-
-	return sPwd;
-}
-*/
 bool TradeBusinessT2::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
-	// 开始处理时间
-	
-
+	bool bRet = true;
 	int nRet = 0;
-
-	BeginLog(request);
-	
-
-
 
 	ParseRequest(request);
 
@@ -150,7 +68,15 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 		catch(std::exception& e)
 		{
 			e.what();
-			RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1001", "缺少参数cssweb_route");
+
+			
+			
+			
+
+		
+			GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+			bRet = true;	
 			goto FINISH;
 		}
 	}
@@ -163,12 +89,15 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	catch(std::exception& e)
 	{
 		e.what();
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1001", "缺少参数cssweb_funcid");
-		goto FINISH;
+
+		
+			GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+			bRet = true;	
+			goto FINISH;
 	}
 
 
-
+	/*
 	if (sysVer == "windows" && funcid == "331100")
 	{
 		 
@@ -178,55 +107,7 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 			goto FINISH;
 		}
 	}
-
-
-
-
-	
-
-
-/*
-	// 处理缓存
-	if (funcid == "105001")
-	{
-		if (type == "web" && g_CacheData.m_sFundCompany_Web != "")
-		{
-			response = g_CacheData.m_sFundCompany_Web;
-			m_bEnableSendLog = false;
-			return response;
-		}
-
-		if ( (type == "mobile" || type == "flash") && g_CacheData.m_sFundCompany_Json != "" )
-		{
-			response = g_CacheData.m_sFundCompany_Json;
-			m_bEnableSendLog = false;
-			return response;
-		}
-
-		
-	}
-	if (funcid == "105002")
-	{
-		if (type == "web" && g_CacheData.m_sFund_Web != "")
-		{
-			response = g_CacheData.m_sFund_Web;
-			m_bEnableSendLog = false;
-			return response;
-		}
-
-		if ( (type == "mobile" || type == "flash") && g_CacheData.m_sFund_Json != "" )
-		{
-			response = g_CacheData.m_sFund_Json;
-			m_bEnableSendLog = false;
-			return response;
-		}
-	}
-	// 处理缓存
-*/
-
-
-
-
+	*/
 
 	IF2Packer* pack = NewPacker(2);
 	pack->AddRef();
@@ -284,47 +165,25 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	} // end for
 	pack->EndPack();
 
-/*
-	// flash交易解锁
-	if (funcid == "000000")
-	{
-		if (trdpwd != newpwd)
-		{
-			RetErrRes(Trade::TradeLog::ERROR_LEVEL, response,  "1001", "密码错误，解锁失败！");
-			return;
-		}
-//		else
-//			goto UNLOCK_SUCCESS;
-	}
-*/
-
 	
 
-	m_pConn = g_ConnectManager.GetConnect(sysNo, busiType, branchId);
-	if (m_pConn == NULL)
-	{
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1000", "连接柜台失败");
-		goto FINISH;
-	}
-	gt_ip = m_pConn->m_Counter.m_sIP;
-	gt_port = boost::lexical_cast<std::string>(m_pConn->m_Counter.m_nPort);
-
+	
 	
 	//nRet = m_pConn->lpConnection->SendBiz(boost::lexical_cast<int>(funcid), pack, 0, boost::lexical_cast<int>(system)); //  同步
 
 
 	if (nRoute == -1)
-		nRet = m_pConn->lpConnection->SendBiz(lFuncId, pack); //  同步
+		nRet = lpConnection->SendBiz(lFuncId, pack); //  同步
 	else
-		nRet = m_pConn->lpConnection->SendBiz(lFuncId, pack, 0, nRoute); //  同步
+		nRet = lpConnection->SendBiz(lFuncId, pack, 0, nRoute); //  同步
 
 	if (nRet < 0)
 	{
 		pack->Release();
 
-		std::string sErrMsg = m_pConn->lpConnection->GetErrorMsg(nRet);
-
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(nRet), sErrMsg);
+		
+		GenResponse(nRet, lpConnection->GetErrorMsg(nRet), response, status, errCode, errMsg);
+		bRet = true;
 		goto FINISH;
 	}
 
@@ -423,56 +282,51 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	{
 		IF2UnPacker *lpUnPacker = (IF2UnPacker *)Pointer;
 
-		std::string sErrCode = lpUnPacker->GetStr("error_no");
-		std::string sErrMsg = "业务操作失败。";
-		sErrMsg += lpUnPacker->GetStr("error_info");
+		
 
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, sErrCode, sErrMsg);
+
+		
+		errMsg = lpUnPacker->GetStr("error_info");
+		GenResponse(boost::lexical_cast<int>(lpUnPacker->GetStr("error_no")), errMsg, response, status, errCode, errMsg);
+		bRet = true;
 		goto FINISH;
 	}
 	else if(nRet == 2)
 	{
-		std::string sErrCode =  boost::lexical_cast<std::string>(nRet);
-		std::string sErrMsg = (char*)Pointer;
+		
 
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, sErrCode, sErrMsg);
+		
+		errMsg = (char*)Pointer;
+		
+		GenResponse(nRet, errMsg, response, status, errCode, errMsg);
+		bRet = true;
 		goto FINISH;
 	}
 	else if (nRet == 3)
 	{
-		std::string sErrCode =  boost::lexical_cast<std::string>(nRet);
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, sErrCode, "业务包解包失败");
+		
+		GenResponse(nRet, "业务包解包失败", response, status, errCode, errMsg);
+		bRet = true;
 		goto FINISH;
 	}
 	else
 	{
-		std::string sErrCode =  boost::lexical_cast<std::string>(nRet);
-
-		std::string sErrMsg = "未知错误。";
-		sErrMsg += m_pConn->lpConnection->GetErrorMsg(nRet);
 		
-
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, sErrCode, sErrMsg);
+		GenResponse(nRet, errMsg, response, status, errCode, errMsg);
+		bRet = true;
 		goto FINISH;
 	}
 
 
 FINISH:
-	// 释放连接
-	FreeConnect();
+	
 
-	// 生成日志
-	//EndLog(response, log);
-
-	return true;
+	return bRet;
 }
 
 
 bool TradeBusinessT2::CreateConnect()
 {
-	int nRetry = gConfigManager::instance().m_nConnectRetry;
-
-
 	int nRet = 0;
 
 	lpConfig = NewConfig();

@@ -111,7 +111,9 @@ public:
 	void FreeConnect();
 
 	bool DecryptPassword(std::string algo, std::string key, std::string cipher, std::string plain);
-	void GenResponse(std::string& response, std::string& errCode, std::string& errMsg);
+
+	
+	void GenResponse(int nErrCode, std::string sErrMsg, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 };
 
 #endif

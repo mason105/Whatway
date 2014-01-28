@@ -30,10 +30,6 @@
 TradeBusiness::TradeBusiness()
 {
 	m_pConn = NULL;
-
-	aeskey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
-
-	sCounterType = "3";
 }
 
 
@@ -42,92 +38,21 @@ TradeBusiness::~TradeBusiness(void)
 {
 }
 
-std::string TradeBusiness::GetTradePWD(std::string isSafe, std::string sEncPwd)
-{
-
-	// 因为base64有可能产生=，会打乱原先的格式
-	boost::algorithm::replace_all(sEncPwd, "$", "=");
-
-	std::string sPwd = "";
-
-	if (isSafe == "0")
-	{
-		// 标准登录采用weblogic密钥解密
-		std::string algo = "AES-256/ECB/PKCS7";
-		std::string pubKey = "23dpasd23d-23l;df9302hzv/3lvjh*5";
-		std::string cipher = sEncPwd;
-		
-		bool bRet = g_MyBotan.Base64Decoder_AESDecrypt(algo, pubKey, cipher, sPwd);
-	}
-	else if (isSafe == "1")
-	{
-		// 加强登录采用控件密钥解密
-		sPwd = GetOtherPWD("1", sEncPwd);
-	}
-	else
-	{
-		// windows phone
-		return sEncPwd;
-	}
-
-	return sPwd;
-}
-
-std::string TradeBusiness::GetOtherPWD(std::string isSafe, std::string sEncPwd)
-{
-	// 因为base64有可能产生=，会打乱原先的格式
-	boost::algorithm::replace_all(sEncPwd, "$", "=");
-
-	std::string sPwd = "";
-
-	if (isSafe == "0")
-	{
-		char decoder[50];
-		memset(decoder, 0x00, sizeof(decoder));
-		int outlen;
-
-		g_MyBotan.Base64Decoder(sEncPwd, decoder, &outlen);
-		sPwd = decoder;
-	}
-	else if (isSafe == "1")
-	{
-			// 加强登录采用控件密钥解密
-		
-
-		int outlen;
-		char out[256];
-		memset(out, 0, sizeof(out));
-		//int outlen = sEncPwd.length()/2;
-		//outlen = HexDataToBinData((unsigned char*)sEncPwd.c_str(), sEncPwd.length(), (unsigned char*)out, sizeof(out));
-
-
-		std::string algo = "AES-256/ECB/PKCS7";
-		std::string pubKey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
-		bool bRet = g_MyBotan.AESDecrypt(algo, pubKey, (const unsigned char*)out, outlen, sPwd);
-
-
-	}
-	else
-	{
-		// windows phone
-		return sEncPwd;
-	}
-
-	return sPwd;
-}
 
 bool TradeBusiness::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
+	bool bRet = true;
 	int nRet = 0;
-	char szErrMsg[256];
+	
 	std::string pkgType = "2";
 	std::string log;
 	std::string content = "";
 	int nRows = 0;
+	char szErrMsg[512] = {0};
 
 
 
-	BeginLog(request);
+	
 	
 
 
@@ -135,15 +60,9 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	ParseRequest(request);
 
 
-	m_pConn = g_ConnectManager.GetConnect(sysNo, busiType, branchId);
-	if (m_pConn == NULL)
-	{
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1000", "没有可用的柜台连接");
-		goto FINISH;
-	}
+	
 
-
-	nRet = KCBPCLI_BeginWrite(m_pConn->handle);
+	nRet = KCBPCLI_BeginWrite(handle);
 
 	KCBPCLI_SetSystemParam(m_pConn->handle, KCBP_PARAM_SERVICENAME, (char*)funcid.c_str());
 	KCBPCLI_SetSystemParam(m_pConn->handle, KCBP_PARAM_RESERVED, (char*)reqmap["orgid"].c_str());
@@ -377,19 +296,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		}
 	} // end for
 
-/*
-	// flash交易解锁
-	if (funcid == "000000")
-	{
-		if (trdpwd != newpwd)
-		{
-			RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1001", "密码错误，解锁失败！");
-			return;
-		}
-		else
-			goto UNLOCK_SUCCESS;
-	}
-*/
+
 
 	nRet  = KCBPCLI_SQLExecute(m_pConn->handle, (char*)funcid.c_str()); // 功能号
 	if (nRet != 0)
@@ -419,7 +326,8 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	if (nErrCode != 0)
 	{
 		KCBPCLI_GetErrorMsg( m_pConn->handle, szErrMsg );
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(nErrCode), szErrMsg);
+		
+		this->GenResponse(nErrCode, szErrMsg, response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
@@ -567,58 +475,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	
 
 FINISH:
-	// 释放连接
-	FreeConnect();
-
-	// 生成日志
-	//EndLog(response, log);
 	
-	
-
-	/*
-	if (type == "flash")
-	{
-		if (hasData)
-		{
-			response += "{\"cssweb_test\":\"0\"}]}";
-		}
-		else
-		{
-			if (funcid  == "000000")
-			{
-				response = "{";
-				response += "\"cssweb_type\":\"" + flashreqcallback + "\",";
-				response += "\"cssweb_code\":\"success\",";
-				response += "\"cssweb_msg\":\"解锁成功！\",";
-				response += "\"item\":[]}";
-			}
-			else if (funcid == "410302")
-			{
-
-				response = "{";
-				response += "\"cssweb_type\":\"" + flashreqcallback + "\",";
-				response += "\"cssweb_code\":\"success\",";
-				response += "\"cssweb_msg\":\"修改密码成功！\",";
-				response += "\"item\":[";
-				response += "{\"pwd\":\"";
-				response += newpwd_enc;
-
-				response += "\"},{\"cssweb_test\":\"0\"}]}";
-			}
-			else
-			{
-				// 查询成功，无数据返回
-
-				response = "{";
-				response += "\"cssweb_type\":\"" + flashreqcallback + "\",";
-				response += "\"cssweb_code\":\"success\",";
-				response += "\"cssweb_msg\":\"操作成功，柜台无数据返回！\",";
-				response += "\"item\":[]}";
-			}
-		}
-	}
-
-	*/		
 
 	return true;
 }
@@ -630,6 +487,7 @@ bool TradeBusiness::CreateConnect()
 
 		tagKCBPConnectOption stKCBPConnection;
 		memset(&stKCBPConnection, 0x00, sizeof(stKCBPConnection));
+
 		strcpy(stKCBPConnection.szServerName, m_Counter->m_sServerName.c_str());
 		stKCBPConnection.nProtocal = 0;
 		strcpy(stKCBPConnection.szAddress, m_Counter->m_sIP.c_str());

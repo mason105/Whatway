@@ -24,14 +24,6 @@ public:
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 
 
-	char * aeskey;
-	std::string m_sNewPwd;
-	std::string GetTradePWD(std::string isSafe, std::string sEncPwd);
-	std::string GetOtherPWD(std::string isSafe, std::string sEncPwd);
-	std::string trdpwd;
-	std::string newpwd;
-	std::string newpwd_enc;
-
 	
 
 	// ºãÉúT2

@@ -614,11 +614,7 @@ FINISH:
 		Fix_ReleaseSession(session);
 	}
 
-	// 释放连接
-	FreeConnect();
-
-	// 生成日志
-	//EndLog(response, logMsg);
+	
 
 	return true;
 

@@ -295,8 +295,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\common\log\日志开发说明.txt" />
-    <Text Include="business\szkingdom\ConnectKCBP.cpp.txt" />
-    <Text Include="business\szkingdom\ConnectKCBP.h.txt" />
     <Text Include="business\szkingdom\业务加解密.txt" />
     <Text Include="ConnectPool\连接池开发说明.txt" />
     <Text Include="lib\Boost\Boost.txt" />

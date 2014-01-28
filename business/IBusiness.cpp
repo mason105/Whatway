@@ -253,11 +253,6 @@ void IBusiness::RetNoRecordRes(std::string& response)
 	retmsg = "";
 }
 
-void IBusiness::FreeConnect()
-{
-	if (m_pConn != NULL)
-		g_ConnectManager.PushConnect(m_pConn, sysNo, busiType, branchId);
-}
 
 void IBusiness::EndLog(std::string& response, Trade::TradeLog& logMsg)
 {
@@ -357,9 +352,13 @@ bool IBusiness::DecryptPassword(std::string algo, std::string key, std::string c
 
 	return false;
 }
-
-void IBusiness::GenResponse(std::string& response, std::string& errCode, std::string& errMsg)
+void IBusiness::GenResponse(int nErrCode, std::string sErrMsg, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
+	status = 0;
+
+	errCode = boost::lexical_cast<std::string>(nErrCode);
+	errMsg = sErrMsg;
+
 	response = "1";
 	response += SOH;
 	response += "3";
@@ -380,9 +379,159 @@ void IBusiness::GenResponse(std::string& response, std::string& errCode, std::st
 	response += SOH;
 }
 
+
 bool IBusiness::IsConnected()
 {
 	
 	return m_bConnected;
 }
 
+/*
+std::string TradeBusinessT2::GetTradePWD(std::string isSafe, std::string sEncPwd)
+{
+
+	// 因为base64有可能产生=，会打乱原先的格式
+	boost::algorithm::replace_all(sEncPwd, "$", "=");
+
+	std::string sPwd = "";
+
+	if (isSafe == "0")
+	{
+		// 标准登录采用weblogic密钥解密
+		std::string algo = "AES-256/ECB/PKCS7";
+		std::string pubKey = "23dpasd23d-23l;df9302hzv/3lvjh*5";
+		std::string cipher = sEncPwd;
+		
+		bool bRet = g_MyBotan.Base64Decoder_AESDecrypt(algo, pubKey, cipher, sPwd);
+	}
+	else if (isSafe == "1")
+	{
+		// 加强登录采用控件密钥解密
+		sPwd = GetOtherPWD("1", sEncPwd);
+	}
+	else
+	{
+		// windows phone
+		return sEncPwd;
+	}
+
+	return sPwd;
+}
+
+std::string TradeBusinessT2::GetOtherPWD(std::string isSafe, std::string sEncPwd)
+{
+	// 因为base64有可能产生=，会打乱原先的格式
+	boost::algorithm::replace_all(sEncPwd, "$", "=");
+
+	std::string sPwd = "";
+
+	if (isSafe == "0")
+	{
+		char decoder[50];
+		memset(decoder, 0x00, sizeof(decoder));
+		int outlen;
+
+		g_MyBotan.Base64Decoder(sEncPwd, decoder, &outlen);
+		sPwd = decoder;
+	}
+	else if (isSafe == "1")
+	{
+			// 加强登录采用控件密钥解密
+		
+
+		int outlen;
+		char out[256];
+		memset(out, 0, sizeof(out));
+		//int outlen = sEncPwd.length()/2;
+		//outlen = HexDataToBinData((unsigned char*)sEncPwd.c_str(), sEncPwd.length(), (unsigned char*)out, sizeof(out));
+
+
+		std::string algo = "AES-256/ECB/PKCS7";
+		std::string pubKey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
+		bool bRet = g_MyBotan.AESDecrypt(algo, pubKey, (const unsigned char*)out, outlen, sPwd);
+
+
+	}
+	else
+	{
+		// windows phone
+		return sEncPwd;
+	}
+
+	return sPwd;
+}
+
+std::string TradeBusiness::GetTradePWD(std::string isSafe, std::string sEncPwd)
+{
+
+	// 因为base64有可能产生=，会打乱原先的格式
+	boost::algorithm::replace_all(sEncPwd, "$", "=");
+
+	std::string sPwd = "";
+
+	if (isSafe == "0")
+	{
+		// 标准登录采用weblogic密钥解密
+		std::string algo = "AES-256/ECB/PKCS7";
+		std::string pubKey = "23dpasd23d-23l;df9302hzv/3lvjh*5";
+		std::string cipher = sEncPwd;
+		
+		bool bRet = g_MyBotan.Base64Decoder_AESDecrypt(algo, pubKey, cipher, sPwd);
+	}
+	else if (isSafe == "1")
+	{
+		// 加强登录采用控件密钥解密
+		sPwd = GetOtherPWD("1", sEncPwd);
+	}
+	else
+	{
+		// windows phone
+		return sEncPwd;
+	}
+
+	return sPwd;
+}
+
+std::string TradeBusiness::GetOtherPWD(std::string isSafe, std::string sEncPwd)
+{
+	// 因为base64有可能产生=，会打乱原先的格式
+	boost::algorithm::replace_all(sEncPwd, "$", "=");
+
+	std::string sPwd = "";
+
+	if (isSafe == "0")
+	{
+		char decoder[50];
+		memset(decoder, 0x00, sizeof(decoder));
+		int outlen;
+
+		g_MyBotan.Base64Decoder(sEncPwd, decoder, &outlen);
+		sPwd = decoder;
+	}
+	else if (isSafe == "1")
+	{
+			// 加强登录采用控件密钥解密
+		
+
+		int outlen;
+		char out[256];
+		memset(out, 0, sizeof(out));
+		//int outlen = sEncPwd.length()/2;
+		//outlen = HexDataToBinData((unsigned char*)sEncPwd.c_str(), sEncPwd.length(), (unsigned char*)out, sizeof(out));
+
+
+		std::string algo = "AES-256/ECB/PKCS7";
+		std::string pubKey = "29dlo*%AO+3i16BaweTw.lc!)61K{9^5";
+		bool bRet = g_MyBotan.AESDecrypt(algo, pubKey, (const unsigned char*)out, outlen, sPwd);
+
+
+	}
+	else
+	{
+		// windows phone
+		return sEncPwd;
+	}
+
+	return sPwd;
+}
+*/
