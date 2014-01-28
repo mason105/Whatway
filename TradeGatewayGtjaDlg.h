@@ -136,7 +136,7 @@ private:
 	// ÍøÂç²ã
 	//http_server * pHttpServer;
 	TcpServer * pTcpOldServer;
-	SSLServer * pSSLOldServer;
+	SSLServer * pSslOldServer;
 
 	TcpServer * pTcpNewServer;
 	SSLServer * pSslNewServer;
@@ -147,8 +147,6 @@ private:
 	TradeServer * pTradeServerTcpOld;
 	TradeServer * pTradeServerSslOld;
 	
-	
-
 	TradeServer * pTradeServerTcpNew; // new ssl & tcp 
 	TradeServer * pTradeServerSslNew; // new ssl & tcp 
 
