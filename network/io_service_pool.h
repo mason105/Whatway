@@ -90,6 +90,7 @@ public:
 
 		std::for_each(io_services_.begin(), io_services_.end(), boost::bind(&ios_type::stop, _1));
 
+		/*
 		for(std::list<boost::thread*>::iterator it=threads.begin(),end=threads.end();
                 it!=end;
                 ++it)
@@ -99,7 +100,7 @@ public:
 			if (*it != NULL)
 				delete *it;
 		}
-
+		*/
 	}
 };
 #endif
