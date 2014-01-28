@@ -29,7 +29,7 @@ public:
 	
 	virtual bool IsConnected();
 
-	void Close();
+	virtual void CloseConnect();
 
 
 

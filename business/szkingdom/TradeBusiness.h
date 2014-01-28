@@ -23,7 +23,7 @@ public:
 
 	virtual bool CreateConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
-	
+	virtual void CloseConnect();
 
 
 	// ½ðÖ¤

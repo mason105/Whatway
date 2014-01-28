@@ -47,7 +47,7 @@ void CTCPClientSync::check_deadline()
 	{
 		gFileLog::instance().Log("连接超时或读写超时");
 
-		Close();
+		CloseConnect();
 
 		deadline.expires_at(boost::posix_time::pos_infin);
 	}
@@ -262,7 +262,7 @@ bool CTCPClientSync::ReadMsgContent(CustomMessage * pRes)
 }
 
 // 关闭连接
-void CTCPClientSync::Close()
+void CTCPClientSync::CloseConnect()
 {
 	m_bConnected = false;
 
@@ -283,7 +283,7 @@ void CTCPClientSync::Close()
 
 bool CTCPClientSync::ReConnect()
 {
-	Close();
+	CloseConnect();
 
 	return CreateConnect();
 }

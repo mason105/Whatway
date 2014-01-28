@@ -35,7 +35,7 @@
 
 TradeBusinessT2::TradeBusinessT2()
 {
-	m_pConn = NULL;
+	
 
 
 
@@ -197,7 +197,7 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	//nRet = m_pConn->lpConnection->RecvBiz(nRet, &Pointer, gConfigManager::instance().m_nConnectTimeout, 0);
 	
 	
-	nRet = m_pConn->lpConnection->RecvBiz(nRet, &Pointer, m_pConn->m_Counter.m_nRecvTimeout*1000);
+	nRet = lpConnection->RecvBiz(nRet, &Pointer, m_Counter->m_nRecvTimeout*1000);
 
 
 	// ·µ»Ø³É¹¦
@@ -364,4 +364,8 @@ bool TradeBusinessT2::CreateConnect()
 			return true;
 		}
 
+}
+
+void TradeBusinessT2::CloseConnect()
+{
 }

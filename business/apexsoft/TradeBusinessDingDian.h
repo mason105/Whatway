@@ -20,25 +20,12 @@ public:
 	TradeBusinessDingDian();
 	~TradeBusinessDingDian(void);
 
-
-
-
-	
-
-
 	virtual bool CreateConnect();
+	virtual void CloseConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 
 
-	std::string GetTradePWD(std::string isSafe, std::string sEncPwd);
-	std::string GetOtherPWD(std::string isSafe, std::string sEncPwd);
-	std::string trdpwd;
-	std::string newpwd;
-	std::string newpwd_enc;
+private:
 	char* EncryptPwd(const char* plainText, char* szPwd);
-
-	
-
-	// ¶¥µã
 	long m_hHandle;
 };

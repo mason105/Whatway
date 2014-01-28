@@ -32,7 +32,7 @@ public:
 	virtual bool CreateConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 
-	void Close();
+	virtual void CloseConnect();
 
 	bool ReConnect();
 	bool IsConnected();

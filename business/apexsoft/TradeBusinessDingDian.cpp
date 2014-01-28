@@ -42,8 +42,6 @@
 
 TradeBusinessDingDian::TradeBusinessDingDian()
 {
-	m_pConn = NULL;
-
 	
 	sCounterType = "5";
 }
@@ -57,7 +55,7 @@ TradeBusinessDingDian::~TradeBusinessDingDian(void)
 
 bool TradeBusinessDingDian::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
-
+	bool bRet = true;
 
 	std::map<std::string, long> mReturnField;
 	int nRet = FALSE;
@@ -70,7 +68,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	std::string tmp;
 
 
-	BeginLog(request);
+	
 
 	ParseRequest(request);
 
@@ -234,24 +232,18 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	}
 
 	
-	//gFileLog::instance().Log("开始获取连接");
-	m_pConn = g_ConnectManager.GetConnect(sysNo, busiType, branchId);
-	if (m_pConn == NULL)
-	{
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1000", "连接柜台失败");
-		goto FINISH;
-	}
+	
 
-	gt_ip = m_pConn->m_Counter.m_sIP;
-	gt_port = boost::lexical_cast<std::string>(m_pConn->m_Counter.m_nPort);
+	gt_ip = m_Counter->m_sIP;
+	gt_port = boost::lexical_cast<std::string>(m_Counter->m_nPort);
 
 	
-	//gFileLog::instance().Log("分配session");
-	session = Fix_AllocateSession(m_pConn->m_hHandle);
+	
+	session = Fix_AllocateSession(m_hHandle);
 	
 	// set gydm
-	//gFileLog::instance().Log("set gydm:" + m_pConn->m_Counter.m_sGydm);
-	Fix_SetGYDM(session, m_pConn->m_Counter.m_sGydm.c_str());
+	//gFileLog::instance().Log("set gydm:" + m_pConn->m_Counter->m_sGydm);
+	Fix_SetGYDM(session, m_Counter->m_sGydm.c_str());
 	
 
 	// set fbdm & dest fbdm
@@ -277,14 +269,14 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	
 	if (sysVer == "iphone" || sysVer == "aphone")
 	{
-		//gFileLog::instance().Log("set wtfs:"+m_pConn->m_Counter.m_sWtfs_mobile);
-		Fix_SetWTFS(session, m_pConn->m_Counter.m_sWtfs_mobile.c_str());
+		//gFileLog::instance().Log("set wtfs:"+m_pConn->m_Counter->m_sWtfs_mobile);
+		Fix_SetWTFS(session, m_Counter->m_sWtfs_mobile.c_str());
 	}
 	else
 	{
 		//RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1009", "委托方式参数错误");
 		//goto FINISH;
-		Fix_SetWTFS(session, m_pConn->m_Counter.m_sWtfs_web.c_str());
+		Fix_SetWTFS(session, m_Counter->m_sWtfs_web.c_str());
 
 	}
 
@@ -475,7 +467,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	} // end for
 
 	// 默认为30秒
-	Fix_SetTimeOut(session, m_pConn->m_Counter.m_nRecvTimeout);
+	Fix_SetTimeOut(session, m_Counter->m_nRecvTimeout);
 
 	nRet = Fix_Run(session);
 	if (!nRet)
@@ -608,7 +600,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 
 
 FINISH:
-	//gFileLog::instance().Log("FINISH");
+	
 	if (session != 0)
 	{
 		Fix_ReleaseSession(session);
@@ -646,13 +638,16 @@ bool TradeBusinessDingDian::CreateConnect()
 
 		
 		if (m_hHandle == 0)
-		{return false;
+		{
+			return false;
 		}
 		else
 		{
-			
-
 			return true;
 		}
 
+}
+
+void TradeBusinessDingDian::CloseConnect()
+{
 }

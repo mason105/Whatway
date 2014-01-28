@@ -12,7 +12,7 @@
 
 IBusiness::IBusiness(void)
 {
-	m_pConn = NULL;
+	
 
 	SOH = "\x01";
 }
@@ -174,7 +174,7 @@ bool IBusiness::FilterRequestField(std::string& key)
 	}
 }
 
-
+/*
 void IBusiness::BeginLog(std::string& request)
 {
 	beginTime =  boost::posix_time::microsec_clock::local_time();
@@ -182,6 +182,7 @@ void IBusiness::BeginLog(std::string& request)
 
 	logRequest = request;
 }
+*/
 
 void IBusiness::RetErrRes(Trade::TradeLog::LogLevel level, std::string& response, std::string code, std::string msg)
 {
@@ -253,7 +254,7 @@ void IBusiness::RetNoRecordRes(std::string& response)
 	retmsg = "";
 }
 
-
+/*
 void IBusiness::EndLog(std::string& response, Trade::TradeLog& logMsg)
 {
 	// 得到所有日志相关变量值
@@ -321,7 +322,7 @@ void IBusiness::EndLog(std::string& response, Trade::TradeLog& logMsg)
 	logMsg.set_gtport(gt_port);
 
 }
-
+*/
 //		std::string algo = "AES-256/ECB/PKCS7";
 	//	std::string pubKey = "23dpasd23d-23l;df9302hzv/3lvjh*5";
 

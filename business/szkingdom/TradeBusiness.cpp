@@ -29,7 +29,7 @@
 
 TradeBusiness::TradeBusiness()
 {
-	m_pConn = NULL;
+	
 }
 
 
@@ -64,15 +64,15 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 
 	nRet = KCBPCLI_BeginWrite(handle);
 
-	KCBPCLI_SetSystemParam(m_pConn->handle, KCBP_PARAM_SERVICENAME, (char*)funcid.c_str());
-	KCBPCLI_SetSystemParam(m_pConn->handle, KCBP_PARAM_RESERVED, (char*)reqmap["orgid"].c_str());
-	KCBPCLI_SetSystemParam(m_pConn->handle, KCBP_PARAM_PACKETTYPE, (char*)pkgType.c_str());
+	KCBPCLI_SetSystemParam(handle, KCBP_PARAM_SERVICENAME, (char*)funcid.c_str());
+	KCBPCLI_SetSystemParam(handle, KCBP_PARAM_RESERVED, (char*)reqmap["orgid"].c_str());
+	KCBPCLI_SetSystemParam(handle, KCBP_PARAM_PACKETTYPE, (char*)pkgType.c_str());
 
 	for (std::map<std::string, std::string>::iterator it = reqmap.begin(); it != reqmap.end(); it++)
 	{
 		std::string key = it->first;
 		std::string value = it->second;
-
+		 
 
 		if (FilterRequestField(key))
 		{
@@ -81,7 +81,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		else if(key == "trdpwd")
 		{
 				std::string encrypt_pwd = g_Encrypt.EncryptPWD(value);
-				KCBPCLI_SetValue(m_pConn->handle, (char*)key.c_str(), (char*)encrypt_pwd.c_str());
+				KCBPCLI_SetValue(handle, (char*)key.c_str(), (char*)encrypt_pwd.c_str());
 
 				OutputDebugString("送到柜台的交易密码");
 				OutputDebugString(encrypt_pwd.c_str());
@@ -164,7 +164,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		{
 				std::string encrypt_pwd = g_Encrypt.EncryptPWD(value);
 
-				KCBPCLI_SetValue(m_pConn->handle, (char*)key.c_str(), (char*)encrypt_pwd.c_str());	
+				KCBPCLI_SetValue(handle, (char*)key.c_str(), (char*)encrypt_pwd.c_str());	
 /*
 			if (type == "flash")
 			{
@@ -232,7 +232,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		else if(key == "fundpwd" || key == "newfundpwd" || key == "oldfundpwd")
 		{
 			std::string encrypt_pwd = g_Encrypt.EncryptPWD(value);
-			KCBPCLI_SetValue(m_pConn->handle, (char*)key.c_str(), (char*)encrypt_pwd.c_str());		
+			KCBPCLI_SetValue(handle, (char*)key.c_str(), (char*)encrypt_pwd.c_str());		
 
 			/*
 			if (type == "flash")
@@ -292,13 +292,13 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 //		}
 		else
 		{
-			KCBPCLI_SetValue(m_pConn->handle, (char*)key.c_str(), (char*)value.c_str());
+			KCBPCLI_SetValue(handle, (char*)key.c_str(), (char*)value.c_str());
 		}
 	} // end for
 
 
 
-	nRet  = KCBPCLI_SQLExecute(m_pConn->handle, (char*)funcid.c_str()); // 功能号
+	nRet  = KCBPCLI_SQLExecute(handle, (char*)funcid.c_str()); // 功能号
 	if (nRet != 0)
 	{
 		//gFileLog::instance().Log(funcid + " KCBPCLI_SQLExecute");
@@ -315,39 +315,41 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		//	goto FINISH;
 		//}
 
+		this->GenResponse(nRet, "KCBPCLI_SQLExecute error", response, status, errCode, errMsg);
 		
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(nRet), "KCBPCLI_SQLExecute error");
 		goto FINISH;
 	}
 
 
 	int nErrCode = 0;
-	nRet = KCBPCLI_GetErrorCode(m_pConn->handle, &nErrCode);
+	nRet = KCBPCLI_GetErrorCode(handle, &nErrCode);
 	if (nErrCode != 0)
 	{
-		KCBPCLI_GetErrorMsg( m_pConn->handle, szErrMsg );
+		KCBPCLI_GetErrorMsg(handle, szErrMsg );
 		
 		this->GenResponse(nErrCode, szErrMsg, response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
 
-	nRet = KCBPCLI_RsOpen(m_pConn->handle);
+	nRet = KCBPCLI_RsOpen(handle);
 	if (nRet != 0 && nRet != 100)
 	{
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(nRet), "KCBPCLI_RsOpen error");
+		
+		this->GenResponse(nRet, "KCBPCLI_RsOpen error", response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
 
-	nRet = KCBPCLI_SQLFetch(m_pConn->handle);
+	nRet = KCBPCLI_SQLFetch(handle);
 
 	char szTmpbuf[1024];
 	memset(szTmpbuf, 0x00, sizeof(szTmpbuf));
-	nRet = KCBPCLI_RsGetColByName( m_pConn->handle, "CODE", szTmpbuf );
+	nRet = KCBPCLI_RsGetColByName(handle, "CODE", szTmpbuf );
 	if (nRet != 0)
 	{
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(nRet), "KCBPCLI_RsGetColByName error");
+		
+		this->GenResponse(nRet, "KCBPCLI_RsGetColByName error", response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
@@ -355,20 +357,21 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	{
 		retcode = szTmpbuf;
 
-		KCBPCLI_RsGetColByName( m_pConn->handle, "MSG", szTmpbuf );
+		KCBPCLI_RsGetColByName(handle, "MSG", szTmpbuf );
 		retmsg = szTmpbuf;
 
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, retcode, retmsg);
+		
+		this->GenResponse(boost::lexical_cast<int>(retcode), retmsg, response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
 	
-	nRet = KCBPCLI_SQLMoreResults(m_pConn->handle);
+	nRet = KCBPCLI_SQLMoreResults(handle);
 	if (nRet != 0)
 	{
 		int nErrCode = 0;
-		KCBPCLI_GetErrorCode(m_pConn->handle, &nErrCode);
-		KCBPCLI_GetErrorMsg( m_pConn->handle, szErrMsg );
+		KCBPCLI_GetErrorCode(handle, &nErrCode);
+		KCBPCLI_GetErrorMsg(handle, szErrMsg );
 
 		if (nErrCode == 0)
 		{
@@ -377,7 +380,8 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		}
 
 
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(nErrCode), szErrMsg);
+		
+		this->GenResponse(nErrCode, szErrMsg, response, status, errCode, errMsg);
 		goto FINISH;
 
 		// 是不是执行成功，没有数据返回
@@ -401,13 +405,13 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	nRows = 0;
 
 	int nCols = 0;
-	KCBPCLI_RsGetColNum(m_pConn->handle, &nCols);
+	KCBPCLI_RsGetColNum(handle, &nCols);
 
 
 	bool bGetColName = true;
 	
 				
-	while( !KCBPCLI_RsFetchRow(m_pConn->handle) )
+	while( !KCBPCLI_RsFetchRow(handle) )
 	{
 		nRows += 1;
 
@@ -419,7 +423,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 				char szColName[256];
 				memset(szColName, 0x00, sizeof(szColName));
 
-				KCBPCLI_RsGetColName( m_pConn->handle, i, szColName, sizeof(szColName)-1 );
+				KCBPCLI_RsGetColName( handle, i, szColName, sizeof(szColName)-1 );
 
 				content += szColName;
 				content += SOH;
@@ -434,11 +438,11 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 			//获取列名
 			char szColName[256];
 			memset(szColName, 0x00, sizeof(szColName));
-			KCBPCLI_RsGetColName( m_pConn->handle, i, szColName, sizeof(szColName)-1 );
+			KCBPCLI_RsGetColName( handle, i, szColName, sizeof(szColName)-1 );
 
 			//根据列名获取列值
 			char szColValue[1024];
-			KCBPCLI_RsGetColByName( m_pConn->handle, szColName, szColValue );
+			KCBPCLI_RsGetColByName( handle, szColName, szColValue );
 
 			content += szColValue;
 			content += SOH;
@@ -465,7 +469,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	response += content;
 
 
-	nRet = KCBPCLI_SQLCloseCursor(m_pConn->handle);
+	nRet = KCBPCLI_SQLCloseCursor(handle);
 
 
 	status = 1;
@@ -477,7 +481,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 FINISH:
 	
 
-	return true;
+	return bRet;
 }
 
 bool TradeBusiness::CreateConnect()
@@ -519,4 +523,8 @@ bool TradeBusiness::CreateConnect()
 			return true;
 		}
 	
+}
+
+void TradeBusiness::CloseConnect()
+{
 }

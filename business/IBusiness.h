@@ -23,8 +23,11 @@ public:
 	bool m_bConnected;
 	virtual bool IsConnected();
 
+	Counter * m_Counter;
 	virtual void SetCounterServer(Counter * counter);
+
 	virtual bool CreateConnect() = 0;
+	virtual void CloseConnect() = 0;
 
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg) = 0;
 
@@ -33,8 +36,8 @@ public:
 	
 	
 
-	Counter * m_Counter;
-	Connect * m_pConn;
+	
+
 
 	std::string sysNo;
 
@@ -70,7 +73,7 @@ public:
 
 	std::map<std::string, std::string> reqmap;
 
-	//Connect * m_pConn;
+	
 
 	std::string sCounterType;
 
@@ -102,13 +105,12 @@ public:
 	void RetErrRes(Trade::TradeLog::LogLevel logLevel, std::string& response, std::string retcode, std::string retmsg);
 	void RetNoRecordRes(std::string& response);
 
-	void BeginLog(std::string& request);
-	void EndLog(std::string& response, Trade::TradeLog& logMsg);
+	
 
 	BUSI_TYPE ConvertIntToBusiType(int val);
 	
 	
-	void FreeConnect();
+	
 
 	bool DecryptPassword(std::string algo, std::string key, std::string cipher, std::string plain);
 

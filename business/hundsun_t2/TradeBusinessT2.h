@@ -21,6 +21,7 @@ public:
 	~TradeBusinessT2(void);
 
 	virtual bool CreateConnect();
+	virtual void CloseConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 
 

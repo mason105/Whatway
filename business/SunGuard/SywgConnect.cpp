@@ -79,7 +79,7 @@ bool CSywgConnect::CreateConnect()
 }
 
 // OK
-void CSywgConnect::Close()
+void CSywgConnect::CloseConnect()
 {
 	boost::system::error_code ec;
 
