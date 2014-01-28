@@ -23,7 +23,7 @@
 
 #include "network/ISession.h"
 
-class CustomMessage;
+
 
 /*
 session的释放可以参考
@@ -63,14 +63,12 @@ public:
 	virtual void close();
 	
 
-private:
-	IMessage* create_request();
-	void read(IMessage* req);
 
-	
-
+	virtual IMessage* create_request();
+	virtual void read();
 	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+
 
 	virtual void write(IMessage* resp);
 	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);

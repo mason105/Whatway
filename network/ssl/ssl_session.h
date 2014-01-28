@@ -51,8 +51,8 @@ public:
 
 	ios_type& io_service();
 
-	void start();
-	void close();
+	virtual void start();
+	virtual void close();
 	
 
 	bool verify_certificate(bool preverified,      boost::asio::ssl::verify_context& ctx)
@@ -76,17 +76,19 @@ public:
 	}
 
 public:
-	IMessage* create_request();
-	//void read(ssl_request_ptr req);
-	void read();
 	void handle_handshake(const boost::system::error_code& error);
 
-	void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
-	void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+	virtual IMessage* create_request();
+	//void read(ssl_request_ptr req);
+	virtual void read();
+	
 
-	void write(IMessage* resp);
-	void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
-	void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
+	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
+
+	virtual void write(IMessage* resp);
+	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
+	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 };
 
 typedef boost::shared_ptr<ssl_session> ssl_session_ptr;

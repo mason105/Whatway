@@ -38,11 +38,20 @@ boost::asio::ssl::stream<boost::asio::ip::tcp::socket>::lowest_layer_type& SSLSe
 
 void SSLSession::close()
 {
+	if (counterConnect != NULL)
+	{
+		counterConnect->CloseConnect();
+		delete counterConnect;
+	}
+
 	boost::system::error_code ignored_ec;
 
 	socket_.lowest_layer().shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 
 	socket_.lowest_layer().close(ignored_ec);
+
+	// 释放SSLServer创建的指针
+	delete this;
 }
 
 
@@ -61,7 +70,7 @@ void SSLSession::handle_handshake(const boost::system::error_code& error)
 	{
 		close();
 		return;
-	}
+	}	
 	
 	read();
 }
@@ -81,7 +90,7 @@ IMessage* SSLSession::create_request()
 // 读请求
 void SSLSession::read()
 {
-	IMessage* req = create_request();
+	IMessage* req = create_request();			
 
 	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
@@ -119,7 +128,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 		return;
 	}
 
-	async_read(socket_, 
+	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgContent(), req->GetMsgContentSize()),
 		boost::asio::transfer_all(),
 		strand_.wrap(

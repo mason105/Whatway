@@ -22,8 +22,7 @@ TcpSession::TcpSession( ios_type& ios, queue_type& q):
 
 TcpSession::~TcpSession()
 {
-	if (counterConnect != NULL)
-		delete counterConnect;
+	
 }
 
 
@@ -59,10 +58,7 @@ void TcpSession::close()
 
 void TcpSession::start()
 {
-	IMessage* req = create_request();
-	
-
-	read(req);
+	read();
 }
 
 IMessage* TcpSession::create_request()
@@ -82,8 +78,10 @@ IMessage* TcpSession::create_request()
 
 
 // 读请求
-void TcpSession::read(IMessage* req)
+void TcpSession::read()
 {
+	IMessage* req = create_request();	
+
 	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
 		boost::asio::transfer_all(),
@@ -158,7 +156,7 @@ void TcpSession::handle_read_msg(const boost::system::error_code& error, size_t 
 
 	queue_.push(req);
 
-	start();
+	read();
 }
 
 // 写应答数据

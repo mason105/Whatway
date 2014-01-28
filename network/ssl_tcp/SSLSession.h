@@ -18,7 +18,6 @@
 #include "network/ISession.h"
 
 
-class CustomMessage;
 
 
 class SSLSession : public boost::enable_shared_from_this<SSLSession>, public ISession
@@ -51,19 +50,16 @@ public:
 	virtual void close();
 
 	
+	void handle_handshake(const boost::system::error_code& error);
 
+	virtual IMessage* create_request();
+	virtual void read();
 	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 	
 	virtual void write(IMessage* resp);
 	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
-
-
-	IMessage* create_request();
-	void read();
-	void handle_handshake(const boost::system::error_code& error);
-
 	
 };
 

@@ -71,3 +71,7 @@ void TcpServer::stop()
 {
 	ios_pool_.stop();
 }
+
+void TcpServer::SetMsgType()
+{
+}

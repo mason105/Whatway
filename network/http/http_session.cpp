@@ -35,8 +35,8 @@ void http_session::close()
 
 void http_session::start()
 {
-	IMessage* req = create_request();
-	read(req);
+	
+	read();
 }
 
 IMessage* http_session::create_request()
@@ -49,8 +49,9 @@ IMessage* http_session::create_request()
 	return req;
 }
 
-void http_session::read(IMessage* req)
+void http_session::read()
 {
+	IMessage* req = create_request();
 //	boost::asio::async_read(socket_, boost::asio::buffer(RequestMsg.msg_header, http_message::header_length),
 //		bind(&TcpConnection::handle_read_header, shared_from_this(), boost::asio::placeholders::error));
 
@@ -157,3 +158,14 @@ void http_session::handle_write_msg(const boost::system::error_code& error, size
 	resp->destroy();
 }
 
+
+void http_session::handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)
+{
+	
+}
+
+
+void http_session::handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
+{
+	
+}

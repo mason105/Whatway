@@ -120,3 +120,7 @@ std::string SSLServer::get_password()
 {
 	return "chenhf2011";
 }
+
+void SSLServer::SetMsgType()
+{
+}

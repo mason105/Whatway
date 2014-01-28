@@ -59,6 +59,7 @@ public:
 	void start();
 	void run();
 	void stop();
+	void SetMsgType();
 };
 
 #endif

@@ -44,13 +44,13 @@ public:
 	socket_type& socket();
 	ios_type& io_service();
 
-	void start();
-	void close();
+	virtual void start();
+	virtual void close();
 	
 
 
-	IMessage* create_request();
-	void read(IMessage* req);
+	virtual IMessage* create_request();
+	virtual void read();
 
 	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);
 	virtual void handle_read_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req);

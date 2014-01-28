@@ -61,9 +61,9 @@ IMessage* tcp_session_old::create_request()
 	return req;
 }
 
-void tcp_session_old::read(IMessage* req)
+void tcp_session_old::read()
 {
-	
+		IMessage* req = create_request();	
 //	boost::asio::async_read(socket_, boost::asio::buffer(RequestMsg.msg_header, tcp_message::header_length),
 //		bind(&TcpConnection::handle_read_header, shared_from_this(), boost::asio::placeholders::error));
 
