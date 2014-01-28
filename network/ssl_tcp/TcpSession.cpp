@@ -13,7 +13,6 @@
 
 
 TcpSession::TcpSession( ios_type& ios, queue_type& q):
-
 	socket_(ios), 
 	strand_(ios), 
 	queue_(q)
@@ -40,11 +39,21 @@ TcpSession::ios_type& TcpSession::io_service()
 
 void TcpSession::close()
 {
+	// 关闭柜台连接
+	if (counterConnect != NULL)
+	{
+		counterConnect->CloseConnect();
+		delete counterConnect;
+	}
+
 	boost::system::error_code ignored_ec;
 
 	socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ignored_ec);
 
 	socket_.close(ignored_ec);
+
+	// 释放Server创建的指针
+	delete this;
 }
 
 

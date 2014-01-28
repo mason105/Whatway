@@ -18,7 +18,12 @@
 
 #include "./output/FileLog.h"
 
+/*
+session的释放可以参考
+http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio/example/cpp03/ssl/server.cpp
 
+http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio/example/cpp03/http/server2/connection.hpp
+*/
 class TcpServer
 {
 public:
@@ -38,87 +43,22 @@ private:
 
 
 public:
-	  TcpServer(io_service_pool& ios, unsigned short port, queue_type& q):
-		
-		ios_pool_(ios),
-		queue_(q),
-		acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-		{
-			acceptor_.set_option(acceptor_type::reuse_address(true));
-			start_accept();
-		}
-
-
-	TcpServer(unsigned short port, queue_type& q, int n=4):
-	 
-	  ios_pool_(*boost::factory<io_service_pool*>()(n)),
-	  queue_(q),
-	  acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
-	  {
-		  acceptor_.set_option(acceptor_type::reuse_address(true));
-		  start_accept();
-	  }
+	TcpServer(io_service_pool& ios, unsigned short port, queue_type& q);
+	TcpServer(unsigned short port, queue_type& q, int n=4);
+	
 
 	
 
 
 private:
-	void start_accept()
-	{
-	/*	
-		tcp_session_old_ptr session = 
-		//tcp_session_old * session = new tcp_session_old(ios_pool_.get(), queue_);
-
-		acceptor_.async_accept(session->socket(), 
-			boost::bind(&tcp_server_old::accept_handler, 
-			this, 
-			boost::asio::placeholders::error, 
-			session));
-
-*/
-		//session_.reset(new TcpSession(log_, ios_pool_.get(), queue_));
-
-		boost::shared_ptr<TcpSession> session = boost::factory<boost::shared_ptr<TcpSession>>()(ios_pool_.get(), queue_);
-
-		acceptor_.async_accept(session->socket(), 
-			boost::bind(&TcpServer::accept_handler, 
-			this, 
-			boost::asio::placeholders::error, 
-			session));
-
-	}
-
-	void accept_handler(const boost::system::error_code& error, boost::shared_ptr<TcpSession> session)
-	{
-		start_accept();
-
-		if (error)
-		{
-			gFileLog::instance().Log("accept错误，错误代码:" + boost::lexical_cast<std::string>(error.value()) + "，错误消息:" + error.message());
-
-			session->close();
-			return;
-		}
-
-		session->start();
-	}
+	void start_accept();
+	void accept_handler(const boost::system::error_code& error, TcpSession * session);
+	
 
 public:
-	void start()
-	{
-		ios_pool_.start();
-	}
-
-	void run()
-	{
-		ios_pool_.run();
-	}
-
-	void stop()
-	{
-		ios_pool_.stop();
-	}
-
+	void start();
+	void run();
+	void stop();
 };
 
 #endif

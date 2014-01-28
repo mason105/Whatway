@@ -47,8 +47,8 @@ public:
 
 	ios_type& io_service();
 
-	void start();
-	void close();
+	virtual void start();
+	virtual void close();
 
 	
 

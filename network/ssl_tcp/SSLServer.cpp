@@ -2,50 +2,7 @@
 
 #include "network/ssl_tcp/SSLServer.h"
 
-void SSLServer::start()
-{
-	ios_pool_.start();
-}
 
-
-void SSLServer::stop()
-{
-	ios_pool_.stop();
-}
-
-
-void SSLServer::run()
-{
-	ios_pool_.run();
-}
-
-void SSLServer::accept_handler(const boost::system::error_code& error, SSLSession* session)
-{
-	start_accept();
-
-	if (error)
-	{
-		session->close();
-		return;
-	}
-
-	session->start();
-}
-
-void SSLServer::start_accept()
-{
-		
-	//	ssl_session_ptr session = boost::factory<ssl_session_ptr>()(ios_pool_.get(), queue_, context_);
-		 //ssl_session_ptr session (new ssl_session(ios_pool_.get(), queue_, context_));
-		 
-
-		//acceptor_.async_accept(session->socket(), boost::bind(&ssl_server::accept_handler, this, boost::asio::placeholders::error, session));
-}
-
-std::string SSLServer::get_password()
-{
-	return "chenhf2011";
-}
 
 SSLServer::SSLServer(unsigned short port, queue_type& q, int n)
 		:
@@ -55,6 +12,16 @@ SSLServer::SSLServer(unsigned short port, queue_type& q, int n)
 		,context_(boost::asio::ssl::context::sslv23)
 {
 
+/*
+context_.set_options(
+        boost::asio::ssl::context::default_workarounds
+        | boost::asio::ssl::context::no_sslv2
+        | boost::asio::ssl::context::single_dh_use);
+    context_.set_password_callback(boost::bind(&server::get_password, this));
+    context_.use_certificate_chain_file("server.pem");
+    context_.use_private_key_file("server.pem", boost::asio::ssl::context::pem);
+    context_.use_tmp_dh_file("dh512.pem");
+*/
 	if (gConfigManager::instance().m_nAuth)
 	{
 		context_.set_verify_mode(boost::asio::ssl::context::verify_peer  | boost::asio::ssl::context::verify_fail_if_no_peer_cert);
@@ -105,4 +72,51 @@ bool SSLServer::verify_certificate(bool preverified, boost::asio::ssl::verify_co
 	OutputDebugString("\n");
 
 	return preverified;
+}
+
+void SSLServer::start()
+{
+	ios_pool_.start();
+}
+
+
+void SSLServer::stop()
+{
+	ios_pool_.stop();
+}
+
+
+void SSLServer::run()
+{
+	ios_pool_.run();
+}
+
+void SSLServer::accept_handler(const boost::system::error_code& error, SSLSession* session)
+{
+	
+
+	if (!error)
+	{
+		session->start();
+		
+	}
+	else
+	{
+		delete session;
+	}
+
+	start_accept();
+}
+
+void SSLServer::start_accept()
+{
+	SSLSession * session = new SSLSession(ios_pool_.get(), queue_, context_);
+
+	acceptor_.async_accept(session->socket(), 
+		boost::bind(&SSLServer::accept_handler, this, boost::asio::placeholders::error, session));
+}
+
+std::string SSLServer::get_password()
+{
+	return "chenhf2011";
 }

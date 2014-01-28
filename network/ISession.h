@@ -17,6 +17,8 @@ public:
 	// ¹ñÌ¨Á¬½Ó
 	IBusiness * counterConnect;
 
+	virtual void start()=0;
+	virtual void close()=0;
 	
 
 //	virtual void handle_read_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* req)=0;

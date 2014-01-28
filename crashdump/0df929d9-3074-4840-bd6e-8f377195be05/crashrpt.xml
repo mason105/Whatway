@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<CrashRpt version="1402">
+    <CrashGUID>0df929d9-3074-4840-bd6e-8f377195be05</CrashGUID>
+    <AppName>Cssweb TradeGateway</AppName>
+    <AppVersion>1.0.0</AppVersion>
+    <ImageName>E:\Trade\TradeGateway\bin_debug\tradegateway.exe</ImageName>
+    <OperatingSystem>Windows 8.1 Pro Build 9600</OperatingSystem>
+    <OSIs64Bit>1</OSIs64Bit>
+    <GeoLocation>zh-cn</GeoLocation>
+    <SystemTimeUTC>2014-01-28T06:49:42Z</SystemTimeUTC>
+    <ExceptionAddress>0x831ba6</ExceptionAddress>
+    <ExceptionModule>E:\Trade\TradeGateway\bin_debug\tradegateway.exe</ExceptionModule>
+    <ExceptionModuleBase>0x300000</ExceptionModuleBase>
+    <ExceptionModuleVersion>1.0.0.1</ExceptionModuleVersion>
+    <ExceptionType>11</ExceptionType>
+    <GUIResourceCount>13</GUIResourceCount>
+    <OpenHandleCount>325</OpenHandleCount>
+    <MemoryUsageKbytes>41852</MemoryUsageKbytes>
+    <CustomProps />
+    <FileList>
+        <FileItem name="crashdump.dmp" description="崩溃小型转储" />
+        <FileItem name="crashrpt.xml" description="崩溃描述 XML" />
+    </FileList>
+</CrashRpt>

@@ -128,7 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\common\Network\io_service_pool.h" />
     <ClInclude Include="..\..\common\ThreadPool\worker.h" />
     <ClInclude Include="..\..\common\ThreadSafeQueue\job_queue.h" />
     <ClInclude Include="business\apexsoft\DingDian.h" />
@@ -171,6 +170,7 @@
     <ClInclude Include="network\http\http_server.h" />
     <ClInclude Include="network\http\http_session.h" />
     <ClInclude Include="network\http\trade_server_http.h" />
+    <ClInclude Include="network\io_service_pool.h" />
     <ClInclude Include="network\ISession.h" />
     <ClInclude Include="network\ssl\communication.pb.h" />
     <ClInclude Include="network\ssl\pkgheader.pb.h" />
@@ -241,6 +241,7 @@
     <ClCompile Include="network\ssl_tcp\CustomMessage.cpp" />
     <ClCompile Include="network\ssl_tcp\SSLServer.cpp" />
     <ClCompile Include="network\ssl_tcp\SSLSession.cpp" />
+    <ClCompile Include="network\ssl_tcp\TcpServer.cpp" />
     <ClCompile Include="network\ssl_tcp\TcpSession.cpp" />
     <ClCompile Include="network\ssl_tcp\TradeServer.cpp" />
     <ClCompile Include="network\tcp\tcp_session_old.cpp" />

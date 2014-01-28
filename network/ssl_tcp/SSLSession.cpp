@@ -22,7 +22,7 @@ SSLSession::SSLSession(ios_type& ios, queue_type& q, boost::asio::ssl::context& 
 {
 	//socket_.set_verify_mode(boost::asio::ssl::verify_fail_if_no_peer_cert);
 	//socket_.set_verify_callback(boost::bind(&ssl_session::verify_certificate, this, _1, _2));
-	
+	counterConnect = NULL;
 }
 
 

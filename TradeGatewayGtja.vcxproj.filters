@@ -167,9 +167,6 @@
     <Filter Include="核心代码\2.会话层\tcp old">
       <UniqueIdentifier>{d8034055-a065-4ce8-af1c-b448398e987b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\2.会话层\http">
-      <UniqueIdentifier>{79c6674e-cf73-4fa5-ab26-04580abed794}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\2.会话层\ssl old">
       <UniqueIdentifier>{e5ee458d-bb4a-404b-b54e-663ca82e3e55}</UniqueIdentifier>
     </Filter>
@@ -236,8 +233,14 @@
     <Filter Include="核心代码\会话管理">
       <UniqueIdentifier>{eff467c9-996d-4ffd-9678-f81404cb33cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\5.柜台系统\顶点\NewFilter1">
+    <Filter Include="核心代码\5.柜台系统\顶点\顶点配置文件">
       <UniqueIdentifier>{9b70e119-f458-4402-9376-47b2d0c993a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件">
+      <UniqueIdentifier>{f2ca4b09-368b-488e-b0f1-ff7ee186ff9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\2.会话层\http old">
+      <UniqueIdentifier>{79c6674e-cf73-4fa5-ab26-04580abed794}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -301,9 +304,6 @@
     <ClInclude Include="business\szkingdom\TradeBusiness.h">
       <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
     </ClInclude>
-    <ClInclude Include="business\apexsoft\DingDian.h">
-      <Filter>核心代码\5.柜台系统\顶点</Filter>
-    </ClInclude>
     <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h">
       <Filter>核心代码\5.柜台系统\顶点</Filter>
     </ClInclude>
@@ -337,9 +337,6 @@
     <ClInclude Include="business\SunGuard\SywgConnect.h">
       <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
     </ClInclude>
-    <ClInclude Include="business\SunGuard\AGC.h">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\common\ThreadSafeQueue\job_queue.h">
       <Filter>线程安全Queue</Filter>
     </ClInclude>
@@ -357,9 +354,6 @@
     </ClInclude>
     <ClInclude Include="errcode.h">
       <Filter>核心代码\类型定义</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\Network\io_service_pool.h">
-      <Filter>核心代码</Filter>
     </ClInclude>
     <ClInclude Include="ocr\OCR.h">
       <Filter>身份证识别OCR</Filter>
@@ -386,7 +380,7 @@
       <Filter>核心代码\2.会话层\tcp old</Filter>
     </ClInclude>
     <ClInclude Include="network\http\http_session.h">
-      <Filter>核心代码\2.会话层\http</Filter>
+      <Filter>核心代码\2.会话层\http old</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\ssl_session.h">
       <Filter>核心代码\2.会话层\ssl old</Filter>
@@ -451,6 +445,15 @@
     <ClInclude Include="network\ssl_tcp\TradeServer.h">
       <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
     </ClInclude>
+    <ClInclude Include="business\apexsoft\DingDian.h">
+      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
+    </ClInclude>
+    <ClInclude Include="business\SunGuard\AGC.h">
+      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
+    </ClInclude>
+    <ClInclude Include="network\io_service_pool.h">
+      <Filter>核心代码</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -486,9 +489,6 @@
     <ClCompile Include="business\szkingdom\TradeBusiness.cpp">
       <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
     </ClCompile>
-    <ClCompile Include="business\apexsoft\DingDian.cpp">
-      <Filter>核心代码\5.柜台系统\顶点</Filter>
-    </ClCompile>
     <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp">
       <Filter>核心代码\5.柜台系统\顶点</Filter>
     </ClCompile>
@@ -516,9 +516,6 @@
     <ClCompile Include="business\SunGuard\SywgConnect.cpp">
       <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
     </ClCompile>
-    <ClCompile Include="business\SunGuard\AGC.cpp">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
-    </ClCompile>
     <ClCompile Include="ConnectPool\Branch.cpp">
       <Filter>核心代码\柜台连接池</Filter>
     </ClCompile>
@@ -544,7 +541,7 @@
       <Filter>核心代码\2.会话层\tcp old</Filter>
     </ClCompile>
     <ClCompile Include="network\http\http_session.cpp">
-      <Filter>核心代码\2.会话层\http</Filter>
+      <Filter>核心代码\2.会话层\http old</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\ssl_session.cpp">
       <Filter>核心代码\2.会话层\ssl old</Filter>
@@ -603,6 +600,15 @@
     <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
       <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
     </ClCompile>
+    <ClCompile Include="business\apexsoft\DingDian.cpp">
+      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
+    </ClCompile>
+    <ClCompile Include="business\SunGuard\AGC.cpp">
+      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
+    </ClCompile>
+    <ClCompile Include="network\ssl_tcp\TcpServer.cpp">
+      <Filter>核心代码\3.网络服务\TCP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\TradeGatewayGtja.ico">
@@ -658,7 +664,7 @@
       <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
     </None>
     <None Include="bin\tradeparam.map">
-      <Filter>核心代码\5.柜台系统\顶点\NewFilter1</Filter>
+      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -667,9 +673,6 @@
     </Xml>
     <Xml Include="bin_debug\tradegateway.xml">
       <Filter>配置文件\debug</Filter>
-    </Xml>
-    <Xml Include="bin_debug\agc.xml">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
     </Xml>
     <Xml Include="bin_debug\apex_filterfunc.xml">
       <Filter>日志\过滤查询功能号</Filter>
@@ -690,7 +693,10 @@
       <Filter>日志\过滤敏感字段</Filter>
     </Xml>
     <Xml Include="bin\OutputDomain.xml">
-      <Filter>核心代码\5.柜台系统\顶点\NewFilter1</Filter>
+      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
+    </Xml>
+    <Xml Include="bin_debug\agc.xml">
+      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>
