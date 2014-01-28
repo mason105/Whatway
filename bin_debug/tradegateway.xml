@@ -23,13 +23,28 @@
     
     <!--flash交易-->
     <http>
-      <port>5003</port>
+      <port>5002</port>
       <!-- flash交易url上下文 -->
       <!-- https://trade.domain.com/tradegw/?-->
       <flashurlcontext>/tradegw/?</flashurlcontext>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
     </http>
+
+    <ssl_new>
+      <port>6000</port>
+      <workerthreadpool>16</workerthreadpool>
+      <sendthreadpool>16</sendthreadpool>
+      <!-- 单向认证还是双向认证 -->
+      <auth>0</auth>
+    </ssl_new>
+
+    
+    <tcp_new>
+      <port>6001</port>
+      <workerthreadpool>16</workerthreadpool>
+      <sendthreadpool>16</sendthreadpool>
+    </tcp_new>
     
     <!-- 大于以下设置会被压缩 -->
     <zlib>4096</zlib>

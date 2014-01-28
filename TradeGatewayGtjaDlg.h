@@ -5,18 +5,19 @@
 
 #include "./network/io_service_pool.h"
 
-#include "./network/ssl/ssl_server.h"
+// ÍøÂç²ã
+#include "network/ssl/ssl_server.h"
+#include "network/tcp/tcp_server_old.h"
+#include "network/http/http_server.h"
+
+#include "network/ssl_tcp/TcpServer.h"
+#include "network/ssl_tcp/SSLServer.h"
+
+// ÒµÎñ²ã
 #include "./network/ssl/trade_server_ssl.h"
-
-
-#include "./network/tcp/tcp_server_old.h"
 #include "./network/tcp/trade_server_tcp_old.h"
-
-#include "./network/http/http_server.h"
 #include "./network/http/trade_server_http.h"
 
-
-#include "./network/ssl_tcp/TcpServer.h"
 #include "./network/ssl_tcp/TradeServer.h"
 
 #include "log/FileLogManager.h"
@@ -124,22 +125,36 @@ private:
 	CString m_sLogShowThreadPool;
 
 	//io_service_pool iospool;
-
-	io_service_pool * piospool_ssl;
-	trade_server_ssl * pTradeServerSSL;
-	ssl_server * pSSLServer;
-
-	io_service_pool * piospool_tcpold;
-	trade_server_tcp_old * pTradeServerTcpOld;
-	tcp_server_old * pTcpServerOld;
-	
-	io_service_pool * piospool_tcp;
-	TradeServer * pTradeServerTcp;
-	TcpServer * pTcpServer;
-	
 	io_service_pool * piospool_http;
-	trade_server_http * pTradeServerHttp;
-	http_server * pHttpServer;
+
+	io_service_pool * iospool_tcp_old;
+	io_service_pool * iospool_ssl_old;
+	
+	io_service_pool * iospool_tcp_new;
+	io_service_pool * iospool_ssl_new;
+
+	// ÍøÂç²ã
+	//http_server * pHttpServer;
+	TcpServer * pTcpOldServer;
+	SSLServer * pSSLOldServer;
+
+	TcpServer * pTcpNewServer;
+	SSLServer * pSslNewServer;
+	
+
+	// ÒµÎñ²ã
+	//trade_server_http * pTradeServerHttp;
+	TradeServer * pTradeServerTcpOld;
+	TradeServer * pTradeServerSslOld;
+	
+	
+
+	TradeServer * pTradeServerTcpNew; // new ssl & tcp 
+	TradeServer * pTradeServerSslNew; // new ssl & tcp 
+
+	
+
+	
 
 	
 	

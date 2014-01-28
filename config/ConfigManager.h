@@ -47,6 +47,16 @@ public:
 	int m_nTcpPort;
 	int m_nTcpWorkerThreadPool;
 	int m_nTcpSendThreadPool;
+
+
+	int m_nSslNewPort;
+	int m_nSslNewWorkerThreadPool;
+	int m_nSslNewSendThreadPool;
+	int m_nNewAuth;
+
+	int m_nTcpNewPort;
+	int m_nTcpNewWorkerThreadPool;
+	int m_nTcpNewSendThreadPool;
 	
 	// —πÀı¥Û–°
 	int zlib;

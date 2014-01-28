@@ -116,6 +116,25 @@ bool ConfigManager::LoadConfig(std::string sPath)
 	node = doc.select_single_node("/config/communication/tcp/sendthreadpool");
 	m_nTcpSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
 
+
+
+	node = doc.select_single_node("/config/communication/ssl_new/port");
+	m_nSslNewPort = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/ssl_new/workerthreadpool");
+	m_nSslNewWorkerThreadPool = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/ssl_new/sendthreadpool");
+	m_nSslNewSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/ssl_new/auth");
+	m_nNewAuth = boost::lexical_cast<int>(node.node().child_value());
+
+	node = doc.select_single_node("/config/communication/tcp_new/port");
+	m_nTcpNewPort = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/tcp_new/workerthreadpool");
+	m_nTcpNewWorkerThreadPool = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/tcp_new/sendthreadpool");
+	m_nTcpNewSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
+
+
 	node = doc.select_single_node("/config/communication/zlib");
 	zlib = boost::lexical_cast<int>(node.node().child_value());
 
