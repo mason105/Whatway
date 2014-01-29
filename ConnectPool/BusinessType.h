@@ -16,7 +16,7 @@ public:
 	~BusinessType(void);
 
 	
-	COUNTER_TYPE counterType;
+	int counterType;
 
 	std::map<std::string, ConnectPool*> connPool;
 

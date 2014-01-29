@@ -10,6 +10,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
+#include <boost/range/iterator_range.hpp>
+#include <boost/algorithm/string.hpp>
+
 //Ñ¹Ëõ
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/filtering_stream.hpp>

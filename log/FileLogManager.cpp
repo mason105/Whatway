@@ -1,5 +1,8 @@
 #include "FileLogManager.h"
 
+#include <boost/range/iterator_range.hpp>
+#include <boost/algorithm/string.hpp>
+
 // xml
 #include "./lib/xml/rapidxml.hpp"
 #include "./lib/xml/rapidxml_utils.hpp"

@@ -27,7 +27,7 @@ void IBusiness::SetCounterServer(Counter * counter)
 	this->m_Counter = counter;
 }
 
-BUSI_TYPE IBusiness::ConvertIntToBusiType(int val)
+int IBusiness::ConvertIntToBusiType(int val)
 {
 	switch (val)
 	{

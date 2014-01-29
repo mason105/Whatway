@@ -44,7 +44,7 @@ private:
 	bool GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType, std::string& sysVer, std::string& account, std::string& funcId, std::string& clientIp);
 
 
-	std::string GetCounterType(COUNTER_TYPE counterType);
+	std::string GetCounterType(int counterType);
 
 
 };

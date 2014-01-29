@@ -18,7 +18,7 @@ public:
 	std::string desc;
 
 
-	std::map<BUSI_TYPE, BusinessType > busis;
+	std::map<int, BusinessType > busis;
 
 };
 

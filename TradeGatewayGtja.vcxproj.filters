@@ -244,9 +244,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common.h">
-      <Filter>核心代码\类型定义</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>主框架</Filter>
     </ClInclude>
@@ -352,9 +349,6 @@
     <ClInclude Include="ConnectPool\ConnectPool.h">
       <Filter>核心代码\柜台连接池\将来没用</Filter>
     </ClInclude>
-    <ClInclude Include="errcode.h">
-      <Filter>核心代码\类型定义</Filter>
-    </ClInclude>
     <ClInclude Include="ocr\OCR.h">
       <Filter>身份证识别OCR</Filter>
     </ClInclude>
@@ -452,6 +446,12 @@
       <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
     </ClInclude>
     <ClInclude Include="network\io_service_pool.h">
+      <Filter>核心代码</Filter>
+    </ClInclude>
+    <ClInclude Include="errcode.h">
+      <Filter>核心代码</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
       <Filter>核心代码</Filter>
     </ClInclude>
   </ItemGroup>

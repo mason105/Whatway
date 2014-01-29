@@ -12,6 +12,8 @@
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <boost/functional/factory.hpp>
+#include <boost/range/iterator_range.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "trade_server_tcp_old.h"
 

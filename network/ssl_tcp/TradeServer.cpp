@@ -208,26 +208,26 @@ bool TradeServer::ProcessRequest(IMessage* req)
 				
 		switch(counter->m_eCounterType)
 		{
-		case CT_HS_T2:
+		case COUNTER_TYPE_HS_T2:
 			req->GetSession()->counterConnect = new TradeBusinessT2();
 			break;
-		case CT_HS_COM:
+		case COUNTER_TYPE_HS_COM:
 			break;
-		case CT_JZ_WIN:
+		case COUNTER_TYPE_JZ_WIN:
 			req->GetSession()->counterConnect = new TradeBusiness();
 			break;
-		case CT_JZ_LINUX:
+		case COUNTER_TYPE_JZ_LINUX:
 			break;
-		case CT_DINGDIAN:
+		case COUNTER_TYPE_DINGDIAN:
 			req->GetSession()->counterConnect = new TradeBusinessDingDian();
 			break;
-		case CT_JSD:
+		case COUNTER_TYPE_JSD:
 			{
 			req->GetSession()->counterConnect = new CSywgConnect();
 			
 			break;
 			}
-		case CT_XINYI:
+		case COUNTER_TYPE_XINYI:
 			{
 			req->GetSession()->counterConnect = new CTCPClientSync();
 			
@@ -503,23 +503,23 @@ bool TradeServer::GetSysNoAndBusiType(std::string& request, std::string& sysNo, 
 	return true;
 }
 
-std::string TradeServer::GetCounterType(COUNTER_TYPE counterType)
+std::string TradeServer::GetCounterType(int counterType)
 {
 	switch (counterType)
 	{
-	case CT_HS_T2:
+	case COUNTER_TYPE_HS_T2:
 		return "1";
-	case CT_HS_COM:
+	case COUNTER_TYPE_HS_COM:
 		return "2";
-	case CT_JZ_WIN:
+	case COUNTER_TYPE_JZ_WIN:
 		return "3";
-	case CT_JZ_LINUX:
+	case COUNTER_TYPE_JZ_LINUX:
 		return "4";
-	case CT_DINGDIAN:
+	case COUNTER_TYPE_DINGDIAN:
 		return "5";
-	case CT_JSD:
+	case COUNTER_TYPE_JSD:
 		return "6";
-	case CT_XINYI:
+	case COUNTER_TYPE_XINYI:
 		return "7";
 	default:
 		return "0";

@@ -22,12 +22,12 @@ public:
 
 
 	//保证线程安全?
-	Connect* GetConnect(std::string sysNo, BUSI_TYPE busiType, std::string sBranchId);
-	void PushConnect(Connect * pConn, std::string sysNo, BUSI_TYPE busiType, std::string sBranchId);
+	Connect* GetConnect(std::string sysNo, int busiType, std::string sBranchId);
+	void PushConnect(Connect * pConn, std::string sysNo, int busiType, std::string sBranchId);
 	void CloseConnPool();
 
-	Counter* GetServer(std::string system, BUSI_TYPE business, std::string branch);
-	int GetServerCount(std::string system, BUSI_TYPE business, std::string branch);
+	Counter* GetServer(std::string system, int business, std::string branch);
+	int GetServerCount(std::string system, int business, std::string branch);
 	
 
 	// configmanager不需要定义std::map<std::string, BusinessSystem> systems;

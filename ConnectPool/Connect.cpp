@@ -276,18 +276,18 @@ bool Connect::CreateConnect()
 
 	switch(m_Counter.m_eCounterType)
 	{
-	case CT_HS_T2:
+	case COUNTER_TYPE_HS_T2:
 		bRet = CreateConnectT2();
 		break;
-	case CT_HS_COM:
+	case COUNTER_TYPE_HS_COM:
 		bRet = CreateConnectComm();
 		break;
-	case CT_JZ_WIN:
+	case COUNTER_TYPE_JZ_WIN:
 		bRet = CreateConnectKCBP();
 		break;
-	case CT_JZ_LINUX:
+	case COUNTER_TYPE_JZ_LINUX:
 		break;
-	case CT_DINGDIAN:
+	case COUNTER_TYPE_DINGDIAN:
 		bRet = CreateConnectDingDian();
 		break;
 	
@@ -347,7 +347,7 @@ void Connect::CloseConnect()
 		
 	switch(m_Counter.m_eCounterType)
 	{
-	case CT_HS_T2:
+	case COUNTER_TYPE_HS_T2:
 		// 恒生t2sdk
 		if (lpConnection != NULL)
 		{
@@ -367,7 +367,7 @@ void Connect::CloseConnect()
 			lpConfig = NULL;
 		}
 		break;
-	case CT_HS_COM:
+	case COUNTER_TYPE_HS_COM:
 		// 恒生COM
 		if (m_pComm != NULL)
 		{
@@ -382,7 +382,7 @@ void Connect::CloseConnect()
 
 		}
 		break;
-	case CT_JZ_WIN:
+	case COUNTER_TYPE_JZ_WIN:
 		// 金证windows版本
 		if (handle != NULL)
 		{
@@ -394,9 +394,9 @@ void Connect::CloseConnect()
 			handle = NULL;
 		}
 		break;
-	case CT_JZ_LINUX:
+	case COUNTER_TYPE_JZ_LINUX:
 		break;
-	case CT_DINGDIAN:
+	case COUNTER_TYPE_DINGDIAN:
 		// 顶点
 		
 		if (m_hHandle != NULL)

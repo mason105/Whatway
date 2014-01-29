@@ -472,7 +472,7 @@ void ConfigManager::LoadCrossDomain()
 
 }
 
-BUSI_TYPE ConfigManager::ConvertIntToBusiType(int val)
+int ConfigManager::ConvertIntToBusiType(int val)
 {
 	switch (val)
 	{
@@ -497,49 +497,49 @@ BUSI_TYPE ConfigManager::ConvertIntToBusiType(int val)
 	}
 }
 
-COUNTER_TYPE ConfigManager::ConvertIntToCounterType(int val)
+int ConfigManager::ConvertIntToCounterType(int val)
 {
 	switch (val)
 	{
 	case 1:
-		return CT_HS_T2;
+		return COUNTER_TYPE_HS_T2;
 	case 2:
-		return CT_HS_COM;
+		return COUNTER_TYPE_HS_COM;
 	case 3:
-		return CT_JZ_WIN;
+		return COUNTER_TYPE_JZ_WIN;
 	case 4:
-		return CT_JZ_LINUX;
+		return COUNTER_TYPE_JZ_LINUX;
 	case 5:
-		return CT_DINGDIAN;
+		return COUNTER_TYPE_DINGDIAN;
 	case 6:
-		return CT_JSD;
+		return COUNTER_TYPE_JSD;
 	case 7:
-		return CT_XINYI;
+		return COUNTER_TYPE_XINYI;
 	default:
-		return CT_UNKNOWN;
+		return COUNTER_TYPE_UNKNOWN;
 	}
 }
 
-COUNTER_TYPE ConfigManager::GetCounterType(std::string SystemNo, std::string busiType)
+int ConfigManager::GetCounterType(std::string SystemNo, std::string busiType)
 {
 	std::map<std::string, BusinessSystem>::iterator it;
 	it = g_ConnectManager.systems.find(SystemNo);
 	if (it == g_ConnectManager.systems.end())
 	{
-		return CT_UNKNOWN;
+		return COUNTER_TYPE_UNKNOWN;
 	}
 
 	BusinessSystem& bs = it->second;
 
-	BusiType bt = ConvertIntToBusiType( boost::lexical_cast<int>(busiType) );
+	int bt = ConvertIntToBusiType( boost::lexical_cast<int>(busiType) );
 
-	std::map<BUSI_TYPE, BusinessType >::iterator it2;
+	std::map<int, BusinessType >::iterator it2;
 	it2 = bs.busis.find(bt);
 	if (it2 == bs.busis.end())
 	{
-		return CT_UNKNOWN;
+		return COUNTER_TYPE_UNKNOWN;
 	}
 
-	CounterType ct = it2->second.counterType;
+	int ct = it2->second.counterType;
 	return ct;
 }

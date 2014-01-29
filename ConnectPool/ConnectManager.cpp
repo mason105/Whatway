@@ -24,7 +24,7 @@ CConnectManager::~CConnectManager(void)
 
 
 
-Connect* CConnectManager::GetConnect(std::string sysNo, BUSI_TYPE busiType, std::string sBranchId)
+Connect* CConnectManager::GetConnect(std::string sysNo, int busiType, std::string sBranchId)
 {
 	Connect* pConn = NULL;
 
@@ -36,7 +36,7 @@ Connect* CConnectManager::GetConnect(std::string sysNo, BUSI_TYPE busiType, std:
 
 	// 找不到业务类型返回
 	BusinessSystem& sys = itSys->second;
-	std::map<BUSI_TYPE, BusinessType >::iterator itBusiType;
+	std::map<int, BusinessType >::iterator itBusiType;
 	itBusiType = sys.busis.find(busiType);
 	if (itBusiType == sys.busis.end())
 	{
@@ -96,7 +96,7 @@ Connect* CConnectManager::GetConnect(std::string sysNo, BUSI_TYPE busiType, std:
 	return pConn;
 }
 
-void CConnectManager::PushConnect(Connect * pConn, std::string sysNo, BUSI_TYPE busiType, std::string sBranchId)
+void CConnectManager::PushConnect(Connect * pConn, std::string sysNo, int busiType, std::string sBranchId)
 {
 	if (pConn == NULL)
 		return;
@@ -113,7 +113,7 @@ void CConnectManager::PushConnect(Connect * pConn, std::string sysNo, BUSI_TYPE 
 
 	// 找不到业务类型返回
 	BusinessSystem& sys = itSys->second;
-	std::map<BUSI_TYPE, BusinessType >::iterator itBusiType;
+	std::map<int, BusinessType >::iterator itBusiType;
 	itBusiType = sys.busis.find(busiType);
 	if (itBusiType == sys.busis.end())
 	{
@@ -165,7 +165,7 @@ void CConnectManager::CloseConnPool()
 	{
 		BusinessSystem& bs = itSys->second;
 
-		std::map<BUSI_TYPE, BusinessType>::iterator itBusiType;
+		std::map<int, BusinessType>::iterator itBusiType;
 		for (itBusiType = bs.busis.begin(); itBusiType != bs.busis.end(); itBusiType++)
 		{
 			BusinessType& bt = itBusiType->second;
@@ -185,7 +185,7 @@ void CConnectManager::CloseConnPool()
 	}
 }
 
-Counter* CConnectManager::GetServer(std::string sysNo, BUSI_TYPE busiType, std::string sBranchId)
+Counter* CConnectManager::GetServer(std::string sysNo, int busiType, std::string sBranchId)
 {
 	// 此函数需要加同步mutex
 
@@ -197,7 +197,7 @@ Counter* CConnectManager::GetServer(std::string sysNo, BUSI_TYPE busiType, std::
 
 	// 找不到业务类型返回
 	BusinessSystem& sys = itSys->second;
-	std::map<BUSI_TYPE, BusinessType >::iterator itBusiType;
+	std::map<int, BusinessType >::iterator itBusiType;
 	itBusiType = sys.busis.find(busiType);
 	if (itBusiType == sys.busis.end())
 	{
@@ -241,7 +241,7 @@ Counter* CConnectManager::GetServer(std::string sysNo, BUSI_TYPE busiType, std::
 	
 }
 
-int CConnectManager::GetServerCount(std::string sysNo, BUSI_TYPE busiType, std::string sBranchId)
+int CConnectManager::GetServerCount(std::string sysNo, int busiType, std::string sBranchId)
 {
 		// 此函数需要加同步mutex
 
@@ -253,7 +253,7 @@ int CConnectManager::GetServerCount(std::string sysNo, BUSI_TYPE busiType, std::
 
 	// 找不到业务类型返回
 	BusinessSystem& sys = itSys->second;
-	std::map<BUSI_TYPE, BusinessType >::iterator itBusiType;
+	std::map<int, BusinessType >::iterator itBusiType;
 	itBusiType = sys.busis.find(busiType);
 	if (itBusiType == sys.busis.end())
 	{

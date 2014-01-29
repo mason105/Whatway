@@ -173,10 +173,10 @@ public:
 	
 	//std::map<std::string, BusinessSystem> systems;
 	// 根据系统编号，业务类型，返回对应的柜台类型
-	COUNTER_TYPE GetCounterType(std::string SystemNo, std::string busiType);
+	int GetCounterType(std::string SystemNo, std::string busiType);
 
-	BUSI_TYPE ConvertIntToBusiType(int val);
-	COUNTER_TYPE ConvertIntToCounterType(int val);
+	int ConvertIntToBusiType(int val);
+	int ConvertIntToCounterType(int val);
 	
 
 };

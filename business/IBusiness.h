@@ -41,7 +41,7 @@ public:
 
 	std::string sysNo;
 
-	BUSI_TYPE busiType;
+	int busiType;
 	std::string bt;
 
 	std::string sysVer;
@@ -107,7 +107,7 @@ public:
 
 	
 
-	BUSI_TYPE ConvertIntToBusiType(int val);
+	int ConvertIntToBusiType(int val);
 	
 	
 	

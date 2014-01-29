@@ -8,6 +8,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
+#include <boost/range/iterator_range.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "trade_server_http.h"
 #include "common.h"
