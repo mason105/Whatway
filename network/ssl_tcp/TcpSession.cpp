@@ -24,7 +24,7 @@ TcpSession::TcpSession( ios_type& ios, queue_type& q, int msgType):
 	strand_(ios), 
 	queue_(q)
 {
-	counterConnect = NULL;
+	
 	m_msgType = msgType;
 }
 
@@ -47,11 +47,7 @@ TcpSession::ios_type& TcpSession::io_service()
 void TcpSession::close()
 {
 	// 关闭柜台连接
-	if (counterConnect != NULL)
-	{
-		counterConnect->CloseConnect();
-		delete counterConnect;
-	}
+	CloseCounterConnect();
 
 	boost::system::error_code ignored_ec;
 

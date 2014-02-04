@@ -26,7 +26,7 @@ SSLSession::SSLSession(ios_type& ios, queue_type& q, int msgType, boost::asio::s
 {
 	//socket_.set_verify_mode(boost::asio::ssl::verify_fail_if_no_peer_cert);
 	//socket_.set_verify_callback(boost::bind(&ssl_session::verify_certificate, this, _1, _2));
-	counterConnect = NULL;
+
 	m_msgType = msgType;
 }
 
@@ -43,11 +43,7 @@ boost::asio::ssl::stream<boost::asio::ip::tcp::socket>::lowest_layer_type& SSLSe
 
 void SSLSession::close()
 {
-	if (counterConnect != NULL)
-	{
-		counterConnect->CloseConnect();
-		delete counterConnect;
-	}
+	CloseCounterConnect();
 
 	boost::system::error_code ignored_ec;
 
