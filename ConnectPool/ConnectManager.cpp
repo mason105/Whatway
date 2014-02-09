@@ -23,7 +23,7 @@ CConnectManager::~CConnectManager(void)
 
 
 
-
+/*
 Connect* CConnectManager::GetConnect(std::string sysNo, int busiType, std::string sBranchId)
 {
 	Connect* pConn = NULL;
@@ -184,6 +184,7 @@ void CConnectManager::CloseConnPool()
 		}
 	}
 }
+*/
 
 Counter* CConnectManager::GetServer(std::string sysNo, int busiType, std::string sBranchId)
 {
@@ -293,4 +294,28 @@ int CConnectManager::GetServerCount(std::string sysNo, int busiType, std::string
 	
 	Branch* branch = itBranch->second;
 	return branch->GetServerCount();
+}
+
+int CConnectManager::GetCounterType(std::string SystemNo, std::string busiType)
+{
+	std::map<std::string, BusinessSystem>::iterator it;
+	it = systems.find(SystemNo);
+	if (it == g_ConnectManager.systems.end())
+	{
+		return COUNTER_TYPE_UNKNOWN;
+	}
+
+	BusinessSystem& bs = it->second;
+
+	int bt = boost::lexical_cast<int>(busiType);
+
+	std::map<int, BusinessType >::iterator it2;
+	it2 = bs.busis.find(bt);
+	if (it2 == bs.busis.end())
+	{
+		return COUNTER_TYPE_UNKNOWN;
+	}
+
+	int ct = it2->second.counterType;
+	return ct;
 }

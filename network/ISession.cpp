@@ -3,6 +3,20 @@
 #include "ISession.h"
 
 
+// 金证
+#include "business/szkingdom/tradebusiness.h"
+#include "business/hundsun_com/TradeBusinessComm.h"
+// 恒生
+#include "business/hundsun_t2/tradebusinesst2.h"
+// 顶点
+#include "business/apexsoft/TradeBusinessDingDian.h"
+#include "business/apexsoft/DingDian.h"
+// AGC
+#include "business/SunGuard/SywgConnect.h"
+// 新意
+#include "business/xinyi/TCPClientSync.h"
+
+
 ISession::ISession(void)
 {
 	counterT2 = NULL;
@@ -15,6 +29,40 @@ ISession::ISession(void)
 
 ISession::~ISession(void)
 {
+}
+
+void ISession::CreateCounterConnect(Counter * counter)
+{
+		switch(counter->m_eCounterType)
+		{
+		case COUNTER_TYPE_HS_T2:
+			counterT2 = new TradeBusinessT2();
+			break;
+		case COUNTER_TYPE_HS_COM:
+			break;
+		case COUNTER_TYPE_JZ_WIN:
+			counterSzkingdom = new TradeBusiness();
+			break;
+		case COUNTER_TYPE_JZ_LINUX:
+			break;
+		case COUNTER_TYPE_DINGDIAN:
+			counterApex = new TradeBusinessDingDian();
+			break;
+		case COUNTER_TYPE_JSD:
+			{
+			counterAGC = new CSywgConnect();
+			
+			break;
+			}
+		case COUNTER_TYPE_XINYI:
+			{
+			counterXinYi = new CTCPClientSync();
+			
+			break;
+			}
+		default:
+			break;
+		}
 }
 
 void ISession::CloseCounterConnect()
@@ -55,11 +103,17 @@ void ISession::CloseCounterConnect()
 	}
 }
 
-IBusiness * ISession::GetCounterConnect()
+IBusiness * ISession::GetCounterConnect(int counterType)
 {
-	return NULL;
-}
+	IBusiness * business = NULL;
 
-void ISession::CreateCounterConnect()
-{
+	switch(counterType)
+	{
+	case 0:
+		business = counterT2;
+		break;
+
+	}
+
+	return business;
 }

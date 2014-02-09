@@ -1,5 +1,5 @@
-#ifndef SERVER_MANAGER_H
-#define SERVER_MANAGER_H
+#ifndef BRANCH_H
+#define BRANCH_H
 
 // stl
 #include <map>

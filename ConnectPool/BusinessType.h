@@ -20,7 +20,7 @@ public:
 
 	std::map<std::string, ConnectPool*> connPool;
 
-	std::map<std::string, Branch*> branches;
+	std::map<std::string/*ÓªÒµ²¿id*/, Branch*> branches;
 };
 
 #endif

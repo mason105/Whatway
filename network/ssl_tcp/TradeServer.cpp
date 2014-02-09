@@ -18,12 +18,19 @@
 #include "common.h"
 #include "./config/configmanager.h"
 
-
+// 金证
 #include "./business/szkingdom/tradebusiness.h"
-#include "./business/hundsun_t2/tradebusinesst2.h"
 #include "./business/hundsun_com/TradeBusinessComm.h"
+// 恒生
+#include "./business/hundsun_t2/tradebusinesst2.h"
+// 顶点
 #include "./business/apexsoft/TradeBusinessDingDian.h"
 #include "./business/apexsoft/DingDian.h"
+// AGC
+#include "business/SunGuard/SywgConnect.h"
+// 新意
+#include "business/xinyi/TCPClientSync.h"
+
 
 
 
@@ -31,11 +38,7 @@
 
 #include "connectpool/connectmanager.h"
 
-// 新意
-#include "business/xinyi/TCPClientSync.h"
 
-// AGC
-#include "business/SunGuard/SywgConnect.h"
 
 
 #include "log/FileLogManager.h"
@@ -109,6 +112,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	std::string counterIp = "";
 	std::string counterPort = "";
 	std::string counterType = "";
+	int nCounterType;
 
 	
 	boost::posix_time::ptime ptBeginTime;
@@ -181,7 +185,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	nBusiType = boost::lexical_cast<int>(busiType);
 
 	// 初始化柜台连接
-	if (req->GetSession()->counterConnect == NULL)
+	if (req->GetSession()->GetCounterConnect() == NULL)
 	{
 		Counter * counter = NULL;
 		counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
@@ -206,38 +210,9 @@ bool TradeServer::ProcessRequest(IMessage* req)
 			goto finish;
 		}
 				
-		switch(counter->m_eCounterType)
-		{
-		case COUNTER_TYPE_HS_T2:
-			req->GetSession()->counterConnect = new TradeBusinessT2();
-			break;
-		case COUNTER_TYPE_HS_COM:
-			break;
-		case COUNTER_TYPE_JZ_WIN:
-			req->GetSession()->counterConnect = new TradeBusiness();
-			break;
-		case COUNTER_TYPE_JZ_LINUX:
-			break;
-		case COUNTER_TYPE_DINGDIAN:
-			req->GetSession()->counterConnect = new TradeBusinessDingDian();
-			break;
-		case COUNTER_TYPE_JSD:
-			{
-			req->GetSession()->counterConnect = new CSywgConnect();
-			
-			break;
-			}
-		case COUNTER_TYPE_XINYI:
-			{
-			req->GetSession()->counterConnect = new CTCPClientSync();
-			
-			break;
-			}
-		default:
-			break;
-		}
+		
 
-		req->GetSession()->counterConnect->SetCounterServer(counter);
+		req->GetSession()->GetCounterConnect()->SetCounterServer(counter);
 
 		counterIp = counter->m_sIP;
 		counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
@@ -245,9 +220,9 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	}
 	else
 	{
-		counterIp = req->GetSession()->counterConnect->m_Counter->m_sIP;
-		counterPort = boost::lexical_cast<std::string>(req->GetSession()->counterConnect->m_Counter->m_nPort);
-		counterType = GetCounterType(req->GetSession()->counterConnect->m_Counter->m_eCounterType);
+		counterIp = req->GetSession()->GetCounterConnect(nCounterType)->m_Counter->m_sIP;
+		counterPort = boost::lexical_cast<std::string>(req->GetSession()->GetCounterConnect(nCounterType)->m_Counter->m_nPort);
+		counterType = GetCounterType(req->GetSession()->GetCounterConnect(nCounterType)->m_Counter->m_eCounterType);
 	}
 
 	
@@ -280,7 +255,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		// 轮询每一个服务器
 		for (int i=0; i<serverCount; i++)
 		{
-			if (req->GetSession()->counterConnect->IsConnected())
+			if (req->GetSession()->GetCounterConnect(nCounterType)->IsConnected())
 			{
 				// 已建立连接，跳出循环
 				bConnect = true;
@@ -291,7 +266,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 				ptBeginTime = boost::posix_time::microsec_clock::local_time();
 				beginTime = boost::gregorian::to_iso_extended_string(ptBeginTime.date()) + " " + boost::posix_time::to_simple_string(ptBeginTime.time_of_day());;
 
-				if (req->GetSession()->counterConnect->CreateConnect())
+				if (req->GetSession()->GetCounterConnect(nCounterType)->CreateConnect())
 				{
 					// 建立连接成功，跳出循环
 					bConnect = true;
@@ -305,7 +280,8 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 					Counter * counter = NULL;
 					counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
-					req->GetSession()->counterConnect->SetCounterServer(counter);
+
+					req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
 
 					counterIp = counter->m_sIP;
 					counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
@@ -348,7 +324,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		}
 		
 		// 处理业务，业务失败或成功都算成功的，只有通信失败才需要重试
-		if (req->GetSession()->counterConnect->Send(request, response, status, errCode, errMsg))
+		if (req->GetSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg))
 		{
 			logLevel = Trade::TradeLog::INFO_LEVEL;
 

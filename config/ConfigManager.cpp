@@ -519,27 +519,3 @@ int ConfigManager::ConvertIntToCounterType(int val)
 		return COUNTER_TYPE_UNKNOWN;
 	}
 }
-
-int ConfigManager::GetCounterType(std::string SystemNo, std::string busiType)
-{
-	std::map<std::string, BusinessSystem>::iterator it;
-	it = g_ConnectManager.systems.find(SystemNo);
-	if (it == g_ConnectManager.systems.end())
-	{
-		return COUNTER_TYPE_UNKNOWN;
-	}
-
-	BusinessSystem& bs = it->second;
-
-	int bt = ConvertIntToBusiType( boost::lexical_cast<int>(busiType) );
-
-	std::map<int, BusinessType >::iterator it2;
-	it2 = bs.busis.find(bt);
-	if (it2 == bs.busis.end())
-	{
-		return COUNTER_TYPE_UNKNOWN;
-	}
-
-	int ct = it2->second.counterType;
-	return ct;
-}

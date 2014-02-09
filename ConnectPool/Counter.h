@@ -19,7 +19,8 @@ public:
 	std::string m_sReq;
 	std::string m_sRes;
 
-	int m_eCounterType;
+	int m_eCounterType; // 柜台类型
+
 	int m_nConnectTimeout; // 柜台连接超时时间
 	int m_nIdleTimeout; // 柜台连接后，没有请求，自动中断连接时间
 	int m_nRecvTimeout; // 请求处理超时时间

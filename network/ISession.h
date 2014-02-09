@@ -40,11 +40,11 @@ public:
 	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp) = 0;
 
 	// 创建柜台连接
-	void CreateCounterConnect();
+	void CreateCounterConnect(Counter * counter);
 	// 关闭柜台连接
 	void CloseCounterConnect();
 	// 得到柜台连接
-	IBusiness * GetCounterConnect();
+	IBusiness * GetCounterConnect(int counterType);
 };
 
 #endif
