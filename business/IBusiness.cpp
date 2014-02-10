@@ -12,7 +12,7 @@
 
 IBusiness::IBusiness(void)
 {
-	
+	m_bConnected = false;
 
 	SOH = "\x01";
 }

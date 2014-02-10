@@ -33,15 +33,15 @@ private:
 
 	
 public:
-	SSLServer( unsigned short port, queue_type& q, int n=4);
-	SSLServer(io_service_pool& ios, unsigned short port, queue_type& q);
+	SSLServer( unsigned short port, queue_type& q, int msgType, int n=4);
+	SSLServer(io_service_pool& ios, unsigned short port, queue_type& q, int msgType);
 	void start();
 	void run();
 	void stop();
 
 	bool verify_certificate(bool preverified,      boost::asio::ssl::verify_context& ctx);
 	std::string get_password();
-	void SetMsgType(int msgType);
+	
 	int m_msgType;
 
 private:

@@ -60,7 +60,7 @@ void SSLSession::start()
 {
 	socket_.async_handshake(
 		boost::asio::ssl::stream_base::server,
-        boost::bind(&SSLSession::handle_handshake, shared_from_this(), boost::asio::placeholders::error)
+        boost::bind(&SSLSession::handle_handshake, this, boost::asio::placeholders::error)
 	);
   
 }
@@ -114,7 +114,7 @@ void SSLSession::read()
 		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
 		boost::asio::transfer_all(),
 		strand_.wrap(
-			boost::bind(&SSLSession::handle_read_head, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
+			boost::bind(&SSLSession::handle_read_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
 	);
 }
@@ -150,7 +150,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 		boost::asio::buffer(req->GetMsgContent(), req->GetMsgContentSize()),
 		boost::asio::transfer_all(),
 		strand_.wrap(
-			bind(&SSLSession::handle_read_msg, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
+			bind(&SSLSession::handle_read_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
 	);
 }
@@ -195,7 +195,7 @@ void SSLSession::write(IMessage* resp)
 		boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
 		boost::asio::transfer_all(),
 		strand_.wrap(
-			bind(&SSLSession::handle_write_head, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
+			bind(&SSLSession::handle_write_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 		)
 	);
 }
@@ -223,7 +223,7 @@ void SSLSession::handle_write_head(const boost::system::error_code& error, size_
 		boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
 		boost::asio::transfer_all(),
 		strand_.wrap(
-			bind(&SSLSession::handle_write_msg, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
+			bind(&SSLSession::handle_write_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 		)
 	);
 	

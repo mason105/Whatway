@@ -89,7 +89,7 @@ bool CTCPClientSync::CreateConnect()
 		{
 			std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 			std::string sErrMsg = ec.message();
-			std::string sErrInfo = "连接交易网关失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+			std::string sErrInfo = "连接新意服务器失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
 			gFileLog::instance().Log(sErrInfo);
 			
 			
@@ -97,13 +97,13 @@ bool CTCPClientSync::CreateConnect()
 			return m_bConnected;
 		}
 
-		gFileLog::instance().Log("连接交易网关成功!");
+		gFileLog::instance().Log("连接新意服务器成功!");
 		m_bConnected = true;
 		return m_bConnected;
 	}
 	catch(std::exception& e)
 	{
-		gFileLog::instance().Log("连接交易网关异常：" + std::string(e.what()));
+		gFileLog::instance().Log("连接新意服务器异常：" + std::string(e.what()));
 		m_bConnected = false;
 		return m_bConnected;
 	}
@@ -148,7 +148,7 @@ bool CTCPClientSync::WriteMsgHeader(CustomMessage * pReq)
 	{
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "写包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器写包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -176,7 +176,7 @@ bool CTCPClientSync::WriteMsgContent(CustomMessage * pReq)
 	{
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "写包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器写包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -216,7 +216,7 @@ bool CTCPClientSync::ReadMsgHeader(CustomMessage * pRes)
 	{
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "读包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器读包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -250,7 +250,7 @@ bool CTCPClientSync::ReadMsgContent(CustomMessage * pRes)
 	{
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "读包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器读包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -274,11 +274,11 @@ void CTCPClientSync::CloseConnect()
 	
 	if (ec)
 	{
-		gFileLog::instance().Log("断开交易网关异常：" + ec.message());
+		gFileLog::instance().Log("断开新意服务器异常：" + ec.message());
 	}
 
 	
-	gFileLog::instance().Log("断开交易网关!");
+	gFileLog::instance().Log("断开新意服务器!");
 }
 
 bool CTCPClientSync::ReConnect()
@@ -286,6 +286,64 @@ bool CTCPClientSync::ReConnect()
 	CloseConnect();
 
 	return CreateConnect();
+}
+
+
+
+void CTCPClientSync::SetConnectTimeout(int connecTimeout)
+{
+	this->connectTimeout = connectTimeout;
+}
+
+void CTCPClientSync::SetReadWriteTimeout(int readWriteTimeout)
+{
+	this->readWriteTimeout = readWriteTimeout;
+}
+
+bool CTCPClientSync::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
+{
+	bool bRet = false;
+	
+
+	// 发送请求
+	CustomMessage * pReq = new CustomMessage();
+
+	
+
+	pReq->SetMsgContent(request);
+
+	MSG_HEADER binRespMsgHeader;
+	binRespMsgHeader.CRC = 0;
+	binRespMsgHeader.FunctionNo = 1;
+	binRespMsgHeader.MsgContentSize = request.size();
+	binRespMsgHeader.MsgType = MSG_TYPE_REQUEST;
+	binRespMsgHeader.zip = 0;
+	memcpy(&(pReq->m_MsgHeader.front()), &binRespMsgHeader, sizeof(MSG_HEADER));
+
+	//pReq->SetMsgHeader();
+
+	int temp = pReq->GetMsgHeaderSize();
+
+	bRet = Write(pReq);
+	delete pReq;
+	if (!bRet)
+		return false;
+
+	// 接收应答
+	CustomMessage* pRes = new CustomMessage();
+	bRet = Read(pRes);
+	if (bRet)
+	{
+		response = pRes->GetMsgContentString();
+		//std::string response(pRes->GetPkgBody().begin(),pRes->GetPkgBody().end());
+		gFileLog::instance().Log("新意服务器应答内容：" + pRes->GetMsgContentString());
+	}
+	else
+	{
+	}
+	delete pRes;	
+	
+	return true;
 }
 
 // 发送心跳包
@@ -345,51 +403,4 @@ bool CTCPClientSync::HeartBeat()
 	//gFileLog::instance().Log("执行时间：" + boost::lexical_cast<std::string>(nRuntime));
 	*/
 	return bRet;
-}
-
-void CTCPClientSync::SetConnectTimeout(int connecTimeout)
-{
-	this->connectTimeout = connectTimeout;
-}
-
-void CTCPClientSync::SetReadWriteTimeout(int readWriteTimeout)
-{
-	this->readWriteTimeout = readWriteTimeout;
-}
-
-bool CTCPClientSync::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
-{
-	bool bRet = false;
-	/*
-
-	// 发送请求
-	CustomMessage * pReq = new CustomMessage();
-
-	
-
-	pReq->SetMsgContent(request);
-	pReq->SetMsgHeader(MSG_TYPE_REQUEST, FUNCTION_HEARTBEAT);
-
-	int temp = pReq->GetMsgHeaderSize();
-
-	bRet = Write(pReq);
-	delete pReq;
-	if (!bRet)
-		return false;
-
-	// 接收应答
-	IMessage* pRes = new CustomMessage();
-	bRet = Read(pRes);
-	if (bRet)
-	{
-		response = pRes->GetMsgContentString();
-		//std::string response(pRes->GetPkgBody().begin(),pRes->GetPkgBody().end());
-		gFileLog::instance().Log("应答内容：" + pRes->GetMsgContentString());
-	}
-	else
-	{
-	}
-	delete pRes;	
-	*/
-	return true;
 }

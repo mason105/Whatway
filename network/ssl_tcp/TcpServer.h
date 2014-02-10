@@ -43,8 +43,8 @@ private:
 
 
 public:
-	TcpServer(io_service_pool& ios, unsigned short port, queue_type& q);
-	TcpServer(unsigned short port, queue_type& q, int n=4);
+	TcpServer(io_service_pool& ios, unsigned short port, queue_type& q, int m_msgType);
+	TcpServer(unsigned short port, queue_type& q, int m_msgType, int n=4);
 	
 
 	
@@ -59,7 +59,7 @@ public:
 	void start();
 	void run();
 	void stop();
-	void SetMsgType(int m_msgType);
+	
 	int m_msgType;
 };
 

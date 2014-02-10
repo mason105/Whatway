@@ -127,7 +127,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	std::string errMsg = "";
 
 
-	
+	/*
 
 	// 如果消息类型不是请求类型
 	if (binMsgHeader.MsgType != MSG_TYPE_REQUEST)
@@ -150,6 +150,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		
 		goto finish;
 	}
+	*/
 
 	// 客户端心跳功能
 	if (nFuncId == FUNCTION_HEARTBEAT)
@@ -184,6 +185,10 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 	nBusiType = boost::lexical_cast<int>(busiType);
 
+	// 得到柜台类型
+	nCounterType = g_ConnectManager.GetCounterType(sysNo, busiType);
+
+	/*
 	// 初始化柜台连接
 	if (req->GetSession()->GetCounterConnect() == NULL)
 	{
@@ -224,7 +229,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		counterPort = boost::lexical_cast<std::string>(req->GetSession()->GetCounterConnect(nCounterType)->m_Counter->m_nPort);
 		counterType = GetCounterType(req->GetSession()->GetCounterConnect(nCounterType)->m_Counter->m_eCounterType);
 	}
-
+	*/
 	
 	int serverCount = g_ConnectManager.GetServerCount(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
 	if (serverCount == 0)
@@ -266,6 +271,10 @@ bool TradeServer::ProcessRequest(IMessage* req)
 				ptBeginTime = boost::posix_time::microsec_clock::local_time();
 				beginTime = boost::gregorian::to_iso_extended_string(ptBeginTime.date()) + " " + boost::posix_time::to_simple_string(ptBeginTime.time_of_day());;
 
+				Counter * counter = NULL;
+				counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
+				req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
+
 				if (req->GetSession()->GetCounterConnect(nCounterType)->CreateConnect())
 				{
 					// 建立连接成功，跳出循环
@@ -278,10 +287,9 @@ bool TradeServer::ProcessRequest(IMessage* req)
 					// 轮询算法：返回下一个服务器
 					bConnect = false;
 
-					Counter * counter = NULL;
-					counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
-
-					req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
+					//Counter * counter = NULL;
+					//counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
+					//req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
 
 					counterIp = counter->m_sIP;
 					counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
@@ -297,8 +305,8 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 					req->Log(Trade::TradeLog::ERROR_LEVEL, sysNo, sysVer, busiType, funcId, account, clientIp, request, response, status, errCode, errMsg, beginTime, runtime, gatewayIp, gatewayPort, counterIp, counterPort, counterType);
 					gFileLogManager::instance().push(req->log);
-				}
-			}
+				} // end if
+			} // end if
 		} // end for (int i=0; i<serverCount; i++)
 
 		// 所有服务器连接不上
@@ -353,7 +361,7 @@ finish:
 
 	IMessage * resp = NULL;
 	
-	std::vector<char> msgHeader;
+	//std::vector<char> msgHeader;
 
 	switch(req->msgType)
 	{
@@ -365,6 +373,8 @@ finish:
 	case MSG_TYPE_TCP_OLD:
 		{
 		resp = new tcp_message_old();
+		int msgHeaderSize = response.size();
+		memcpy(&(resp->m_MsgHeader.front()), &msgHeaderSize, 4);
 		}
 		break;
 	case MSG_TYPE_SSL_PB:
@@ -407,7 +417,7 @@ finish:
 	
 
 	// 设置消息头
-	resp->SetMsgHeader(msgHeader);
+	//resp->SetMsgHeader(msgHeader);
 
 	
 	

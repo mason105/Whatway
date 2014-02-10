@@ -32,7 +32,7 @@
     </http>
 
     <ssl_new>
-      <port>6000</port>
+      <port>5003</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
       <!-- 单向认证还是双向认证 -->
@@ -41,7 +41,7 @@
 
     
     <tcp_new>
-      <port>6001</port>
+      <port>5004</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
     </tcp_new>
@@ -485,7 +485,7 @@
           <enable>1</enable>
           <servername>KCBP01</servername>
           <ip>127.0.0.1</ip>
-          <port>6002</port>
+          <port>6000</port>
           <username>KCXP00</username>
           <password>888888</password>
           <req>req_zb</req>

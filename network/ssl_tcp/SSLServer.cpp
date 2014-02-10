@@ -4,14 +4,14 @@
 
 
 
-SSLServer::SSLServer(unsigned short port, queue_type& q, int n)
+SSLServer::SSLServer(unsigned short port, queue_type& q, int msgType, int n)
 		:
 		ios_pool_(*boost::factory<io_service_pool*>()(n))
 		,queue_(q)
 		,acceptor_(ios_pool_.get(),boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 		,context_(boost::asio::ssl::context::sslv23)
 {
-
+	m_msgType = msgType;
 /*
 context_.set_options(
         boost::asio::ssl::context::default_workarounds
@@ -36,12 +36,14 @@ context_.set_options(
 	start_accept();
 }
 
-SSLServer::SSLServer(io_service_pool& ios, unsigned short port, queue_type& q)
+SSLServer::SSLServer(io_service_pool& ios, unsigned short port, queue_type& q, int msgType)
 		:ios_pool_(ios)
 		,queue_(q)
 		,acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 		,context_(boost::asio::ssl::context::sslv23)
 {
+	m_msgType = msgType;
+
 	if (gConfigManager::instance().m_nAuth)
 	{
 		context_.set_verify_mode(boost::asio::ssl::context::verify_peer  | boost::asio::ssl::context::verify_fail_if_no_peer_cert);
@@ -121,7 +123,4 @@ std::string SSLServer::get_password()
 	return "chenhf2011";
 }
 
-void SSLServer::SetMsgType(int msgType)
-{
-	m_msgType = msgType;
-}
+
