@@ -31,7 +31,7 @@ public:
 
 private:
 	// ÏûÏ¢Í·
-	struct MsgHeader binMsgHeader;
+	struct MsgHeader msgHeader;
 	
 
 	

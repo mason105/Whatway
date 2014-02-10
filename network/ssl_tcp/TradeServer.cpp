@@ -95,15 +95,15 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 	Trade::TradeLog::LogLevel logLevel = Trade::TradeLog::INFO_LEVEL;
 
-	MSG_HEADER binMsgHeader;
-	memcpy(&binMsgHeader, req->GetMsgHeader().data(), req->GetMsgHeaderSize());
+//	MSG_HEADER binMsgHeader;
+//	memcpy(&binMsgHeader, req->GetMsgHeader().data(), req->GetMsgHeaderSize());
 
 	std::string sysNo = "";
 	std::string busiType = "";
 	int nBusiType;
 	std::string sysVer = "";
 	std::string funcId = "";
-	int nFuncId = binMsgHeader.FunctionNo;
+	int nFuncId = -1;
 	std::string account = "";
 	std::string clientIp = "";
 
@@ -380,6 +380,20 @@ finish:
 	case MSG_TYPE_SSL_PB:
 		{
 		resp = new ssl_message();
+
+		quote::PkgHeader pbHeader;
+
+		pbHeader.set_bodysize(response.size());
+		pbHeader.set_ver(1);
+		pbHeader.set_enc(false);
+		pbHeader.set_zip(false);
+		pbHeader.set_more(false);
+		pbHeader.set_msgtype(quote::PkgHeader::RES_TRADE);
+		pbHeader.set_errcode(0);
+		
+		
+		bool bTmp = pbHeader.SerializeToArray(&(resp->m_MsgHeader.front()), pbHeader.ByteSize());
+			
 		}
 		break;
 	case MSG_TYPE_TCP_NEW:

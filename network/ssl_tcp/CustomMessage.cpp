@@ -16,15 +16,15 @@ bool CustomMessage::DecoderMsgHeader()
 	
 
 
-	memcpy(&binMsgHeader, m_MsgHeader.data(), m_MsgHeader.size());
+	memcpy(&msgHeader, m_MsgHeader.data(), m_MsgHeader.size());
 	
 	// java是网络字序，c++是主机字序，所以需要转换
 	//int MsgContentSize = ntohl(m_MsgHeader.MsgContentSize);
 	//m_MsgHeader.MsgContentSize = MsgContentSize;
-	if (binMsgHeader.MsgContentSize >=65536 || binMsgHeader.MsgContentSize <= 0)
+	if (msgHeader.MsgContentSize >=65536 || msgHeader.MsgContentSize <= 0)
 		return false;
 
-	m_MsgContent.resize(binMsgHeader.MsgContentSize);
+	m_MsgContent.resize(msgHeader.MsgContentSize);
 
 	return true;
 }

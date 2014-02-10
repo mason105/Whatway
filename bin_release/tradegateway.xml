@@ -4,7 +4,7 @@
   <!--网络配置-->
   <communication>
     <ip>0.0.0.0</ip>
-    
+
     <!--windows, ios, android, wp8/win8, osx-->
     <ssl>
       <port>5000</port>
@@ -13,30 +13,45 @@
       <!-- 单向认证还是双向认证 -->
       <auth>0</auth>
     </ssl>
-    
+
     <!--weblogic-->
     <tcp>
       <port>5001</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
     </tcp>
-    
+
     <!--flash交易-->
     <http>
-      <port>5003</port>
+      <port>5002</port>
       <!-- flash交易url上下文 -->
       <!-- https://trade.domain.com/tradegw/?-->
       <flashurlcontext>/tradegw/?</flashurlcontext>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
     </http>
-    
+
+    <ssl_new>
+      <port>5003</port>
+      <workerthreadpool>16</workerthreadpool>
+      <sendthreadpool>16</sendthreadpool>
+      <!-- 单向认证还是双向认证 -->
+      <auth>0</auth>
+    </ssl_new>
+
+
+    <tcp_new>
+      <port>5004</port>
+      <workerthreadpool>16</workerthreadpool>
+      <sendthreadpool>16</sendthreadpool>
+    </tcp_new>
+
     <!-- 大于以下设置会被压缩 -->
-    <zlib>1024</zlib>
+    <zlib>4096</zlib>
 
     <!-- 运行状态：0.debug 1.run-->
     <RunMode>0</RunMode>
-    
+
   </communication>
 
   <Counter_Common>
@@ -468,7 +483,7 @@
           <enable>1</enable>
           <servername>KCBP01</servername>
           <ip>127.0.0.1</ip>
-          <port>8080</port>
+          <port>6000</port>
           <username>KCXP00</username>
           <password>888888</password>
           <req>req_zb</req>
