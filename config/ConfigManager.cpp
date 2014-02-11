@@ -298,12 +298,12 @@ bool ConfigManager::LoadConfig(std::string sPath)
 					counters.push_back(counter);///////////////////////////
 				} // end for counter
 
-				ConnectPool * pool = new ConnectPool(counters);
-				busiType.connPool[branchList] = pool;//////////////////////
+			//	ConnectPool * pool = new ConnectPool(counters);
+				//busiType.connPool[branchList] = pool;//////////////////////
 				busiType.counterType = ConvertIntToCounterType(CounterType);
 
-				Branch *branch = new Branch();
-				branch->servers = counters;
+				Branch branch;
+				branch.servers = counters;
 
 				busiType.branches[branchList] = branch;
 			} // end for branch

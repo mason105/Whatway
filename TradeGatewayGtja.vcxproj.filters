@@ -164,47 +164,17 @@
     <Filter Include="核心代码\2.会话层\SSL">
       <UniqueIdentifier>{00468bfb-8e41-44d5-b723-7396293a92c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\2.会话层\tcp old">
-      <UniqueIdentifier>{d8034055-a065-4ce8-af1c-b448398e987b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\ssl old">
-      <UniqueIdentifier>{e5ee458d-bb4a-404b-b54e-663ca82e3e55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\3.网络服务">
       <UniqueIdentifier>{1bf9b355-b3ab-48cf-975e-e5a85b6a2a77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\3.网络服务\HTTP old">
-      <UniqueIdentifier>{32a22d36-dbda-46e8-960b-639a7539612d}</UniqueIdentifier>
     </Filter>
     <Filter Include="核心代码\3.网络服务\SSL">
       <UniqueIdentifier>{9269f51b-2f40-42b7-add0-37f29c08727a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\3.网络服务\SSL old">
-      <UniqueIdentifier>{c560affd-45df-43d7-aba3-eceddcfe5b17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\3.网络服务\SSL old\protobuf">
-      <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\3.网络服务\SSL old\SSL证书">
-      <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\3.网络服务\TCP">
       <UniqueIdentifier>{41fc8b71-479f-4a16-beab-029675894ec0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\3.网络服务\TCP old">
-      <UniqueIdentifier>{d66611b8-3af3-41ef-aeb6-edbd7e4ba920}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\4.业务层">
       <UniqueIdentifier>{72295626-05d9-4950-bd20-2a53a3a60e5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\HTTP">
-      <UniqueIdentifier>{6f796214-1c22-4b2d-98f2-2ee0ce1ca3a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\Tcp old">
-      <UniqueIdentifier>{e213d09b-23d7-43e8-8788-facd06f1068d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\ssl old">
-      <UniqueIdentifier>{8f512f90-67d9-4cd0-93f9-61e5108ac270}</UniqueIdentifier>
     </Filter>
     <Filter Include="核心代码\4.业务层\tcp &amp; ssl">
       <UniqueIdentifier>{c48a59b5-8ac4-4b9e-9489-c92b03504e23}</UniqueIdentifier>
@@ -239,8 +209,47 @@
     <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件">
       <UniqueIdentifier>{f2ca4b09-368b-488e-b0f1-ff7ee186ff9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\2.会话层\http old">
+    <Filter Include="核心代码\2.会话层\需要删除">
+      <UniqueIdentifier>{8e34f7e6-5421-4f99-8440-6e53bb5b5b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\2.会话层\需要删除\http old">
       <UniqueIdentifier>{79c6674e-cf73-4fa5-ab26-04580abed794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\2.会话层\需要删除\ssl old">
+      <UniqueIdentifier>{e5ee458d-bb4a-404b-b54e-663ca82e3e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\2.会话层\需要删除\tcp old">
+      <UniqueIdentifier>{d8034055-a065-4ce8-af1c-b448398e987b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\需要删除">
+      <UniqueIdentifier>{2b75c881-96da-4c9b-b637-6864736b989f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\需要删除\HTTP old">
+      <UniqueIdentifier>{32a22d36-dbda-46e8-960b-639a7539612d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\需要删除\SSL old">
+      <UniqueIdentifier>{c560affd-45df-43d7-aba3-eceddcfe5b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\需要删除\SSL old\protobuf">
+      <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\需要删除\SSL old\SSL证书">
+      <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\需要删除\TCP old">
+      <UniqueIdentifier>{d66611b8-3af3-41ef-aeb6-edbd7e4ba920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\4.业务层\需要删除">
+      <UniqueIdentifier>{37bca63f-52b0-498d-bc40-234189cf6abe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\4.业务层\需要删除\ssl old">
+      <UniqueIdentifier>{8f512f90-67d9-4cd0-93f9-61e5108ac270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\4.业务层\需要删除\HTTP">
+      <UniqueIdentifier>{6f796214-1c22-4b2d-98f2-2ee0ce1ca3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\4.业务层\需要删除\Tcp old">
+      <UniqueIdentifier>{e213d09b-23d7-43e8-8788-facd06f1068d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -290,10 +299,10 @@
       <Filter>调试输出</Filter>
     </ClInclude>
     <ClInclude Include="network\http\http_server.h">
-      <Filter>核心代码\3.网络服务\HTTP old</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\HTTP old</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\ssl_server.h">
-      <Filter>核心代码\3.网络服务\SSL old</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old</Filter>
     </ClInclude>
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h">
       <Filter>核心代码\5.柜台系统\恒生T2</Filter>
@@ -323,7 +332,7 @@
       <Filter>核心代码\5.柜台系统</Filter>
     </ClInclude>
     <ClInclude Include="network\tcp\tcp_server_old.h">
-      <Filter>核心代码\3.网络服务\TCP old</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\TCP old</Filter>
     </ClInclude>
     <ClInclude Include="lib\OpenCV\opencv_h.h">
       <Filter>第三方库\OpenCV</Filter>
@@ -371,22 +380,22 @@
       <Filter>核心代码\1.网络消息\Tcp Old</Filter>
     </ClInclude>
     <ClInclude Include="network\tcp\tcp_session_old.h">
-      <Filter>核心代码\2.会话层\tcp old</Filter>
+      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
     </ClInclude>
     <ClInclude Include="network\http\http_session.h">
-      <Filter>核心代码\2.会话层\http old</Filter>
+      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\ssl_session.h">
-      <Filter>核心代码\2.会话层\ssl old</Filter>
+      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
     </ClInclude>
     <ClInclude Include="network\http\trade_server_http.h">
-      <Filter>核心代码\4.业务层\HTTP</Filter>
+      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\trade_server_ssl.h">
-      <Filter>核心代码\4.业务层\ssl old</Filter>
+      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
     </ClInclude>
     <ClInclude Include="network\tcp\trade_server_tcp_old.h">
-      <Filter>核心代码\4.业务层\Tcp old</Filter>
+      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
     </ClInclude>
     <ClInclude Include="network\ISession.h">
       <Filter>核心代码\2.会话层</Filter>
@@ -413,10 +422,10 @@
       <Filter>日志\日志消息</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\communication.pb.h">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\pkgheader.pb.h">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\CustomMessage.h">
       <Filter>核心代码\1.网络消息\Tcp  &amp; SSL</Filter>
@@ -538,22 +547,22 @@
       <Filter>加解密</Filter>
     </ClCompile>
     <ClCompile Include="network\tcp\tcp_session_old.cpp">
-      <Filter>核心代码\2.会话层\tcp old</Filter>
+      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
     </ClCompile>
     <ClCompile Include="network\http\http_session.cpp">
-      <Filter>核心代码\2.会话层\http old</Filter>
+      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\ssl_session.cpp">
-      <Filter>核心代码\2.会话层\ssl old</Filter>
+      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
     </ClCompile>
     <ClCompile Include="network\http\trade_server_http.cpp">
-      <Filter>核心代码\4.业务层\HTTP</Filter>
+      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\trade_server_ssl.cpp">
-      <Filter>核心代码\4.业务层\ssl old</Filter>
+      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
     </ClCompile>
     <ClCompile Include="network\tcp\trade_server_tcp_old.cpp">
-      <Filter>核心代码\4.业务层\Tcp old</Filter>
+      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
     </ClCompile>
     <ClCompile Include="network\ISession.cpp">
       <Filter>核心代码\2.会话层</Filter>
@@ -580,10 +589,10 @@
       <Filter>日志\日志消息</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\communication.pb.cc">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\pkgheader.pb.cc">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\CustomMessage.cpp">
       <Filter>核心代码\1.网络消息\Tcp  &amp; SSL</Filter>
@@ -597,9 +606,6 @@
     <ClCompile Include="network\ssl_tcp\SSLServer.cpp">
       <Filter>核心代码\3.网络服务\SSL</Filter>
     </ClCompile>
-    <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
-      <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
-    </ClCompile>
     <ClCompile Include="business\apexsoft\DingDian.cpp">
       <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
     </ClCompile>
@@ -608,6 +614,9 @@
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\TcpServer.cpp">
       <Filter>核心代码\3.网络服务\TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
+      <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -625,19 +634,19 @@
       <Filter>主框架\资源文件</Filter>
     </None>
     <None Include="bin\ca.crt">
-      <Filter>核心代码\3.网络服务\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
     </None>
     <None Include="bin\client.crt">
-      <Filter>核心代码\3.网络服务\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
     </None>
     <None Include="bin\clientkey.pem">
-      <Filter>核心代码\3.网络服务\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
     </None>
     <None Include="bin\server.crt">
-      <Filter>核心代码\3.网络服务\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
     </None>
     <None Include="bin\serverkey.pem">
-      <Filter>核心代码\3.网络服务\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
     </None>
     <None Include="innosetup\TradeGateway.iss">
       <Filter>安装包innosetup</Filter>
@@ -655,13 +664,13 @@
       <Filter>日志\日志消息</Filter>
     </None>
     <None Include="network\ssl\communication.proto">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </None>
     <None Include="network\ssl\pkgheader.proto">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </None>
     <None Include="network\ssl\proto2cpp.bat">
-      <Filter>核心代码\3.网络服务\SSL old\protobuf</Filter>
+      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </None>
     <None Include="bin\tradeparam.map">
       <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
@@ -737,7 +746,7 @@
       <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
     </Text>
     <Text Include="network\http\flash交易密码处理规则.txt">
-      <Filter>核心代码\4.业务层\HTTP</Filter>
+      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
     </Text>
   </ItemGroup>
 </Project>

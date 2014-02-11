@@ -207,7 +207,7 @@ Counter* CConnectManager::GetServer(std::string sysNo, int busiType, std::string
 
 	// 找不到营业部返回
 	BusinessType& bt = itBusiType->second;
-	std::map<std::string, Branch*>::iterator itBranch;
+	std::map<std::string, Branch>::iterator itBranch;
 	bool bFoundBranch = false;
 	for (itBranch = bt.branches.begin(); itBranch != bt.branches.end(); itBranch++)
 	{
@@ -236,8 +236,8 @@ Counter* CConnectManager::GetServer(std::string sysNo, int busiType, std::string
 	}
 
 	
-	Branch* branch = itBranch->second;
-	return branch->GetCounter();
+	Branch& branch = itBranch->second;
+	return branch.GetCounter();
 	
 	
 }
@@ -263,7 +263,7 @@ int CConnectManager::GetServerCount(std::string sysNo, int busiType, std::string
 
 	// 找不到营业部返回
 	BusinessType& bt = itBusiType->second;
-	std::map<std::string, Branch*>::iterator itBranch;
+	std::map<std::string, Branch>::iterator itBranch;
 	bool bFoundBranch = false;
 	for (itBranch = bt.branches.begin(); itBranch != bt.branches.end(); itBranch++)
 	{
@@ -292,8 +292,8 @@ int CConnectManager::GetServerCount(std::string sysNo, int busiType, std::string
 	}
 
 	
-	Branch* branch = itBranch->second;
-	return branch->GetServerCount();
+	Branch& branch = itBranch->second;
+	return branch.GetServerCount();
 }
 
 int CConnectManager::GetCounterType(std::string SystemNo, std::string busiType)

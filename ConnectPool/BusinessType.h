@@ -20,7 +20,7 @@ public:
 
 	std::map<std::string, ConnectPool*> connPool;
 
-	std::map<std::string/*营业部id*/, Branch*> branches;
+	std::map<std::string/*营业部id*/, Branch> branches;
 };
 
 #endif

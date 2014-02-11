@@ -42,6 +42,7 @@
 
 TradeBusinessDingDian::TradeBusinessDingDian()
 {
+	m_hHandle = -1;
 }
 
 TradeBusinessDingDian::~TradeBusinessDingDian(void)
@@ -639,5 +640,8 @@ bool TradeBusinessDingDian::CreateConnect()
 
 void TradeBusinessDingDian::CloseConnect()
 {
-	Fix_Close(m_hHandle);
+	if (m_hHandle != -1)
+	{
+		Fix_Close(m_hHandle);
+	}
 }
