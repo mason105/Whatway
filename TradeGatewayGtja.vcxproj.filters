@@ -131,14 +131,8 @@
     <Filter Include="核心代码">
       <UniqueIdentifier>{f10e9538-27e1-4db3-af81-d86439fbc667}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\类型定义">
-      <UniqueIdentifier>{6cf9e099-59cc-4fbf-bf81-855c09db78ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\柜台连接池">
       <UniqueIdentifier>{7136fcfd-ff1c-4f68-a54b-5c73a557861b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\柜台连接池\将来没用">
-      <UniqueIdentifier>{9dc1211c-4960-473b-9d34-f15a8d1fd8b2}</UniqueIdentifier>
     </Filter>
     <Filter Include="核心代码\1.网络消息">
       <UniqueIdentifier>{0f35af1c-396e-43f7-a3be-5a6dfd2cbe44}</UniqueIdentifier>
@@ -251,6 +245,9 @@
     <Filter Include="核心代码\4.业务层\需要删除\Tcp old">
       <UniqueIdentifier>{e213d09b-23d7-43e8-8788-facd06f1068d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="核心代码\柜台连接池\代码作废">
+      <UniqueIdentifier>{9dc1211c-4960-473b-9d34-f15a8d1fd8b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -353,10 +350,10 @@
       <Filter>核心代码\柜台连接池</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\Connect.h">
-      <Filter>核心代码\柜台连接池\将来没用</Filter>
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\ConnectPool.h">
-      <Filter>核心代码\柜台连接池\将来没用</Filter>
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
     </ClInclude>
     <ClInclude Include="ocr\OCR.h">
       <Filter>身份证识别OCR</Filter>
@@ -529,10 +526,10 @@
       <Filter>核心代码\柜台连接池</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\Connect.cpp">
-      <Filter>核心代码\柜台连接池\将来没用</Filter>
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\ConnectPool.cpp">
-      <Filter>核心代码\柜台连接池\将来没用</Filter>
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
     </ClCompile>
     <ClCompile Include="ocr\OCR.cpp">
       <Filter>身份证识别OCR</Filter>
@@ -735,9 +732,6 @@
     </Text>
     <Text Include="business\szkingdom\业务加解密.txt">
       <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
-    </Text>
-    <Text Include="ConnectPool\连接池开发说明.txt">
-      <Filter>核心代码\柜台连接池</Filter>
     </Text>
     <Text Include="..\..\common\log\日志开发说明.txt">
       <Filter>日志</Filter>
