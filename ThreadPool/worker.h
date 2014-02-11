@@ -89,9 +89,7 @@ public:
 		func_ = 0;
 		queue_.stop();
 
-		for(std::list<boost::thread*>::iterator it=threads.begin(),end=threads.end();
-                it!=end;
-                ++it)
+		for(std::list<boost::thread*>::iterator it = threads.begin(), end=threads.end(); it!=end; ++it)
 		{
 			threads_.remove_thread(*it);
 
