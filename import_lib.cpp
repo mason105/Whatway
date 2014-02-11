@@ -19,12 +19,12 @@
 #pragma comment(lib, "icudt.lib")
 #pragma comment(lib, "icuuc.lib")
 
-#pragma comment(lib, "./lib/hundsun_t2/t2sdk.lib")
+#pragma comment(lib, "business/hundsun_t2/t2sdk.lib")
 
-#pragma comment(lib, "./lib/apexsoft/FixApi.lib")
+#pragma comment(lib, "business/apexsoft/FixApi.lib")
 
-#pragma comment(lib, "./lib/szkingdom/kcbpcli.lib")
-#pragma comment(lib, "./lib/szkingdom/KDEncodeCli.lib")
+#pragma comment(lib, "business/szkingdom_win/kcbpcli.lib")
+#pragma comment(lib, "business/szkingdom_win/KDEncodeCli.lib")
 
 // opencv
 #pragma comment(lib, "D:/OpenCV/opencv/build/x86/vc11/lib/opencv_core246d.lib")
@@ -55,12 +55,12 @@
 #pragma comment(lib, "icudt.lib")
 #pragma comment(lib, "icuuc.lib")
 
-#pragma comment(lib, "./lib/hundsun_t2/t2sdk.lib")
+#pragma comment(lib, "business/hundsun_t2/t2sdk.lib")
 
-#pragma comment(lib, "./lib/apexsoft/FixApi.lib")
+#pragma comment(lib, "business/apexsoft/FixApi.lib")
 
-#pragma comment(lib, "./lib/szkingdom/kcbpcli.lib")
-#pragma comment(lib, "./lib/szkingdom/KDEncodeCli.lib")
+#pragma comment(lib, "business/szkingdom_win/kcbpcli.lib")
+#pragma comment(lib, "business/szkingdom_win/KDEncodeCli.lib")
 
 // opencv
 #pragma comment(lib, "D:/OpenCV/opencv/build/x86/vc11/lib/opencv_core246.lib")

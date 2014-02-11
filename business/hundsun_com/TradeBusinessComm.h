@@ -12,7 +12,7 @@
 
 
 
-#include "./lib/hundsun_t2/t2sdk_interface.h"
+#include "business/hundsun_t2/t2sdk_interface.h"
 #include "./connectpool/Connect.h"
 #include "./business/IBusiness.h"
 

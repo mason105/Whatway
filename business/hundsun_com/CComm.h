@@ -2,7 +2,7 @@
 #ifndef _COMMX_
 #define _COMMX_
 
-#import "./lib/hundsun_com/HsCommX.dll" no_namespace
+#import "business/hundsun_com/HsCommX.dll" no_namespace
 // CComm °ü×°Àà
 
 class CComm : public COleDispatchDriver

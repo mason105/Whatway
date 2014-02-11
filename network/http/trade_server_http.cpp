@@ -21,7 +21,7 @@
 //#include "trade.pb.h"
 #include "./encrypt/MyBotan.h"
 
-#include "./business/szkingdom/tradebusiness.h"
+#include "./business/szkingdom_win/tradebusiness.h"
 #include "./business/hundsun_t2/tradebusinesst2.h"
 #include "./business/hundsun_com/TradeBusinessComm.h"
 #include "./business/apexsoft/TradeBusinessDingDian.h"

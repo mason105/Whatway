@@ -12,8 +12,8 @@
 //#include "aes.h"
 
 #include "./config/ConfigManager.h"
-#include "./lib/szkingdom/KDEncodeCli.h"
-#include "./lib/szkingdom/kcbpcli.h"
+#include "business/szkingdom_win/KDEncodeCli.h"
+#include "business/szkingdom_win/kcbpcli.h"
 
 
 

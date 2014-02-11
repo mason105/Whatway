@@ -138,8 +138,8 @@
     <ClInclude Include="business\SunGuard\sywg.h" />
     <ClInclude Include="business\SunGuard\SywgConnect.h" />
     <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h" />
-    <ClInclude Include="business\szkingdom\Encrypt.h" />
-    <ClInclude Include="business\szkingdom\TradeBusiness.h" />
+    <ClInclude Include="business\szkingdom_win\Encrypt.h" />
+    <ClInclude Include="business\szkingdom_win\TradeBusiness.h" />
     <ClInclude Include="business\xinyi\TCPClientSync.h" />
     <ClInclude Include="cache\CacheData.h" />
     <ClInclude Include="captcha\CaptchaManager.h" />
@@ -207,8 +207,8 @@
     <ClCompile Include="business\SunGuard\AGC.cpp" />
     <ClCompile Include="business\SunGuard\SywgConnect.cpp" />
     <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp" />
-    <ClCompile Include="business\szkingdom\Encrypt.cpp" />
-    <ClCompile Include="business\szkingdom\TradeBusiness.cpp" />
+    <ClCompile Include="business\szkingdom_win\Encrypt.cpp" />
+    <ClCompile Include="business\szkingdom_win\TradeBusiness.cpp" />
     <ClCompile Include="business\xinyi\TCPClientSync.cpp" />
     <ClCompile Include="cache\CacheData.cpp" />
     <ClCompile Include="captcha\captchamanager.cpp" />
@@ -223,7 +223,7 @@
     <ClCompile Include="ConnectPool\Counter.cpp" />
     <ClCompile Include="encrypt\MyBotan.cpp" />
     <ClCompile Include="encrypt\testbotan.cpp" />
-    <ClCompile Include="lib\import_lib.cpp" />
+    <ClCompile Include="import_lib.cpp" />
     <ClCompile Include="lib\XML\pugixml.cpp" />
     <ClCompile Include="log\DistributedLogManager.cpp" />
     <ClCompile Include="log\FileLogManager.cpp" />

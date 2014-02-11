@@ -9,13 +9,13 @@
 #include "common.h"
 #include "./output/FileLog.h"
 
-#include "./lib/szkingdom/KDEncodeCli.h"
-#include "./lib/szkingdom/kcbpcli.h"
+#include "business/szkingdom_win/KDEncodeCli.h"
+#include "business/szkingdom_win/kcbpcli.h"
 
 // ¶¥µã
 
-#include "./lib/apexsoft/fixapi.h"
-#include "./lib/apexsoft/fiddef.h"
+#include "business/apexsoft/fixapi.h"
+#include "business/apexsoft/fiddef.h"
 
 #include "./business/apexsoft/DingDian.h"
 

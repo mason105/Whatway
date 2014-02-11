@@ -304,9 +304,6 @@
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h">
       <Filter>核心代码\5.柜台系统\恒生T2</Filter>
     </ClInclude>
-    <ClInclude Include="business\szkingdom\TradeBusiness.h">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
-    </ClInclude>
     <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h">
       <Filter>核心代码\5.柜台系统\顶点</Filter>
     </ClInclude>
@@ -360,9 +357,6 @@
     </ClInclude>
     <ClInclude Include="captcha\VerificationCode.h">
       <Filter>验证码imagemagick\需要重构的类</Filter>
-    </ClInclude>
-    <ClInclude Include="business\szkingdom\Encrypt.h">
-      <Filter>加解密</Filter>
     </ClInclude>
     <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h">
       <Filter>加解密</Filter>
@@ -460,6 +454,12 @@
     <ClInclude Include="common.h">
       <Filter>核心代码</Filter>
     </ClInclude>
+    <ClInclude Include="business\szkingdom_win\Encrypt.h">
+      <Filter>加解密</Filter>
+    </ClInclude>
+    <ClInclude Include="business\szkingdom_win\TradeBusiness.h">
+      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -492,9 +492,6 @@
     <ClCompile Include="business\hundsun_t2\TradeBusinessT2.cpp">
       <Filter>核心代码\5.柜台系统\恒生T2</Filter>
     </ClCompile>
-    <ClCompile Include="business\szkingdom\TradeBusiness.cpp">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
-    </ClCompile>
     <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp">
       <Filter>核心代码\5.柜台系统\顶点</Filter>
     </ClCompile>
@@ -516,9 +513,6 @@
     <ClCompile Include="business\IBusiness.cpp">
       <Filter>核心代码\5.柜台系统</Filter>
     </ClCompile>
-    <ClCompile Include="lib\import_lib.cpp">
-      <Filter>第三方库</Filter>
-    </ClCompile>
     <ClCompile Include="business\SunGuard\SywgConnect.cpp">
       <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
     </ClCompile>
@@ -536,9 +530,6 @@
     </ClCompile>
     <ClCompile Include="captcha\VerificationCode.cpp">
       <Filter>验证码imagemagick\需要重构的类</Filter>
-    </ClCompile>
-    <ClCompile Include="business\szkingdom\Encrypt.cpp">
-      <Filter>加解密</Filter>
     </ClCompile>
     <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
       <Filter>加解密</Filter>
@@ -614,6 +605,15 @@
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
       <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
+    </ClCompile>
+    <ClCompile Include="import_lib.cpp">
+      <Filter>第三方库</Filter>
+    </ClCompile>
+    <ClCompile Include="business\szkingdom_win\Encrypt.cpp">
+      <Filter>加解密</Filter>
+    </ClCompile>
+    <ClCompile Include="business\szkingdom_win\TradeBusiness.cpp">
+      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

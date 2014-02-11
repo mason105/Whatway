@@ -33,9 +33,9 @@
 #include "TradeGatewayGtja.h"
 
 
-#include "./lib/apexsoft/fiddef.h"
-#include "./lib/apexsoft/fixapi.h"
-#include "./business/apexsoft/DingDian.h"
+#include "business/apexsoft/fiddef.h"
+#include "business/apexsoft/fixapi.h"
+#include "business/apexsoft/DingDian.h"
 
 #include "./cache/CacheData.h"
 

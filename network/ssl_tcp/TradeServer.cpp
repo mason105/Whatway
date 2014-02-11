@@ -19,7 +19,7 @@
 #include "./config/configmanager.h"
 
 // ½ğÖ¤
-#include "./business/szkingdom/tradebusiness.h"
+#include "./business/szkingdom_win/tradebusiness.h"
 #include "./business/hundsun_com/TradeBusinessComm.h"
 // ºãÉú
 #include "./business/hundsun_t2/tradebusinesst2.h"
