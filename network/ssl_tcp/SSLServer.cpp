@@ -2,6 +2,7 @@
 
 #include "network/ssl_tcp/SSLServer.h"
 
+#include "./output/FileLog.h"
 
 
 SSLServer::SSLServer(unsigned short port, queue_type& q, int msgType, int n)
@@ -93,30 +94,36 @@ void SSLServer::run()
 	ios_pool_.run();
 }
 
-void SSLServer::accept_handler(const boost::system::error_code& error, SSLSession* session)
-{
-	
-
-	if (!error)
-	{
-		session->start();
-		
-	}
-	else
-	{
-		delete session;
-	}
-
-	start_accept();
-}
-
 void SSLServer::start_accept()
 {
 	SSLSession * session = new SSLSession(ios_pool_.get(), queue_, m_msgType, context_);
 
 	acceptor_.async_accept(session->socket(), 
-		boost::bind(&SSLServer::accept_handler, this, boost::asio::placeholders::error, session));
+		boost::bind(&SSLServer::accept_handler, 
+		this, 
+		boost::asio::placeholders::error, 
+		session));
 }
+
+
+void SSLServer::accept_handler(const boost::system::error_code& error, SSLSession* session)
+{
+	if (error)
+	{
+		gFileLog::instance().Log("SSLServer accept_handler£¬´íÎó´úÂë:" + boost::lexical_cast<std::string>(error.value()) + "£¬´íÎóÏûÏ¢:" + error.message());
+
+		delete session;
+		
+	}
+	else
+	{
+		session->start();
+		
+	}
+
+	start_accept();
+}
+
 
 std::string SSLServer::get_password()
 {

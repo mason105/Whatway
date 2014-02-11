@@ -16,7 +16,6 @@
 #include "network/ssl_tcp/tcpsession.h"
 #include "network/io_service_pool.h"
 
-#include "./output/FileLog.h"
 
 /*
 session的释放可以参考

@@ -187,6 +187,9 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 	// 得到柜台类型
 	nCounterType = g_ConnectManager.GetCounterType(sysNo, busiType);
+	if (nCounterType == COUNTER_TYPE_UNKNOWN)
+	{
+	}
 
 	/*
 	// 初始化柜台连接
@@ -339,8 +342,6 @@ bool TradeServer::ProcessRequest(IMessage* req)
 			boost::posix_time::ptime ptEndTime = boost::posix_time::microsec_clock::local_time();
 			runtime = (ptEndTime - ptBeginTime).total_microseconds();// 微秒数
 
-			//req->Log(Trade::TradeLog::, sysNo, sysVer, busiType, funcId, account, clientIp, request, response, status, errCode, errMsg, beginTime, runtime, gatewayIp, gatewayPort, counterIp, counterPort, counterType);
-
 			break;
 		}
 		else
@@ -348,10 +349,8 @@ bool TradeServer::ProcessRequest(IMessage* req)
 			// 通信失败,开始重试
 			// 处理一次，写一次日志
 			// fileLog.push(req->log)
-			//req->GetSession()->counterConnect->counter->m_eCounterType
-			
-			
-		}
+			//req->Log(Trade::TradeLog::, sysNo, sysVer, busiType, funcId, account, clientIp, request, response, status, errCode, errMsg, beginTime, runtime, gatewayIp, gatewayPort, counterIp, counterPort, counterType);
+		}// end if
 	} // end for retry
 	
 

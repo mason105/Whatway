@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
-#include "network/ssl_tcp/tcpserver.h"
 #include "network/ssl_tcp/TcpServer.h"
+
+#include "./output/FileLog.h"
 
 
 TcpServer::TcpServer(io_service_pool& ios, unsigned short port, queue_type& q, int msgType):
