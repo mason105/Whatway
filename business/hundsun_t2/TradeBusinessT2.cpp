@@ -35,18 +35,74 @@
 
 TradeBusinessT2::TradeBusinessT2()
 {
-	
-
-
-
-	sCounterType = "1";
+	lpConfig = NULL;
+	lpConnection = NULL;
 }
-
 
 
 TradeBusinessT2::~TradeBusinessT2(void)
 {
+	CloseConnect();
 }
+
+
+bool TradeBusinessT2::CreateConnect()
+{
+	int nRet = 0;
+
+	lpConfig = NewConfig();
+	lpConfig->AddRef();
+
+	std::string s = m_Counter->m_sIP;
+	s += ":";
+	s += boost::lexical_cast<std::string>(m_Counter->m_nPort);
+	lpConfig->SetString("t2sdk", "servers", s.c_str());
+
+	std::string license_file;
+	license_file = gConfigManager::instance().m_sPath + "\\license.dat";
+	lpConfig->SetString("t2sdk", "license_file", license_file.c_str());
+	lpConfig->SetString("t2sdk", "lang", "1033");
+	lpConfig->SetString("t2sdk", "send_queue_size", "100");
+	lpConfig->SetString("safe", "safe_level", "none");
+
+
+	lpConnection = NewConnection(lpConfig);
+	lpConnection->AddRef();
+
+	nRet = lpConnection->Create(NULL);
+
+		
+	nRet = lpConnection->Connect(m_Counter->m_nConnectTimeout*1000);
+
+	if (nRet != 0)
+	{
+		m_bConnected = false;
+		return false;
+	}
+	else
+	{
+		m_bConnected = true;
+		return true;
+	}
+}
+
+void TradeBusinessT2::CloseConnect()
+{
+	m_bConnected = false;
+
+	if (lpConnection != NULL)
+	{
+		lpConnection->Release();
+		lpConnection = NULL;
+	}
+
+	if (lpConfig != NULL)
+	{
+		lpConfig->Release();
+		lpConfig = NULL;
+	}
+}
+
 
 bool TradeBusinessT2::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
@@ -69,11 +125,6 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 		{
 			e.what();
 
-			
-			
-			
-
-		
 			GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
 			bRet = true;	
@@ -90,10 +141,9 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	{
 		e.what();
 
-		
-			GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
-			bRet = true;	
-			goto FINISH;
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+		bRet = true;	
+		goto FINISH;
 	}
 
 
@@ -111,6 +161,7 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 
 	IF2Packer* pack = NewPacker(2);
 	pack->AddRef();
+
 	pack->BeginPack();
 	for (std::map<std::string, std::string>::iterator it = reqmap.begin(); it != reqmap.end(); it++)
 	{
@@ -163,6 +214,7 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 		pack->AddStr(value.c_str());
 
 	} // end for
+
 	pack->EndPack();
 
 	
@@ -273,29 +325,22 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 		} // end for GetDatasetCount()
 
 		status = 1;
-		retcode = "";
-		retmsg = "";
-		logLevel = Trade::TradeLog::INFO_LEVEL;
+		errCode = "";
+		errMsg = "";
+		//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 	}
 	else if(nRet == 1)
 	{
 		IF2UnPacker *lpUnPacker = (IF2UnPacker *)Pointer;
-
-		
-
-
-		
 		errMsg = lpUnPacker->GetStr("error_info");
 		GenResponse(boost::lexical_cast<int>(lpUnPacker->GetStr("error_no")), errMsg, response, status, errCode, errMsg);
+		
 		bRet = true;
 		goto FINISH;
 	}
 	else if(nRet == 2)
 	{
-		
-
-		
 		errMsg = (char*)Pointer;
 		
 		GenResponse(nRet, errMsg, response, status, errCode, errMsg);
@@ -304,15 +349,13 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	}
 	else if (nRet == 3)
 	{
-		
 		GenResponse(nRet, "业务包解包失败", response, status, errCode, errMsg);
 		bRet = true;
 		goto FINISH;
 	}
 	else
 	{
-		
-		GenResponse(nRet, errMsg, response, status, errCode, errMsg);
+		GenResponse(nRet, lpConnection->GetErrorMsg(nRet), response, status, errCode, errMsg);
 		bRet = true;
 		goto FINISH;
 	}
@@ -324,48 +367,3 @@ FINISH:
 	return bRet;
 }
 
-
-bool TradeBusinessT2::CreateConnect()
-{
-	int nRet = 0;
-
-	lpConfig = NewConfig();
-	lpConfig->AddRef();
-
-	std::string s = m_Counter->m_sIP;
-	s += ":";
-	s += boost::lexical_cast<std::string>(m_Counter->m_nPort);
-	lpConfig->SetString("t2sdk", "servers", s.c_str());
-
-	std::string license_file;
-	license_file = gConfigManager::instance().m_sPath + "\\license.dat";
-	lpConfig->SetString("t2sdk", "license_file", license_file.c_str());
-	lpConfig->SetString("t2sdk", "lang", "1033");
-	lpConfig->SetString("t2sdk", "send_queue_size", "100");
-	lpConfig->SetString("safe", "safe_level", "none");
-
-
-		lpConnection = NewConnection(lpConfig);
-		lpConnection->AddRef();
-
-		nRet = lpConnection->Create(NULL);
-
-		
-		nRet = lpConnection->Connect(m_Counter->m_nConnectTimeout*1000);
-
-		if (nRet != 0)
-		{
-			return false;
-		}
-		else
-		{
-			
-
-			return true;
-		}
-
-}
-
-void TradeBusinessT2::CloseConnect()
-{
-}

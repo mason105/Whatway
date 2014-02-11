@@ -30,17 +30,16 @@ public:
 	~CTCPClientSync(void);
 
 	virtual bool CreateConnect();
+	virtual void CloseConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 
-	virtual void CloseConnect();
+	
 
-	bool ReConnect();
-	bool IsConnected();
+	
+
 
 	// 心跳功能，由于后台业务不同，所以封装
 	bool HeartBeat();
-	
-
 	void SetConnectTimeout(int seconds);
 	void SetReadWriteTimeout(int seconds);
 
@@ -64,9 +63,6 @@ private:
 
 	std::string m_sIP;
 	int m_nPort;
-
-
-
 	int connectTimeout;
 	int readWriteTimeout;
 };

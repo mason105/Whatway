@@ -75,12 +75,12 @@ public:
 
 	
 
-	std::string sCounterType;
+
 
 	// flash交易，修改密码功能，普通模式，产生的新密码需要返回给前端
 	std::string flash_normal_modifypwd_newpwd;
 
-
+	/*
 	// 日志共用变量定义
 	boost::posix_time::ptime beginTime; // 开始时间
 	std::string sBeginTime;
@@ -98,11 +98,13 @@ public:
 	std::string gt_port; // 柜台port
 	std::string gateway_ip; // 网关ip
 	std::string gateway_port; // 网关port
+	*/
+
 
 	void ParseRequest(std::string& request);
 	bool FilterRequestField(std::string& key);
 	
-	void RetErrRes(Trade::TradeLog::LogLevel logLevel, std::string& response, std::string retcode, std::string retmsg);
+	//void RetErrRes(Trade::TradeLog::LogLevel logLevel, std::string& response, std::string retcode, std::string retmsg);
 	void RetNoRecordRes(std::string& response);
 
 	

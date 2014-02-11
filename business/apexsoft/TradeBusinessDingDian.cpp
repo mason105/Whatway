@@ -42,11 +42,7 @@
 
 TradeBusinessDingDian::TradeBusinessDingDian()
 {
-	
-	sCounterType = "5";
 }
-
-
 
 TradeBusinessDingDian::~TradeBusinessDingDian(void)
 {
@@ -95,9 +91,9 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		response += SOH;
 
 		status = 1;
-		retcode = "";
-		retmsg = "";
-		logLevel = Trade::TradeLog::INFO_LEVEL;
+		errCode = "";
+		errMsg = "";
+		//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 		goto FINISH;
 	}
@@ -141,9 +137,9 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 			response += SOH;
 
 			status = 1;
-			retcode = "";
-			retmsg = "";
-			logLevel = Trade::TradeLog::INFO_LEVEL;
+			errCode = "";
+			errMsg = "";
+			//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 			goto FINISH;
 		}
@@ -169,16 +165,16 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 			response += SOH;
 
 			status = 0;
-			retcode = "1100";
-			retmsg = "解锁失败";
-			logLevel = Trade::TradeLog::INFO_LEVEL;
+			errCode = "1100";
+			errMsg = "解锁失败";
+			//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 			goto FINISH;
 		}
 	}
 
 
-	//gFileLog::instance().Log("cache test begin " + cssweb_cacheFlag);
+	
 	if (!cssweb_cacheFlag.empty())
 	{
 		if (g_CacheData.m_mapCacheData.find(cssweb_cacheFlag) != g_CacheData.m_mapCacheData.end())
@@ -190,16 +186,16 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 				response = value;
 
 				status = 1;
-				retcode = "";
-				retmsg = "";
-				logLevel = Trade::TradeLog::INFO_LEVEL;
+				errCode = "";
+				errMsg = "";
+				//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 				gFileLog::instance().Log("cache use " + cssweb_cacheFlag);
 				goto FINISH;
 			}
 		}
 	}
-	//gFileLog::instance().Log("cache test end " + cssweb_cacheFlag);
+	
 
 	// 判断功能号是否已定义
 	if (g_DingDian.m_mReturnField.find(funcid) == g_DingDian.m_mReturnField.end())
@@ -224,19 +220,14 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 			response += SOH;
 
 			status = 0;
-			retcode = "2001";
-			retmsg = "功能号没有配置";
-			logLevel = Trade::TradeLog::ERROR_LEVEL;
+			errCode = "2001";
+			errMsg = "功能号没有配置";
+			//logLevel = Trade::TradeLog::ERROR_LEVEL;
 
 			goto FINISH;
 	}
 
 	
-	
-
-	gt_ip = m_Counter->m_sIP;
-	gt_port = boost::lexical_cast<std::string>(m_Counter->m_nPort);
-
 	
 	
 	session = Fix_AllocateSession(m_hHandle);
@@ -293,7 +284,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		if (node.find("ZRSJ") == std::string::npos)
 			node = "ZRSJ:" + node;
 
-		//gFileLog::instance().Log("set node:" + node);
+	
 		Fix_SetNode(session, node.c_str());
 	}
 
@@ -476,7 +467,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		char szErrMsg[1024];
 		Fix_GetErrMsg(session, szErrMsg, sizeof(szErrMsg));
 
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, boost::lexical_cast<std::string>(lErrCode), szErrMsg);
+		GenResponse(lErrCode, szErrMsg, response, status, errCode, errMsg);
 
 		goto FINISH;
 	}	
@@ -576,21 +567,21 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		}
 
 		status = 1;
-		retcode = "";
-		retmsg = "";
-		logLevel = Trade::TradeLog::INFO_LEVEL;
+		errCode = "";
+		errMsg = "";
+		//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 		// 结果集缓存
 		if (!cssweb_cacheFlag.empty())
 		{
-			gFileLog::instance().Log("cache save " + cssweb_cacheFlag);
+			gFileLog::instance().Log("加入缓存" + cssweb_cacheFlag);
 			g_CacheData.m_mapCacheData[cssweb_cacheFlag] = response;
 			
 		}
 	}
 	else
 	{
-		RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, fid_code, fid_message);
+		GenResponse(fidcode, fid_message, response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
@@ -606,9 +597,7 @@ FINISH:
 		Fix_ReleaseSession(session);
 	}
 
-	
-
-	return true;
+	return bRet;
 
 }
 
@@ -650,4 +639,5 @@ bool TradeBusinessDingDian::CreateConnect()
 
 void TradeBusinessDingDian::CloseConnect()
 {
+	Fix_Close(m_hHandle);
 }

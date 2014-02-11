@@ -183,7 +183,7 @@ void IBusiness::BeginLog(std::string& request)
 	logRequest = request;
 }
 */
-
+/*
 void IBusiness::RetErrRes(Trade::TradeLog::LogLevel level, std::string& response, std::string code, std::string msg)
 {
 	//retmsgÒª¹ýÂË=
@@ -215,13 +215,13 @@ void IBusiness::RetErrRes(Trade::TradeLog::LogLevel level, std::string& response
 	response += "0.0.0.0:5000";
 	response += SOH;
 
-	status = 0;
-	logLevel = level;
-	retcode = code;
-	retmsg = msg;
+//	status = 0;
+//	logLevel = level;
+//	retcode = code;
+//	retmsg = msg;
 }
 
-
+*/
 
 void IBusiness::RetNoRecordRes(std::string& response)
 {
@@ -248,10 +248,10 @@ void IBusiness::RetNoRecordRes(std::string& response)
 	response += "0.0.0.0:5000";
 	response += SOH;
 
-	logLevel = Trade::TradeLog::INFO_LEVEL;	
-	status = 1;
-	retcode = "";
-	retmsg = "";
+//	logLevel = Trade::TradeLog::INFO_LEVEL;	
+//	status = 1;
+//	retcode = "";
+//	retmsg = "";
 }
 
 /*
@@ -353,6 +353,7 @@ bool IBusiness::DecryptPassword(std::string algo, std::string key, std::string c
 
 	return false;
 }
+
 void IBusiness::GenResponse(int nErrCode, std::string sErrMsg, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
 	status = 0;

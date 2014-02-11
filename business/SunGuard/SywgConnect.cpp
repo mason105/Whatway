@@ -30,7 +30,7 @@ CSywgConnect::CSywgConnect(void)
 	//m_sIP = "127.0.0.1";
 	//m_nPort = 28888;
 
-	SOH = "\x01";
+	
 
 }
 
@@ -62,7 +62,7 @@ bool CSywgConnect::CreateConnect()
 		if (ec)
 		{
 			//gFileLog::instance().Log(ec.message(), m_sLogFile);
-			TRACE("连接失败\n");
+			m_bConnected = false;
 			return FALSE;
 		}
 
@@ -72,8 +72,8 @@ bool CSywgConnect::CreateConnect()
 	}
 	catch(std::exception& e)
 	{
-		//gFileLog::instance().Log(e.what(), m_sLogFile);
-		TRACE("连接异常\n", e.what());
+		e.what();
+		m_bConnected = false;
 		return FALSE;
 	}
 }
@@ -81,6 +81,7 @@ bool CSywgConnect::CreateConnect()
 // OK
 void CSywgConnect::CloseConnect()
 {
+	m_bConnected = false;
 	boost::system::error_code ec;
 
 	socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
@@ -882,13 +883,13 @@ void CSywgConnect::GetErrInfo(std::string& sErrCode, std::string& sErrMsg)
 	
 }
 
-
+/*
 
 bool CSywgConnect::IsConnected()
 {
 	return socket.is_open();
 }
-
+*/
 
 bool CSywgConnect::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {

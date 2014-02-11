@@ -29,15 +29,64 @@
 
 TradeBusiness::TradeBusiness()
 {
-	
+	handle = NULL;
 }
-
-
 
 TradeBusiness::~TradeBusiness(void)
 {
 }
 
+
+bool TradeBusiness::CreateConnect()
+{
+	int nRet = 0;
+
+
+		tagKCBPConnectOption stKCBPConnection;
+		memset(&stKCBPConnection, 0x00, sizeof(stKCBPConnection));
+
+		strcpy(stKCBPConnection.szServerName, m_Counter->m_sServerName.c_str());
+		stKCBPConnection.nProtocal = 0;
+		strcpy(stKCBPConnection.szAddress, m_Counter->m_sIP.c_str());
+		stKCBPConnection.nPort = m_Counter->m_nPort;
+		strcpy(stKCBPConnection.szSendQName, m_Counter->m_sReq.c_str());
+		strcpy(stKCBPConnection.szReceiveQName, m_Counter->m_sRes.c_str());
+
+		nRet = KCBPCLI_Init( &handle );
+		nRet = KCBPCLI_SetConnectOption( handle, stKCBPConnection );		
+
+		//设置超时
+		nRet = KCBPCLI_SetCliTimeOut( handle, m_Counter->m_nConnectTimeout);
+
+		// 设置是否输出调试信息
+		//nRet = KCBPCLI_SetOptions( handle, KCBP_OPTION_TRACE, &gConfigManager::instance().m_nIsTradeServerDebug, sizeof(int));
+
+		nRet = KCBPCLI_SQLConnect( handle, stKCBPConnection.szServerName, (char*)m_Counter->m_sUserName.c_str(), (char*)m_Counter->m_sPassword.c_str());
+
+		if (nRet != 0)
+		{
+			
+
+			return false;
+		}
+		else
+		{
+			
+
+			return true;
+		}
+	
+}
+
+void TradeBusiness::CloseConnect()
+{
+	if (handle != NULL)
+	{
+		KCBPCLI_SQLDisconnect(handle);
+		KCBPCLI_Exit(handle);
+		handle = NULL;
+	}
+}
 
 bool TradeBusiness::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
@@ -49,13 +98,6 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	std::string content = "";
 	int nRows = 0;
 	char szErrMsg[512] = {0};
-
-
-
-	
-	
-
-
 
 	ParseRequest(request);
 
@@ -353,15 +395,15 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 		goto FINISH;
 	}
 
-	if( strcmp(szTmpbuf, "0") != 0 )
+	if (strcmp(szTmpbuf, "0") != 0)
 	{
-		retcode = szTmpbuf;
+		errCode = szTmpbuf;
 
 		KCBPCLI_RsGetColByName(handle, "MSG", szTmpbuf );
-		retmsg = szTmpbuf;
+		errMsg = szTmpbuf;
 
 		
-		this->GenResponse(boost::lexical_cast<int>(retcode), retmsg, response, status, errCode, errMsg);
+		this->GenResponse(boost::lexical_cast<int>(errCode), errMsg, response, status, errCode, errMsg);
 		goto FINISH;
 	}
 
@@ -473,58 +515,13 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 
 
 	status = 1;
-	retcode = "";
-	retmsg = "";
-	logLevel = Trade::TradeLog::INFO_LEVEL;
+	errCode = "";
+	errMsg = "";
+	//logLevel = Trade::TradeLog::INFO_LEVEL;
 	
 
 FINISH:
 	
 
 	return bRet;
-}
-
-bool TradeBusiness::CreateConnect()
-{
-	int nRet = 0;
-
-
-		tagKCBPConnectOption stKCBPConnection;
-		memset(&stKCBPConnection, 0x00, sizeof(stKCBPConnection));
-
-		strcpy(stKCBPConnection.szServerName, m_Counter->m_sServerName.c_str());
-		stKCBPConnection.nProtocal = 0;
-		strcpy(stKCBPConnection.szAddress, m_Counter->m_sIP.c_str());
-		stKCBPConnection.nPort = m_Counter->m_nPort;
-		strcpy(stKCBPConnection.szSendQName, m_Counter->m_sReq.c_str());
-		strcpy(stKCBPConnection.szReceiveQName, m_Counter->m_sRes.c_str());
-
-		nRet = KCBPCLI_Init( &handle );
-		nRet = KCBPCLI_SetConnectOption( handle, stKCBPConnection );		
-
-		//设置超时
-		nRet = KCBPCLI_SetCliTimeOut( handle, m_Counter->m_nConnectTimeout);
-
-		// 设置是否输出调试信息
-		//nRet = KCBPCLI_SetOptions( handle, KCBP_OPTION_TRACE, &gConfigManager::instance().m_nIsTradeServerDebug, sizeof(int));
-
-		nRet = KCBPCLI_SQLConnect( handle, stKCBPConnection.szServerName, (char*)m_Counter->m_sUserName.c_str(), (char*)m_Counter->m_sPassword.c_str());
-
-		if (nRet != 0)
-		{
-			
-
-			return false;
-		}
-		else
-		{
-			
-
-			return true;
-		}
-	
-}
-
-void TradeBusiness::CloseConnect()
-{
 }

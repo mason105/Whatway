@@ -25,11 +25,12 @@ public:
 
 public:
 	virtual bool CreateConnect();
+	virtual void CloseConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
 	
-	virtual bool IsConnected();
+	
 
-	virtual void CloseConnect();
+	
 
 
 
@@ -56,7 +57,7 @@ private:
 	std::string m_sIP;
 	int m_nPort;
 
-	std::string SOH;
+	
 
 public:
 	int m_nErrCode;
@@ -65,7 +66,7 @@ public:
 	void GetErrInfo(std::string& sErrCode, std::string& sErrMsg);
 
 	
-	bool ReLogin();
+	
 
 private:
 	// 保存登录信息，用于自动重连

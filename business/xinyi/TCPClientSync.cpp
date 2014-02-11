@@ -45,7 +45,7 @@ void CTCPClientSync::check_deadline()
 	
 	if (deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now())
 	{
-		gFileLog::instance().Log("连接超时或读写超时");
+		gFileLog::instance().Log("新意服务器：连接超时或读写超时");
 
 		CloseConnect();
 
@@ -107,12 +107,6 @@ bool CTCPClientSync::CreateConnect()
 		m_bConnected = false;
 		return m_bConnected;
 	}
-}
-
-bool CTCPClientSync::IsConnected()
-{
-	
-	return m_bConnected;
 }
 
 
@@ -281,13 +275,6 @@ void CTCPClientSync::CloseConnect()
 	gFileLog::instance().Log("断开新意服务器!");
 }
 
-bool CTCPClientSync::ReConnect()
-{
-	CloseConnect();
-
-	return CreateConnect();
-}
-
 
 
 void CTCPClientSync::SetConnectTimeout(int connecTimeout)
@@ -302,7 +289,7 @@ void CTCPClientSync::SetReadWriteTimeout(int readWriteTimeout)
 
 bool CTCPClientSync::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
-	bool bRet = false;
+	bool bRet = true;
 	
 
 	// 发送请求
@@ -343,7 +330,7 @@ bool CTCPClientSync::Send(std::string& request, std::string& response, int& stat
 	}
 	delete pRes;	
 	
-	return true;
+	return bRet;
 }
 
 // 发送心跳包

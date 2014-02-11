@@ -34,184 +34,11 @@ CDingDian::~CDingDian(void)
 }
 
 BOOL CDingDian::Init()
-{
-	
+{	
 	// 已经初始化过，不允许再次初始化
 	if (m_bIsInited)
 		return FALSE;
 
-	/*
-
-	std::string sDLLFileName = gConfigManager::instance().m_sPath + "\\fixapi.dll";
-	hFixAPI = LoadLibrary(sDLLFileName.c_str());
-	if (hFixAPI == NULL)
-	{
-		AfxMessageBox("load fixapi.dll error.");
-		return FALSE;
-	}
-
-		 
-
-	
-
-
-	Fix_Encode = (fpFix_Encode) GetProcAddress(hFixAPI, "Fix_Encode");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_Encode error.");
-		goto FREE_DLL;
-	}
-
-	Fix_GetCount = (fpFix_GetCount) GetProcAddress(hFixAPI, "Fix_GetCount");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_GetCount error.");
-		goto FREE_DLL;
-	}
-
-	Fix_GetErrMsg = (fpFix_GetErrMsg) GetProcAddress(hFixAPI, "Fix_GetErrMsg");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_GetErrMsg error.");
-		goto FREE_DLL;
-	}
-
-	Fix_GetCode = (fpFix_GetCode) GetProcAddress(hFixAPI, "Fix_GetCode");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_GetCode error.");
-		goto FREE_DLL;
-	}
-
-	Fix_Run = (fpFix_Run) GetProcAddress(hFixAPI, "Fix_Run");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_Run error.");
-		goto FREE_DLL;
-	}
-
-	Fix_CreateHead = (fpFix_CreateHead) GetProcAddress(hFixAPI, "Fix_CreateHead");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_CreateHead error.");
-		goto FREE_DLL;
-	}
-
-	Fix_SetGYDM = (fpFix_SetGYDM) GetProcAddress(hFixAPI, "Fix_SetGYDM");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetGYDM error.");
-		goto FREE_DLL;
-	}
-	
-	Fix_SetNode = (fpFix_SetNode) GetProcAddress(hFixAPI, "Fix_SetNode");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetNode error.");
-		goto FREE_DLL;
-	}
-
-	Fix_SetDestFBDM = (fpFix_SetDestFBDM) GetProcAddress(hFixAPI, "Fix_SetDestFBDM");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetDestFBDM error.");
-		goto FREE_DLL;
-	}
-	 
-	Fix_SetFBDM = (fpFix_SetFBDM) GetProcAddress(hFixAPI, "Fix_SetFBDM");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetFBDM error.");
-		goto FREE_DLL;
-	}
-
-	Fix_SetWTFS = (fpFix_SetWTFS) GetProcAddress(hFixAPI, "Fix_SetWTFS");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetWTFS error.");
-		goto FREE_DLL;
-	}
-
-	Fix_SetTimeOut = (fpFix_SetTimeOut) GetProcAddress(hFixAPI, "Fix_SetTimeOut");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetTimeOut error.");
-		goto FREE_DLL;
-	}
-
-	Fix_ReleaseSession = (fpFix_ReleaseSession) GetProcAddress(hFixAPI, "Fix_ReleaseSession");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_ReleaseSession error.");
-		goto FREE_DLL;
-	}
-	
-	Fix_AllocateSession = (fpFix_AllocateSession) GetProcAddress(hFixAPI, "Fix_AllocateSession");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_AllocateSession error.");
-		goto FREE_DLL;
-	}
-	
-	Fix_Close = (fpFix_Close) GetProcAddress(hFixAPI, "Fix_Close");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_Close error.");
-		goto FREE_DLL;
-	}
-
-	Fix_Connect = (fpFix_Connect) GetProcAddress(hFixAPI, "Fix_Connect");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_Connect error.");
-		goto FREE_DLL;
-	}
-
-	Fix_Uninitialize = (fpFix_Uninitialize) GetProcAddress(hFixAPI, "Fix_Uninitialize");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_Uninitialize error.");
-		goto FREE_DLL;
-	}
-
-	Fix_Initialize = (fpFix_Initialize) GetProcAddress(hFixAPI, "Fix_Initialize");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_Initialize error.");
-		goto FREE_DLL;
-	}
-
-	Fix_SetItem = (fpFix_SetItem) GetProcAddress(hFixAPI, "Fix_SetItem");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_SetItem error.");
-		goto FREE_DLL;
-	}
-
-	Fix_GetItem = (fpFix_GetItem) GetProcAddress(hFixAPI, "Fix_GetItem");
-	if (Fix_Encode == NULL)
-	{
-		AfxMessageBox("GetProcAddress Fix_GetItem error.");
-		goto FREE_DLL;
-	}
-	
-
-#ifdef _USE_DINGDIAN_
-	Fix_Initialize();
-#endif
-	
-	gFileLog::instance().Log("初始化顶点柜台成功");
-
-	
-	return TRUE;
-
-FREE_DLL:
-	if (hFixAPI != NULL)
-		FreeLibrary(hFixAPI);
-	return FALSE;
-	*/
-
-		gFileLog::instance().Log("开始初始化顶点柜台");
 	Fix_Initialize();
 	m_bIsInited = TRUE;
 
@@ -220,9 +47,7 @@ FREE_DLL:
 
 void CDingDian::UnInit()
 {
-
 	Fix_Uninitialize();
-
 }
 
 void CDingDian::ReadMapFile()
