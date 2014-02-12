@@ -370,6 +370,11 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 finish:
 
+	std::vector<char> compressedMsgContent;
+	
+
+	
+
 	IMessage * resp = NULL;
 	
 	//std::vector<char> msgHeader;
@@ -379,6 +384,9 @@ finish:
 	case MSG_TYPE_HTTP:
 		{
 		resp = new http_message();
+		// 设置消息内容
+		resp->SetMsgContent(response);
+
 		}
 		break;
 	case MSG_TYPE_TCP_OLD:
@@ -386,6 +394,9 @@ finish:
 		resp = new tcp_message_old();
 		int msgHeaderSize = response.size();
 		memcpy(&(resp->m_MsgHeader.front()), &msgHeaderSize, 4);
+		// 设置消息内容
+		resp->SetMsgContent(response);
+
 		}
 		break;
 	case MSG_TYPE_SSL_PB:
@@ -394,13 +405,33 @@ finish:
 
 		quote::PkgHeader pbHeader;
 
-		pbHeader.set_bodysize(response.size());
+		if (response.size() > gConfigManager::instance().zlib)
+		{
+			boost::iostreams::filtering_streambuf<boost::iostreams::output> compress_out;
+			compress_out.push(boost::iostreams::zlib_compressor());
+			compress_out.push(boost::iostreams::back_inserter(compressedMsgContent));
+			boost::iostreams::copy(boost::make_iterator_range(response), compress_out);
+
+			pbHeader.set_zip(true);
+			int compressedMsgContentSize = compressedMsgContent.size();
+			pbHeader.set_bodysize(compressedMsgContentSize);
+			// 设置消息内容
+			resp->SetMsgContent(compressedMsgContent);
+
+			
+		}
+		else
+		{
+			pbHeader.set_zip(false);
+			pbHeader.set_bodysize(response.size());
+			// 设置消息内容
+			resp->SetMsgContent(response);
+
+		}
+		
 		pbHeader.set_ver(1);
 		pbHeader.set_enc(false);
-		if (resp->GetMsgContentSize() > gConfigManager::instance().zlib)
-			pbHeader.set_zip(true);
-		else
-			pbHeader.set_zip(false);
+		
 		pbHeader.set_more(false);
 		pbHeader.set_msgtype(quote::PkgHeader::RES_TRADE);
 		pbHeader.set_errcode(0);
@@ -417,9 +448,31 @@ finish:
 		MSG_HEADER binRespMsgHeader;
 		binRespMsgHeader.CRC = 0;
 		binRespMsgHeader.FunctionNo = nFuncId;
-		binRespMsgHeader.MsgContentSize = response.size();
+		
 		binRespMsgHeader.MsgType = MSG_TYPE_RESPONSE_END;
-		binRespMsgHeader.zip = 0;
+
+		if (response.size() > gConfigManager::instance().zlib)
+		{
+			boost::iostreams::filtering_streambuf<boost::iostreams::output> compress_out;
+			compress_out.push(boost::iostreams::zlib_compressor());
+			compress_out.push(boost::iostreams::back_inserter(compressedMsgContent));
+			boost::iostreams::copy(boost::make_iterator_range(response), compress_out);
+
+			binRespMsgHeader.zip = 1;
+			int compressedMsgContentSize = compressedMsgContent.size();
+			binRespMsgHeader.MsgContentSize = compressedMsgContentSize;
+			// 设置消息内容
+			resp->SetMsgContent(compressedMsgContent);
+
+		}
+		else
+		{
+			binRespMsgHeader.zip = 0;
+			binRespMsgHeader.MsgContentSize = response.size();
+			// 设置消息内容
+			resp->SetMsgContent(response);
+
+		}
 
 		//msgHeader.resize(sizeof(MSG_HEADER));
 
@@ -438,21 +491,11 @@ finish:
 
 	
 	
-	// 设置消息内容
-	resp->SetMsgContent(response);
 
+	
 
-	if (resp->GetMsgContentSize() > gConfigManager::instance().zlib)
-	{
-		std::vector<char> compressed;
-
-		boost::iostreams::filtering_streambuf<boost::iostreams::output> compress_out;
-		compress_out.push(boost::iostreams::zlib_compressor());
-		compress_out.push(boost::iostreams::back_inserter(compressed));
-
-		boost::iostreams::copy(boost::make_iterator_range(resp->GetMsgContent()), compress_out);
-
-		int msgContentSize = compressed.size();
+	
+		
 
 	// 设置消息头
 	//resp->SetMsgHeader(msgHeader);

@@ -54,6 +54,8 @@ public:
 
 	// 发送消息
 	void SetMsgContent(std::string content);
+	void SetMsgContent(std::vector<char> content);
+
 	void SetMsgHeader(std::vector<char> header);
 
 	// 接收消息

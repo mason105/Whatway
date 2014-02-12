@@ -47,7 +47,7 @@
     </tcp_new>
     
     <!-- 大于以下设置会被压缩 -->
-    <zlib>4096</zlib>
+    <zlib>512</zlib>
 
     <!-- 运行状态：0.debug 1.run-->
     <RunMode>0</RunMode>

@@ -61,6 +61,20 @@ void IMessage::SetMsgContent(std::string content)
 	memcpy(m_MsgContent.data(), content.c_str(), MsgContentSize);
 }
 
+void IMessage::SetMsgContent(std::vector<char> content)
+{
+	size_t MsgContentSize = content.size();
+
+	if (MsgContentSize == 0)
+		return;
+
+	m_MsgContent.resize(MsgContentSize);
+
+	
+	m_MsgContent = content;
+	
+}
+
 void IMessage::Log(Trade::TradeLog::LogLevel logLevel, std::string sysNo, std::string sysVer, std::string busiType, std::string funcId, std::string account, std::string clientIp, std::string request, std::string response, int status, std::string errCode, std::string errMsg, std::string beginTime, int runtime, std::string gatewayIp, std::string gatewayPort, std::string counterIp, std::string counterPort, std::string counterType)
 {
 	log.set_level(logLevel);
