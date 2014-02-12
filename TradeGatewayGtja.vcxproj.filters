@@ -65,21 +65,6 @@
     <Filter Include="第三方库\InstantClient">
       <UniqueIdentifier>{6f24d9ed-25d5-4312-af56-5b335cbcf6ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="第三方库\顶点">
-      <UniqueIdentifier>{02940c84-499f-4d4d-946b-f80a71f13149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\恒生T2">
-      <UniqueIdentifier>{b2234c83-9ec5-4dbb-b302-9605494d0e27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\金证">
-      <UniqueIdentifier>{a92833f1-6d3d-4755-bd06-28eba30c9ea3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\金仕达">
-      <UniqueIdentifier>{9834b852-16de-4dee-825b-2ebb1733bc98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\恒生COM">
-      <UniqueIdentifier>{33dabd0f-6acd-4f97-8244-ea538d5b0293}</UniqueIdentifier>
-    </Filter>
     <Filter Include="配置文件\debug">
       <UniqueIdentifier>{bcda6ad1-c0aa-474b-a48d-b95620a374ec}</UniqueIdentifier>
     </Filter>
@@ -247,6 +232,9 @@
     </Filter>
     <Filter Include="核心代码\柜台连接池\代码作废">
       <UniqueIdentifier>{9dc1211c-4960-473b-9d34-f15a8d1fd8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="开发计划">
+      <UniqueIdentifier>{31c2d109-6d29-48d5-a757-e02285a8f2bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -741,6 +729,9 @@
     </Text>
     <Text Include="network\http\flash交易密码处理规则.txt">
       <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
+    </Text>
+    <Text Include="开发计划.txt">
+      <Filter>开发计划</Filter>
     </Text>
   </ItemGroup>
 </Project>

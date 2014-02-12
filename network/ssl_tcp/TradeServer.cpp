@@ -12,6 +12,16 @@
 #include <boost/interprocess/file_mapping.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <boost/functional/factory.hpp>
+//压缩
+#include <boost/iostreams/stream.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/filter/zlib.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/zlib.hpp>
+#include <boost/iostreams/filtering_streambuf.hpp>
+
 
 #include "TradeServer.h"
 
@@ -84,7 +94,9 @@ TradeServer::req_queue_type& TradeServer::recv_queue()
 // 处理应答
 bool TradeServer::ProcessResponse(IMessage* resp)
 {
+	
 	resp->GetSession()->write(resp);
+
 	return true;
 }
 
@@ -385,7 +397,10 @@ finish:
 		pbHeader.set_bodysize(response.size());
 		pbHeader.set_ver(1);
 		pbHeader.set_enc(false);
-		pbHeader.set_zip(false);
+		if (resp->GetMsgContentSize() > gConfigManager::instance().zlib)
+			pbHeader.set_zip(true);
+		else
+			pbHeader.set_zip(false);
 		pbHeader.set_more(false);
 		pbHeader.set_msgtype(quote::PkgHeader::RES_TRADE);
 		pbHeader.set_errcode(0);
@@ -427,7 +442,17 @@ finish:
 	resp->SetMsgContent(response);
 
 
-	
+	if (resp->GetMsgContentSize() > gConfigManager::instance().zlib)
+	{
+		std::vector<char> compressed;
+
+		boost::iostreams::filtering_streambuf<boost::iostreams::output> compress_out;
+		compress_out.push(boost::iostreams::zlib_compressor());
+		compress_out.push(boost::iostreams::back_inserter(compressed));
+
+		boost::iostreams::copy(boost::make_iterator_range(resp->GetMsgContent()), compress_out);
+
+		int msgContentSize = compressed.size();
 
 	// 设置消息头
 	//resp->SetMsgHeader(msgHeader);
