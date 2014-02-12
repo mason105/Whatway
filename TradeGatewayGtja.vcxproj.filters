@@ -236,6 +236,15 @@
     <Filter Include="开发计划">
       <UniqueIdentifier>{31c2d109-6d29-48d5-a757-e02285a8f2bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="核心代码\5.柜台系统\金证linux">
+      <UniqueIdentifier>{4496f4b7-e8d0-4508-ae70-141e73cd7dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\5.柜台系统\同花顺认证">
+      <UniqueIdentifier>{92cf354c-948d-4bfa-9be0-6a89aabda041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\5.柜台系统\验签服务">
+      <UniqueIdentifier>{74cdcb46-80be-4928-97ad-bb83aa645d59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">

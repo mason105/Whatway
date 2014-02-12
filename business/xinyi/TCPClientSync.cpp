@@ -272,7 +272,7 @@ void CTCPClientSync::CloseConnect()
 	}
 
 	
-	gFileLog::instance().Log("断开新意服务器!");
+	//gFileLog::instance().Log("断开新意服务器!");
 }
 
 

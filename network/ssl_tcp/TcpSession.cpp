@@ -116,7 +116,7 @@ void TcpSession::handle_read_head(const boost::system::error_code& error, size_t
 {
 	if (error)
 	{
-		gFileLog::instance().Log("读包头失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("TcpSession 读包头失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -124,7 +124,7 @@ void TcpSession::handle_read_head(const boost::system::error_code& error, size_t
 
 	if (bytes_transferred != req->GetMsgHeaderSize())
 	{
-		gFileLog::instance().Log("读包头失败，需要读:" + boost::lexical_cast<std::string>(req->GetMsgHeaderSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("TcpSession 读包头失败，需要读:" + boost::lexical_cast<std::string>(req->GetMsgHeaderSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -133,7 +133,7 @@ void TcpSession::handle_read_head(const boost::system::error_code& error, size_t
 	
 	if (!req->DecoderMsgHeader())
 	{
-		gFileLog::instance().Log("解码包头失败");
+		gFileLog::instance().Log("TcpSession 解码包头失败");
 
 		close();
 		return;
@@ -157,7 +157,7 @@ void TcpSession::handle_read_msg(const boost::system::error_code& error, size_t 
 	if (error) 
 	{
 	
-		gFileLog::instance().Log("读包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("TcpSession 读包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -165,7 +165,7 @@ void TcpSession::handle_read_msg(const boost::system::error_code& error, size_t 
 
 	if (bytes_transferred != req->GetMsgContentSize())
 	{
-		gFileLog::instance().Log("读包内容失败 需要读:" + boost::lexical_cast<std::string>(req->GetMsgContentSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("TcpSession 读包内容失败 需要读:" + boost::lexical_cast<std::string>(req->GetMsgContentSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -196,7 +196,7 @@ void TcpSession::handle_write_head(const boost::system::error_code& error, size_
 {
 	if (error)
 	{
-		gFileLog::instance().Log("写包头失败，错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("TcpSession 写包头失败，错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -205,7 +205,7 @@ void TcpSession::handle_write_head(const boost::system::error_code& error, size_
 
 	if (bytes_transferred != resp->GetMsgHeaderSize())
 	{
-		gFileLog::instance().Log("写包头失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgHeaderSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("TcpSession 写包头失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgHeaderSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -228,7 +228,7 @@ void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t
 	if (error)
 	{
 
-		gFileLog::instance().Log("写包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("TcpSession 写包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -236,7 +236,7 @@ void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t
 
 	if (bytes_transferred != resp->GetMsgContentSize())
 	{
-		gFileLog::instance().Log("写包内容失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgContentSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("TcpSession 写包内容失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgContentSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -245,6 +245,8 @@ void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t
 	// 存入日志队列
 	resp->SetSendTime();
 
+	gFileLogManager::instance().push(resp->log);
+
 	/*
 	if (msgHeader.FunctionNo == 0)
 	{
@@ -252,7 +254,7 @@ void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t
 	}
 	else
 	{
-		gFileLogManager::instance().push(resp->log);
+		
 	}
 	*/
 

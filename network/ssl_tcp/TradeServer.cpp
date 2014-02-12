@@ -358,6 +358,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		}
 		else
 		{
+			continue;
 			// 通信失败,开始重试
 			// 处理一次，写一次日志
 			// fileLog.push(req->log)

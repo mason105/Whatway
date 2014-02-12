@@ -68,7 +68,8 @@ bool CSywgConnect::CreateConnect()
 
 		TRACE("连接成功\n");
 		
-		return InitConnect();
+		m_bConnected =  InitConnect();
+		return m_bConnected;
 	}
 	catch(std::exception& e)
 	{

@@ -69,7 +69,7 @@ void SSLSession::handle_handshake(const boost::system::error_code& error)
 {
 	if (error)
 	{
-		gFileLog::instance().Log("ssl握手失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("SSLSession 握手失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -125,7 +125,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 {
 	if (error)
 	{
-		gFileLog::instance().Log("读包头失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("SSLSession 读包头失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -133,7 +133,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 
 	if (bytes_transferred != req->GetMsgHeaderSize())
 	{
-		gFileLog::instance().Log("读包头失败，需要读:" + boost::lexical_cast<std::string>(req->GetMsgHeaderSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("SSLSession 读包头失败，需要读:" + boost::lexical_cast<std::string>(req->GetMsgHeaderSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -142,7 +142,7 @@ void SSLSession::handle_read_head(const boost::system::error_code& error, size_t
 	
 	if (!req->DecoderMsgHeader())
 	{
-		gFileLog::instance().Log("解码包头失败");
+		gFileLog::instance().Log("SSLSession 解码包头失败");
 
 		close();
 		return;
@@ -166,7 +166,7 @@ void SSLSession::handle_read_msg(const boost::system::error_code& error, size_t 
 	if (error) 
 	{
 	
-		gFileLog::instance().Log("读包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("SSLSession 读包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -174,7 +174,7 @@ void SSLSession::handle_read_msg(const boost::system::error_code& error, size_t 
 
 	if (bytes_transferred != req->GetMsgContentSize())
 	{
-		gFileLog::instance().Log("读包内容失败 需要读:" + boost::lexical_cast<std::string>(req->GetMsgContentSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("SSLSession 读包内容失败 需要读:" + boost::lexical_cast<std::string>(req->GetMsgContentSize()) + ", 实际读:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -205,7 +205,7 @@ void SSLSession::handle_write_head(const boost::system::error_code& error, size_
 {
 	if (error)
 	{
-		gFileLog::instance().Log("写包头失败，错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("SSLSession 写包头失败，错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -214,7 +214,7 @@ void SSLSession::handle_write_head(const boost::system::error_code& error, size_
 
 	if (bytes_transferred != resp->GetMsgHeaderSize())
 	{
-		gFileLog::instance().Log("写包头失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgHeaderSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("SSLSession 写包头失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgHeaderSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
@@ -237,7 +237,7 @@ void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t
 	if (error)
 	{
 
-		gFileLog::instance().Log("写包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		gFileLog::instance().Log("SSLSession 写包内容失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
@@ -245,7 +245,7 @@ void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t
 
 	if (bytes_transferred != resp->GetMsgContentSize())
 	{
-		gFileLog::instance().Log("写包内容失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgContentSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
+		gFileLog::instance().Log("SSLSession 写包内容失败 需要写:" + boost::lexical_cast<std::string>(resp->GetMsgContentSize()) + ", 实际写:" + boost::lexical_cast<std::string>(bytes_transferred) );
 
 		close();
 		return;
