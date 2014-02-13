@@ -11,7 +11,7 @@ LogConnectPool::LogConnectPool(void)
 {
 	m_nID = 0;
 	m_nConnCount = 0;
-	m_sLogFile = "分布式日志.log";
+	logFileName = "分布式日志";
 }
 
 
@@ -22,7 +22,7 @@ LogConnectPool::~LogConnectPool(void)
 BOOL LogConnectPool::CreateConnectPool()
 {
 	std::string msg = "开始创建日志连接池";
-	gFileLog::instance().Log(msg, m_sLogFile);
+	gFileLog::instance().Log(msg, logFileName);
 
 	bool bRet = false;
 
@@ -59,7 +59,7 @@ BOOL LogConnectPool::CreateConnectPool()
 	if (m_nConnCount == 0)
 	{
 		std::string msg = "建立日志连接池失败";
-		gFileLog::instance().Log(msg, m_sLogFile);
+		gFileLog::instance().Log(msg, logFileName);
 		
 
 		bRet = false;
@@ -67,7 +67,7 @@ BOOL LogConnectPool::CreateConnectPool()
 	else
 	{
 		std::string msg = "建立日志连接池成功";
-		gFileLog::instance().Log(msg, m_sLogFile);
+		gFileLog::instance().Log(msg, logFileName);
 
 
 		bRet = true;
@@ -113,14 +113,14 @@ BOOL LogConnectPool::IncreaseConnPool()
 	{
 			
 		std::string msg = "扩充日志连接池失败";
-		gFileLog::instance().Log(msg, m_sLogFile);
+		gFileLog::instance().Log(msg, logFileName);
 
 		bRet = FALSE;
 	}
 	else
 	{
 		std::string msg = "扩充日志连接池成功";
-		gFileLog::instance().Log(msg, m_sLogFile);
+		gFileLog::instance().Log(msg, logFileName);
 
 
 		bRet = TRUE;
@@ -144,15 +144,15 @@ LogConnect* LogConnectPool::GetConnect()
 	if (pConn == NULL)
 	{
 		msg = "获取连接，失败";
-		gFileLog::instance().Log(msg, m_sLogFile);
+		gFileLog::instance().Log(msg, logFileName);
 
 		return NULL;
 	}
 
 
 
-	//msg = "获取连接成功, " + pConn->GetConnectInfo();
-	gFileLog::instance().Log(msg, m_sLogFile);
+	msg = "获取连接成功";
+	gFileLog::instance().Log(msg, logFileName);
 
 	return pConn;
 }
@@ -163,21 +163,21 @@ void LogConnectPool::PushConnect(LogConnect * pConn)
 		return;
 
 	std::string msg = "释放连接, " ;//+ pConn->GetConnectInfo();
-	gFileLog::instance().Log(msg, m_sLogFile);
+	gFileLog::instance().Log(msg, logFileName);
 
 	msg = "释放连接: 归还前大小" + boost::lexical_cast<std::string>(m_pool.queue_.size());
-	gFileLog::instance().Log(msg, m_sLogFile);
+	gFileLog::instance().Log(msg, logFileName);
 
 	m_pool.push(pConn);
 
 	msg = "释放连接: 归还后大小" + boost::lexical_cast<std::string>(m_pool.queue_.size());
-	gFileLog::instance().Log(msg, m_sLogFile);
+	gFileLog::instance().Log(msg, logFileName);
 }
 
 void LogConnectPool::CloseConnectPool()
 {
 	std::string msg = "关闭连接池";
-	gFileLog::instance().Log(msg, m_sLogFile);
+	gFileLog::instance().Log(msg, logFileName);
 
 	//m_bCreatePool = false;
 

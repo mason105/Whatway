@@ -1,17 +1,18 @@
 #ifndef DISTRIBUTED_LOG_MANAGER_H
 #define DISTRIBUTED_LOG_MANAGER_H
 
+
+#include <boost/shared_ptr.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/thread/detail/singleton.hpp>
+
 #include "ThreadSafeQueue/job_queue.h"
 #include "threadpool/worker.h"
 #include "ThreadSafeQueue/job_queue.h"
 #include "threadpool/worker.h"
 #include "log/tradelog.pb.h"
 
-typedef struct func
-{
-	bool isQuery;
-	bool hasResultRet;
-}FUNCTION_DESC;
+#include "common.h"
 
 
 class DistributedLogManager
@@ -20,7 +21,7 @@ public:
 	DistributedLogManager(void);
 	~DistributedLogManager(void);
 
-	typedef job_queue<Trade::TradeLog*> kafka_queue_type;
+	typedef job_queue<Trade::TradeLog> kafka_queue_type;
 	typedef worker<kafka_queue_type> kafka_worker_type;
 
 	kafka_queue_type kafka_q_;
@@ -28,12 +29,12 @@ public:
 
 	void start();
 	void stop();
-	void push(Trade::TradeLog * log);
+	void push(Trade::TradeLog log);
 
 	
-	bool kafka_log(Trade::TradeLog* log);
+	bool kafka_log(Trade::TradeLog log);
 
-	
+	std::string logFileName;
 	
 
 	// ¹ýÂË×Ö¶Î
@@ -51,5 +52,8 @@ public:
 	void LoadFuncFilter();
 	void LoadFuncFilter(std::string& sFuncFilterXML, std::map<std::string, FUNCTION_DESC>& mapFuncFilter);
 };
+
+typedef boost::detail::thread::singleton<DistributedLogManager> gDistributedLogManager;
+
 
 #endif

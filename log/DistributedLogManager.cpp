@@ -15,6 +15,7 @@
 DistributedLogManager::DistributedLogManager(void)
 	:kafka_worker_(kafka_q_, boost::bind(&DistributedLogManager::kafka_log, this, _1), gConfigManager::instance().m_nLogMqThreadPool)
 {
+	logFileName = "分布式日志";
 }
 
 
@@ -37,7 +38,7 @@ void DistributedLogManager::stop()
 	
 }
 
-void DistributedLogManager::push(Trade::TradeLog * log)
+void DistributedLogManager::push(Trade::TradeLog log)
 {
 	
 	if (gConfigManager::instance().m_nLogMqEnable)
@@ -48,7 +49,7 @@ void DistributedLogManager::push(Trade::TradeLog * log)
 	
 }
 
-bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
+bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 {
 /*
 {
@@ -77,15 +78,15 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 
 	
 
-	std::string funcid = log->funcid();
+	std::string funcid = log.funcid();
 	// 心跳不记录
 	if (funcid == "999999")
 	{
-		delete log;
+	//	delete log;
 		return true;
 	}
 
-	std::string countertype = log->countertype();
+	std::string countertype = log.countertype();
 
 	// 恒生t2
 	if (countertype == "1")
@@ -99,8 +100,8 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 				// 过滤查询功能号
 				if (it->second.isQuery)
 				{
-					//log->destroy();
-					delete log;
+					//log.destroy();
+					//delete log;
 					return true;
 				}
 			}
@@ -119,8 +120,8 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 				// 过滤查询功能号
 				if (it->second.isQuery)
 				{
-					//log->destroy();
-					delete log;
+					//log.destroy();
+					//delete log;
 					return true;
 				}
 			}
@@ -139,7 +140,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 				// 过滤查询功能号
 				if (it->second.isQuery)
 				{
-					//log->destroy();
+					//log.destroy();
 					delete this;
 					return true;
 				}
@@ -147,7 +148,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 		}
 	}
 
-	std::string request = log->request();
+	std::string request = log.request();
 	std::map<std::string, std::string> reqmap;
 
 	// 过滤字段
@@ -179,21 +180,21 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 	json += "\",";
 
 
-	std::string sysNo = log->sysno();
+	std::string sysNo = log.sysno();
 	if (sysNo.empty())
 		sysNo = "no_sysno";
 	json += "\"sourceSysNo\":\"";
 	json += sysNo;
 	json += "\",";
 
-	std::string sysVer = log->sysver();
+	std::string sysVer = log.sysver();
 	if (sysVer.empty())
 		sysVer = "no_sysver";
 	json += "\"sourceSysVer\":\"";
 	json += sysVer;
 	json += "\",";
 
-	std::string busiType = log->busitype();
+	std::string busiType = log.busitype();
 	if (busiType.empty())
 		busiType = "no_busitype";
 	json += "\"busiType\":\"";
@@ -209,7 +210,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 	//	sLogFileName += account;
 
 	json += "\"logLevel\":\"";
-	switch (log->level())
+	switch (log.level())
 	{
 	case Trade::TradeLog::DEBUG_LEVEL:
 		json += "debug";
@@ -230,36 +231,36 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 
 
 	json += "\"requestTime\":\"";
-	json += log->recvtime();
+	json += log.recvtime();
 	json += "\",";
 
 		
 	json += "\"requestRuntime\":\"";
-	json += boost::lexical_cast<std::string>(log->runtime());
+	json += boost::lexical_cast<std::string>(log.runtime());
 	json += "\",";
 
 	json += "\"status\":\"";
-	json += boost::lexical_cast<std::string>(log->status());
+	json += boost::lexical_cast<std::string>(log.status());
 	json += "\",";
 	
 	json += "\"response\":\"";
-	json += log->response();
+	json += log.response();
 	json += "\",";
 
 	json += "\"counterIp\":\"";
-	json += log->gtip();
+	json += log.gtip();
 	json += "\",";
 
 	json += "\"counterPort\":\"";
-	json += log->gtport();
+	json += log.gtport();
 	json += "\",";
 
 	json += "\"gatewayIp\":\"";
-	json += log->gatewayip();
+	json += log.gatewayip();
 	json += "\",";
 
 	json += "\"gatewayPort\":\"";
-	json += log->gatewayport();
+	json += log.gatewayport();
 	json += "\""; // 注意：最后没有逗号
 
 	json += "}";
@@ -271,8 +272,8 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 
 		if (!pConnect->Send(json, response))
 		{
-			std::string file = "分布式日志.log";
-			gFileLog::instance().Log("写日志失败，发送数据失败", file);
+			
+			gFileLog::instance().Log(json, "分布式日志失败");
 		}
 
 		// 归还连接
@@ -280,14 +281,14 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog* log)
 	}
 	else
 	{
-		std::string file = "分布式日志.log";
-		gFileLog::instance().Log("写日志失败，连接失败", file);
+		
+		gFileLog::instance().Log(json, "分布式日志失败");
 	}
 
 
 	// 释放
-	//log->destroy();
-	delete log;
+	//log.destroy();
+	//delete log;
 
 	return true;
 }

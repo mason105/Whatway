@@ -14,7 +14,8 @@ LogConnect::LogConnect(void)
 	:socket(ios)
 	,deadline(ios)
 {
-	
+	logFileName = "分布式日志";
+
 	m_bConnected = false;
 
 	// 默认连接超时时间
@@ -40,7 +41,7 @@ void LogConnect::check_deadline()
 	
 	if (deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now())
 	{
-		gFileLog::instance().Log("连接超时或读写超时");
+		gFileLog::instance().Log("连接超时或读写超时", logFileName);
 
 		Close();
 
@@ -98,20 +99,20 @@ bool LogConnect::Connect(std::string ip, int port)
 			std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 			std::string sErrMsg = ec.message();
 			std::string sErrInfo = "连接日志服务器失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-			gFileLog::instance().Log(sErrInfo);
+			gFileLog::instance().Log(sErrInfo, logFileName);
 			
 			
 			m_bConnected = false;
 			return m_bConnected;
 		}
 
-		gFileLog::instance().Log("连接日志服务器成功!");
+		gFileLog::instance().Log("连接日志服务器成功!", logFileName);
 		m_bConnected = true;
 		return m_bConnected;
 	}
 	catch(std::exception& e)
 	{
-		gFileLog::instance().Log("连接日志服务器异常：" + std::string(e.what()));
+		gFileLog::instance().Log("连接日志服务器异常：" + std::string(e.what()), logFileName);
 		m_bConnected = false;
 		return m_bConnected;
 	}
@@ -119,8 +120,9 @@ bool LogConnect::Connect(std::string ip, int port)
 
 bool LogConnect::IsConnected()
 {
+
 	
-	return m_bConnected;
+	return m_bConnected && socket.is_open();
 }
 
 
@@ -157,7 +159,7 @@ bool LogConnect::WriteMsgHeader(CustomMessage * pReq)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "写包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo);
+		gFileLog::instance().Log(sErrInfo, logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;
@@ -185,7 +187,7 @@ bool LogConnect::WriteMsgContent(CustomMessage * pReq)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "写包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo);
+		gFileLog::instance().Log(sErrInfo, logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;
@@ -225,7 +227,7 @@ bool LogConnect::ReadMsgHeader(CustomMessage * pRes)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "读包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo);
+		gFileLog::instance().Log(sErrInfo, logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;
@@ -259,7 +261,7 @@ bool LogConnect::ReadMsgContent(CustomMessage * pRes)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "读包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo);
+		gFileLog::instance().Log(sErrInfo, logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;			
@@ -282,11 +284,11 @@ void LogConnect::Close()
 	
 	if (ec)
 	{
-		gFileLog::instance().Log("断开日志服务器异常：" + ec.message());
+		gFileLog::instance().Log("断开日志服务器异常：" + ec.message(), logFileName);
 	}
 
 	
-	gFileLog::instance().Log("断开日志服务器!");
+	gFileLog::instance().Log("断开日志服务器!", logFileName);
 }
 
 bool LogConnect::ReConnect()
@@ -364,7 +366,7 @@ bool LogConnect::Send(std::string& request, std::string& response)
 {
 	bool bRet = false;
 
-	/*
+	
 	deadline.expires_from_now( boost::posix_time::seconds(readWriteTimeout*1000) );
 
 	// 发送请求
@@ -373,7 +375,15 @@ bool LogConnect::Send(std::string& request, std::string& response)
 	
 
 	pReq->SetMsgContent(request);
-	pReq->SetMsgHeader(MSG_TYPE_REQUEST, FUNCTION_HEARTBEAT);
+
+	MSG_HEADER binRespMsgHeader;
+	binRespMsgHeader.CRC = 0;
+	binRespMsgHeader.FunctionNo = 1;
+	binRespMsgHeader.MsgType = MSG_TYPE_REQUEST;
+	binRespMsgHeader.zip = 0;
+	binRespMsgHeader.MsgContentSize = request.size();
+	memcpy(&(pReq->m_MsgHeader.front()), &binRespMsgHeader, sizeof(MSG_HEADER));
+
 
 	int temp = pReq->GetMsgHeaderSize();
 
@@ -395,7 +405,7 @@ bool LogConnect::Send(std::string& request, std::string& response)
 		// 失败
 	}
 	delete pRes;	
-	*/
+	
 
 	return bRet;
 }

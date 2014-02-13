@@ -67,7 +67,7 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 				// 过滤查询功能号
 				if (it->second.isQuery)
 				{
-					//log->destroy();
+					//log.destroy();
 					
 					return true;
 				}
@@ -87,7 +87,7 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 				// 过滤查询功能号
 				if (it->second.isQuery)
 				{
-					//log->destroy();
+					//log.destroy();
 					
 					return true;
 				}
@@ -107,7 +107,7 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 				// 过滤查询功能号
 				if (it->second.isQuery)
 				{
-					//log->destroy();
+					//log.destroy();
 					
 					return true;
 				}
@@ -259,7 +259,7 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 	}
 
 	// 释放
-	//log->destroy();
+	//log.destroy();
 	
 
 	return true;

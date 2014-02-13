@@ -82,6 +82,8 @@ private:
 	int readWriteTimeout;
 
 
+	std::string logFileName;
+
 	
 };
 

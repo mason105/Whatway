@@ -24,4 +24,12 @@
 #define BUSI_TYPE_VERIFY 7
 
 
+typedef struct func
+{
+	bool isQuery;
+	bool hasResultRet;
+}FUNCTION_DESC;
+
+
+
 #endif

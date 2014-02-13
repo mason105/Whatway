@@ -8,7 +8,9 @@
 
 
 #include "./output/FileLog.h"
+
 #include "log/FileLogManager.h"
+#include "log/DistributedLogManager.h"
 
 
 
@@ -246,6 +248,7 @@ void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t
 	resp->SetSendTime();
 
 	gFileLogManager::instance().push(resp->log);
+	gDistributedLogManager::instance().push(resp->log);
 
 	/*
 	if (msgHeader.FunctionNo == 0)

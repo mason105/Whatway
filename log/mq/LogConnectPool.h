@@ -31,11 +31,13 @@ private:
 	job_queue<LogConnect*> m_pool;
 	int m_nID; // 连接序列号
 	int m_nConnCount; // 连接数
-	std::string m_sLogFile;
+	
 
 	int m_nMin;
 	int m_nIncrease;
 	int m_nMax;
+
+	std::string logFileName;
 };
 
 typedef boost::detail::thread::singleton<LogConnectPool> gLogConnectPool;

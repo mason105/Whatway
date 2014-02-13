@@ -12,12 +12,8 @@
 #include "ThreadSafeQueue/job_queue.h"
 #include "threadpool/worker.h"
 #include "log/tradelog.pb.h"
+#include "common.h"
 
-typedef struct func
-{
-	bool isQuery;
-	bool hasResultRet;
-}FUNCTION_DESC;
 
 /*
 开发计划
