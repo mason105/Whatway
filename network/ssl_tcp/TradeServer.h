@@ -28,7 +28,7 @@ private:
 
 
 public:
-	TradeServer();
+	TradeServer(int msgType);
 	req_queue_type& recv_queue();
 	void start();
 	void stop();
@@ -45,6 +45,7 @@ private:
 
 
 	std::string GetCounterType(int counterType);
+	int m_MsgType;
 
 
 };

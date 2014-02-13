@@ -11,7 +11,7 @@
 #define MSG_TYPE_TCP_OLD 1
 #define MSG_TYPE_SSL_PB 2
 #define MSG_TYPE_TCP_NEW 3
-//#define MSG_TYPE_SSL_NEW 4
+#define MSG_TYPE_SSL_NEW 4
 
 
 class ISession;

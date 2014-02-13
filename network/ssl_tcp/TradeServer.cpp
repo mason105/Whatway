@@ -63,11 +63,12 @@
 #include "network/ssl_tcp/custommessage.h"
 
 
-TradeServer::TradeServer()
+TradeServer::TradeServer(int msgType)
 	:req_worker_(recvq_, boost::bind(&TradeServer::ProcessRequest, this, _1), gConfigManager::instance().m_nTcpWorkerThreadPool)
 	,resp_worker_(sendq_, boost::bind(&TradeServer::ProcessResponse, this, _1), gConfigManager::instance().m_nTcpSendThreadPool)
 	
 {
+	m_MsgType = msgType;
 }
 
 
@@ -121,10 +122,13 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 	std::string gatewayIp = "";
 	std::string gatewayPort = "";
+	std::string gatewayServer = "";
+
 	std::string counterIp = "";
 	std::string counterPort = "";
 	std::string counterType = "";
 	int nCounterType;
+	std::string counterServer = "";
 
 	
 	boost::posix_time::ptime ptBeginTime;
@@ -138,7 +142,35 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	std::string errCode = "";
 	std::string errMsg = "";
 
+	if (m_MsgType == MSG_TYPE_TCP_OLD)
+	{
+		gatewayIp = gConfigManager::instance().m_sIp;
 
+		gatewayPort = boost::lexical_cast<std::string>(gConfigManager::instance().m_nTcpPort);
+	}
+	if (m_MsgType == MSG_TYPE_SSL_PB)
+	{
+		gatewayIp = gConfigManager::instance().m_sIp;
+
+		gatewayPort = boost::lexical_cast<std::string>(gConfigManager::instance().m_nSslPort);
+	}
+	if (m_MsgType == MSG_TYPE_TCP_NEW)
+	{
+		gatewayIp = gConfigManager::instance().m_sIp;
+
+		gatewayPort = boost::lexical_cast<std::string>(gConfigManager::instance().m_nTcpNewPort);
+	}
+	if (m_MsgType == MSG_TYPE_SSL_NEW)
+	{
+		gatewayIp = gConfigManager::instance().m_sIp;
+
+		gatewayPort = boost::lexical_cast<std::string>(gConfigManager::instance().m_nSslNewPort);
+	}
+	gatewayServer = gatewayIp + ":" + gatewayPort;
+			
+							
+			
+			
 	/*
 
 	// 如果消息类型不是请求类型
@@ -277,6 +309,8 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		{
 			if (req->GetSession()->GetCounterConnect(nCounterType)->IsConnected())
 			{
+				
+
 				// 已建立连接，跳出循环
 				bConnect = true;
 				break;
@@ -288,6 +322,10 @@ bool TradeServer::ProcessRequest(IMessage* req)
 
 				Counter * counter = NULL;
 				counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
+				counterIp = counter->m_sIP;
+				counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
+				counterType = GetCounterType(counter->m_eCounterType);
+				
 				req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
 
 				if (req->GetSession()->GetCounterConnect(nCounterType)->CreateConnect())
@@ -306,9 +344,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 					//counter = g_ConnectManager.GetServer(sysNo, gConfigManager::instance().ConvertIntToBusiType(nBusiType), "0000");
 					//req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
 
-					counterIp = counter->m_sIP;
-					counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
-					counterType = GetCounterType(counter->m_eCounterType);
+					
 					
 					logLevel = Trade::TradeLog::ERROR_LEVEL;
 
@@ -345,14 +381,50 @@ bool TradeServer::ProcessRequest(IMessage* req)
 			
 			goto finish;
 		}
+
+		// 每次请求都需要记录柜台的ip和port
+				Counter * counter = req->GetSession()->GetCounterConnect(nCounterType)->m_Counter;
+				counterIp = counter->m_sIP;
+				counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
+				counterType = GetCounterType(counter->m_eCounterType);
+				counterServer = counterIp + ":"+ counterPort;
 		
 		// 处理业务，业务失败或成功都算成功的，只有通信失败才需要重试
 		if (req->GetSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg))
 		{
+			// 业务失败，重构response
+			if (status == 0)
+			{
+				response = "1";
+				response += SOH;
+				response += "4";
+				response += SOH;
+
+				response += "cssweb_code";
+				response += SOH;
+				response += "cssweb_msg";
+				response += SOH;
+				response += "cssweb_gwInfo";
+				response += SOH;
+				response += "cssweb_counter";
+				response += SOH;
+
+				response += errCode;
+				response += SOH;
+				response += errMsg;
+				response += SOH;
+				response += gatewayServer;
+				response += SOH;
+				response += counterServer;
+				response += SOH;
+			}
+
 			logLevel = Trade::TradeLog::INFO_LEVEL;
 
 			boost::posix_time::ptime ptEndTime = boost::posix_time::microsec_clock::local_time();
 			runtime = (ptEndTime - ptBeginTime).total_microseconds();// 微秒数
+
+
 
 			break;
 		}
@@ -384,6 +456,7 @@ finish:
 	{
 	case MSG_TYPE_HTTP:
 		{
+			
 		resp = new http_message();
 		// 设置消息内容
 		resp->SetMsgContent(response);

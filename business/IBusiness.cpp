@@ -361,6 +361,7 @@ void IBusiness::GenResponse(int nErrCode, std::string sErrMsg, std::string& resp
 	errCode = boost::lexical_cast<std::string>(nErrCode);
 	errMsg = sErrMsg;
 
+	/*
 	response = "1";
 	response += SOH;
 	response += "3";
@@ -379,6 +380,7 @@ void IBusiness::GenResponse(int nErrCode, std::string sErrMsg, std::string& resp
 	response += SOH;
 	response += "0.0.0.0:5000";
 	response += SOH;
+	*/
 }
 
 

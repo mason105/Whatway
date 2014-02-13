@@ -175,6 +175,9 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 		sFilterRequest += it->second;
 		sFilterRequest += SOH;
 	}
+	if (sFilterRequest.empty())
+		sFilterRequest = request;
+
 	json += "\"request\":\"";
 	json += sFilterRequest;
 	json += "\",";
@@ -236,7 +239,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 
 		
 	json += "\"requestRuntime\":\"";
-	json += boost::lexical_cast<std::string>(log.runtime());
+	json += boost::lexical_cast<std::string>(log.runtime()/1000);
 	json += "\",";
 
 	json += "\"status\":\"";
@@ -285,7 +288,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 			}
 			else
 			{
-				delete pConnect; // 不妆还连接，需要释放
+				delete pConnect; // 不归还连接，需要释放
 				gFileLog::instance().Log(json, "写分布式日志失败");
 			}
 		}
@@ -301,13 +304,13 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 				}
 				else
 				{
-					delete pConnect; // 不妆还连接，需要释放
+					delete pConnect; // 不归还连接，需要释放
 					gFileLog::instance().Log(json, "写分布式日志失败");
 				}
 			}
 			else
 			{
-				delete pConnect; // 不妆还连接，需要释放
+				delete pConnect; // 不归还连接，需要释放
 				gFileLog::instance().Log(json, "写分布式日志失败");
 			}
 		}
