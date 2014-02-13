@@ -8,15 +8,19 @@
 #include <boost/functional/factory.hpp>
 
 #include "./output/FileLog.h"
-#include "network/ssl_tcp/custommessage.h" 
-
 #include "log/FileLogManager.h"
-#include "output/filelog.h"
+#include "log/DistributedLogManager.h"
+
+
+
+
+
 
 #include "network/imessage.h"
 #include "network/http/http_message.h"
 #include "network/tcp/tcp_message_old.h"
 #include "network/ssl/ssl_message.h"
+#include "network/ssl_tcp/custommessage.h" 
 
 
 SSLSession::SSLSession(ios_type& ios, queue_type& q, int msgType, boost::asio::ssl::context& context)
@@ -254,6 +258,9 @@ void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t
 	// 存入日志队列
 	resp->SetSendTime();
 
+	gFileLogManager::instance().push(resp->log);
+	gDistributedLogManager::instance().push(resp->log);
+
 	/*
 	if (resp->GetMsgHeader()->FunctionNo == 0)
 	{
@@ -261,7 +268,7 @@ void SSLSession::handle_write_msg(const boost::system::error_code& error, size_t
 	}
 	else
 	{
-		gFileLogManager::instance().push(resp->log);
+		
 	}
 	*/
 

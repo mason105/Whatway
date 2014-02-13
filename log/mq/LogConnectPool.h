@@ -21,10 +21,12 @@ public:
 
 	BOOL CreateConnectPool();
 	BOOL IncreaseConnPool();
+	void CloseConnectPool();
+
 	LogConnect* GetConnect();
 	void PushConnect(LogConnect * pConn);
 
-	void CloseConnectPool();
+	
 	
 
 private:

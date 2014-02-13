@@ -265,26 +265,55 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 
 	json += "}";
 
+
 	LogConnect * pConnect = gLogConnectPool::instance().GetConnect();
-	if (pConnect)
+	if (pConnect == NULL)
 	{
-		std::string response;
-
-		if (!pConnect->Send(json, response))
-		{
-			
-			gFileLog::instance().Log(json, "分布式日志失败");
-		}
-
-		// 归还连接
-		gLogConnectPool::instance().PushConnect(pConnect);
+		gFileLog::instance().Log(json, "分布式日志失败");
+		
 	}
 	else
 	{
-		
-		gFileLog::instance().Log(json, "分布式日志失败");
-	}
+		if (pConnect->IsConnected())
+		{
+			std::string response = "";
+			if (pConnect->Send(json, response))
+			{
+				// 归还连接
+				gLogConnectPool::instance().PushConnect(pConnect);
+			
+			}
+			else
+			{
+				delete pConnect; // 不妆还连接，需要释放
+				gFileLog::instance().Log(json, "分布式日志失败");
+			}
+		}
+		else
+		{
+			if (pConnect->ReConnect())
+			{
+				std::string response = "";
+				if (pConnect->Send(json, response))
+				{
+					// 归还连接
+					gLogConnectPool::instance().PushConnect(pConnect);
+				}
+				else
+				{
+					delete pConnect; // 不妆还连接，需要释放
+					gFileLog::instance().Log(json, "分布式日志失败");
+				}
+			}
+			else
+			{
+				delete pConnect; // 不妆还连接，需要释放
+				gFileLog::instance().Log(json, "分布式日志失败");
+			}
+		}
+	} // end if
 
+	
 
 	// 释放
 	//log.destroy();

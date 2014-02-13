@@ -129,6 +129,37 @@ BOOL LogConnectPool::IncreaseConnPool()
 	return bRet;
 }
 
+void LogConnectPool::CloseConnectPool()
+{
+	std::string msg = "关闭连接池";
+	gFileLog::instance().Log(msg, logFileName);
+
+	//m_bCreatePool = false;
+
+	m_pool.stop();
+
+	/*
+	方案一
+	Connect * pConn = m_pool.pop();
+	*/
+
+	// 方案二
+	for (std::deque<LogConnect*>::iterator pos = m_pool.queue_.begin(); pos != m_pool.queue_.end(); pos++)
+	{
+		LogConnect * pConn = *pos;
+
+		if (pConn != NULL)
+		{
+			pConn->Close();
+			delete pConn;
+			pConn = NULL;
+		}
+	}
+}
+
+
+
+
 LogConnect* LogConnectPool::GetConnect()
 {
 	std::string msg;
@@ -173,34 +204,3 @@ void LogConnectPool::PushConnect(LogConnect * pConn)
 	msg = "释放连接: 归还后大小" + boost::lexical_cast<std::string>(m_pool.queue_.size());
 	gFileLog::instance().Log(msg, logFileName);
 }
-
-void LogConnectPool::CloseConnectPool()
-{
-	std::string msg = "关闭连接池";
-	gFileLog::instance().Log(msg, logFileName);
-
-	//m_bCreatePool = false;
-
-	m_pool.stop();
-
-	/*
-	方案一
-	Connect * pConn = m_pool.pop();
-	*/
-
-	// 方案二
-	for (std::deque<LogConnect*>::iterator pos = m_pool.queue_.begin(); pos != m_pool.queue_.end(); pos++)
-	{
-		LogConnect * pConn = *pos;
-
-		if (pConn != NULL)
-		{
-			pConn->Close();
-			delete pConn;
-			pConn = NULL;
-		}
-	}
-}
-
-
-
