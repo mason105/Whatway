@@ -167,9 +167,6 @@
     <Filter Include="核心代码\5.柜台系统\顶点">
       <UniqueIdentifier>{1bd17284-b664-4c6d-b16b-646b9c676689}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\5.柜台系统\金证windows版本">
-      <UniqueIdentifier>{a07689f2-f438-45a4-8f73-4f0abd1f1c2b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\5.柜台系统\恒生COM">
       <UniqueIdentifier>{1d9588fa-f777-42e1-9431-c01714ba1185}</UniqueIdentifier>
     </Filter>
@@ -212,9 +209,6 @@
     <Filter Include="核心代码\3.网络服务\需要删除\SSL old\protobuf">
       <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\3.网络服务\需要删除\SSL old\SSL证书">
-      <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\3.网络服务\需要删除\TCP old">
       <UniqueIdentifier>{d66611b8-3af3-41ef-aeb6-edbd7e4ba920}</UniqueIdentifier>
     </Filter>
@@ -242,8 +236,14 @@
     <Filter Include="核心代码\5.柜台系统\同花顺认证">
       <UniqueIdentifier>{92cf354c-948d-4bfa-9be0-6a89aabda041}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\5.柜台系统\验签服务">
+    <Filter Include="核心代码\5.柜台系统\金证windows">
+      <UniqueIdentifier>{a07689f2-f438-45a4-8f73-4f0abd1f1c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\5.柜台系统\中信验签">
       <UniqueIdentifier>{74cdcb46-80be-4928-97ad-bb83aa645d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\3.网络服务\SSL\SSL证书">
+      <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -409,9 +409,6 @@
     <ClInclude Include="log\tradelog.pb.h">
       <Filter>日志\日志消息</Filter>
     </ClInclude>
-    <ClInclude Include="network\ssl\communication.pb.h">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
-    </ClInclude>
     <ClInclude Include="network\ssl\pkgheader.pb.h">
       <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </ClInclude>
@@ -455,7 +452,7 @@
       <Filter>加解密</Filter>
     </ClInclude>
     <ClInclude Include="business\szkingdom_win\TradeBusiness.h">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
+      <Filter>核心代码\5.柜台系统\金证windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,9 +570,6 @@
     <ClCompile Include="log\tradelog.pb.cc">
       <Filter>日志\日志消息</Filter>
     </ClCompile>
-    <ClCompile Include="network\ssl\communication.pb.cc">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
-    </ClCompile>
     <ClCompile Include="network\ssl\pkgheader.pb.cc">
       <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </ClCompile>
@@ -610,7 +604,7 @@
       <Filter>加解密</Filter>
     </ClCompile>
     <ClCompile Include="business\szkingdom_win\TradeBusiness.cpp">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
+      <Filter>核心代码\5.柜台系统\金证windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -628,19 +622,19 @@
       <Filter>主框架\资源文件</Filter>
     </None>
     <None Include="bin\ca.crt">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\client.crt">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\clientkey.pem">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\server.crt">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\serverkey.pem">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\SSL证书</Filter>
+      <Filter>核心代码\3.网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="innosetup\TradeGateway.iss">
       <Filter>安装包innosetup</Filter>
@@ -656,9 +650,6 @@
     </None>
     <None Include="log\tradelog.proto">
       <Filter>日志\日志消息</Filter>
-    </None>
-    <None Include="network\ssl\communication.proto">
-      <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
     </None>
     <None Include="network\ssl\pkgheader.proto">
       <Filter>核心代码\3.网络服务\需要删除\SSL old\protobuf</Filter>
@@ -728,7 +719,7 @@
       <Filter>第三方库\ProtoBuf</Filter>
     </Text>
     <Text Include="business\szkingdom\业务加解密.txt">
-      <Filter>核心代码\5.柜台系统\金证windows版本</Filter>
+      <Filter>核心代码\5.柜台系统\金证windows</Filter>
     </Text>
     <Text Include="..\..\common\log\日志开发说明.txt">
       <Filter>日志</Filter>

@@ -55,7 +55,7 @@ void CDingDian::ReadMapFile()
 	//boost::format fmt("%s\n");
 
 	//std::string test = fmt % "ss";
-	std::string mapfile = gConfigManager::instance().m_sPath + "\\tradeparam.map";
+	std::string mapfile = gConfigManager::instance().m_sPath + "\\apex_tradeparam.map";
 
 	std::ifstream f;
 	f.open(mapfile.c_str());
@@ -106,7 +106,7 @@ void CDingDian::ReadMapFile()
 
 void CDingDian::ReadOutDomainFile()
 {
-	std::string xmlfile = gConfigManager::instance().m_sPath + "\\outputdomain.xml";
+	std::string xmlfile = gConfigManager::instance().m_sPath + "\\apex_outputdomain.xml";
 
 	rapidxml::file<> f(xmlfile.c_str());
 

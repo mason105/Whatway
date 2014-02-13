@@ -394,6 +394,7 @@ finish:
 		{
 		resp = new tcp_message_old();
 		int msgHeaderSize = response.size();
+		msgHeaderSize = htonl(msgHeaderSize);
 		memcpy(&(resp->m_MsgHeader.front()), &msgHeaderSize, 4);
 		// 设置消息内容
 		resp->SetMsgContent(response);

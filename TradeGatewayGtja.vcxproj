@@ -172,7 +172,6 @@
     <ClInclude Include="network\http\trade_server_http.h" />
     <ClInclude Include="network\io_service_pool.h" />
     <ClInclude Include="network\ISession.h" />
-    <ClInclude Include="network\ssl\communication.pb.h" />
     <ClInclude Include="network\ssl\pkgheader.pb.h" />
     <ClInclude Include="network\ssl\ssl_message.h" />
     <ClInclude Include="network\ssl\ssl_server.h" />
@@ -234,7 +233,6 @@
     <ClCompile Include="network\http\http_session.cpp" />
     <ClCompile Include="network\http\trade_server_http.cpp" />
     <ClCompile Include="network\ISession.cpp" />
-    <ClCompile Include="network\ssl\communication.pb.cc" />
     <ClCompile Include="network\ssl\pkgheader.pb.cc" />
     <ClCompile Include="network\ssl\ssl_session.cpp" />
     <ClCompile Include="network\ssl\trade_server_ssl.cpp" />
@@ -266,7 +264,6 @@
     <None Include="innosetup\TradeGateway.iss" />
     <None Include="log\tradelog.bat" />
     <None Include="log\tradelog.proto" />
-    <None Include="network\ssl\communication.proto" />
     <None Include="network\ssl\pkgheader.proto" />
     <None Include="network\ssl\proto2cpp.bat" />
     <None Include="ocr\expire.traineddata" />

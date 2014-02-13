@@ -20,7 +20,7 @@
 
 #include "./network/ssl_tcp/TradeServer.h"
 
-#include "log/FileLogManager.h"
+
 
 
 // CTradeGatewayGtjaDlg ¶Ô»°¿ò

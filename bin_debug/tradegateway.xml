@@ -228,7 +228,7 @@
           <server>
             <enable>1</enable>
             <servername>KCBP01</servername>
-            <ip>192.168.1.100</ip>
+            <ip>221.226.125.220</ip>
             <port>8080</port>
             <username>KCXP00</username>
             <password>888888</password>
@@ -537,15 +537,14 @@
     </gui>
     
     <mq>
-      <enable>0</enable>
+      <enable>1</enable>
       <threadpool>8</threadpool>
       <min>5</min>
       <max>100</max>
       <increase>5</increase>
       
-      <mqserver>172.16.2.16:8080</mqserver>
-      <mqserver>172.16.2.18:8080</mqserver>
-      <mqserver>172.16.2.24:8080</mqserver>
+      <mqserver>172.16.3.58:8080</mqserver>
+      
 
     </mq>
   </log>
