@@ -16,7 +16,7 @@
 
 
 #include "./network/ssl/pkgheader.pb.h"
-#include "./network/ssl/communication.pb.h"
+
 //#include "ssl_session.h"
 
 

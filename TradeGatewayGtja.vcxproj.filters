@@ -245,6 +245,9 @@
     <Filter Include="核心代码\3.网络服务\SSL\SSL证书">
       <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="第三方库\Visual Leak Detector">
+      <UniqueIdentifier>{88e97db2-e771-4cc8-b3d1-b68763d3560c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">

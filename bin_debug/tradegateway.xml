@@ -21,18 +21,10 @@
       <sendthreadpool>16</sendthreadpool>
     </tcp>
     
-    <!--flash交易-->
-    <http>
-      <port>5002</port>
-      <!-- flash交易url上下文 -->
-      <!-- https://trade.domain.com/tradegw/?-->
-      <flashurlcontext>/tradegw/?</flashurlcontext>
-      <workerthreadpool>16</workerthreadpool>
-      <sendthreadpool>16</sendthreadpool>
-    </http>
+   
 
     <ssl_new>
-      <port>5003</port>
+      <port>5002</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
       <!-- 单向认证还是双向认证 -->
@@ -41,10 +33,20 @@
 
     
     <tcp_new>
-      <port>5004</port>
+      <port>5003</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
     </tcp_new>
+
+    <!--flash交易-->
+    <http>
+      <port>5004</port>
+      <!-- flash交易url上下文 -->
+      <!-- https://trade.domain.com/tradegw/?-->
+      <flashurlcontext>/tradegw/?</flashurlcontext>
+      <workerthreadpool>16</workerthreadpool>
+      <sendthreadpool>16</sendthreadpool>
+    </http>
     
     <!-- 大于以下设置会被压缩 -->
     <zlib>256</zlib>
@@ -537,7 +539,7 @@
     </gui>
     
     <mq>
-      <enable>1</enable>
+      <enable>0</enable>
       <threadpool>8</threadpool>
       <min>5</min>
       <max>100</max>

@@ -62,10 +62,17 @@ void SSLSession::close()
 
 void SSLSession::start()
 {
-	socket_.async_handshake(
-		boost::asio::ssl::stream_base::server,
-        boost::bind(&SSLSession::handle_handshake, this, boost::asio::placeholders::error)
-	);
+	try
+	{
+		socket_.async_handshake(
+			boost::asio::ssl::stream_base::server,
+			boost::bind(&SSLSession::handle_handshake, this, boost::asio::placeholders::error)
+		);
+	}
+	catch(std::exception& e)
+	{
+		e.what();
+	}
   
 }
 

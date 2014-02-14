@@ -8,6 +8,7 @@
 //#include "network/TcpSession.h"
 
 #include "common.h"
+#include "ocr/ocr.h"
 
 
 class TradeServer
@@ -46,6 +47,8 @@ private:
 
 	std::string GetCounterType(int counterType);
 	int m_MsgType;
+
+	OCR ocr;
 
 
 };
