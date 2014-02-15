@@ -185,13 +185,21 @@ void TcpSession::handle_read_msg(const boost::system::error_code& error, size_t 
 // Ð´Ó¦´ðÊý¾Ý
 void TcpSession::write(IMessage* resp)
 {
-	boost::asio::async_write(socket_,
-		boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
-		boost::asio::transfer_all(),
-		strand_.wrap(
-			bind(&TcpSession::handle_write_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
-		)
-	);
+	try
+	{
+		boost::asio::async_write(socket_,
+			boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
+			boost::asio::transfer_all(),
+			strand_.wrap(
+				bind(&TcpSession::handle_write_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
+			)
+		);
+	}
+	catch(std::exception& e)
+	{
+		std::string expMsg = e.what();
+		gFileLog::instance().Log("TcpSession write exp: " + expMsg);
+	}
 }
 
 void TcpSession::handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)
@@ -213,15 +221,21 @@ void TcpSession::handle_write_head(const boost::system::error_code& error, size_
 		return;
 	}
 
-	
-	boost::asio::async_write(socket_,
-		boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
-		boost::asio::transfer_all(),
-		strand_.wrap(
-			bind(&TcpSession::handle_write_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
-		)
-	);
-	
+	try
+	{
+		boost::asio::async_write(socket_,
+			boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
+			boost::asio::transfer_all(),
+			strand_.wrap(
+				bind(&TcpSession::handle_write_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
+			)
+		);
+	}
+	catch(std::exception& e)
+	{
+		std::string expMsg = e.what();
+		gFileLog::instance().Log("TcpSession handle_write_head exp: " + expMsg);
+	}	
 }
 
 void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp)

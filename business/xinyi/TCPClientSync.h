@@ -58,7 +58,8 @@ private:
 private:
 	boost::asio::io_service ios;
 	boost::asio::ip::tcp::socket socket;
-	boost::asio::deadline_timer deadline;
+
+	//boost::asio::deadline_timer deadline;
 	
 
 	std::string m_sIP;

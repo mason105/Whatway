@@ -24,13 +24,13 @@
 
 CTCPClientSync::CTCPClientSync(void)
 	:socket(ios)
-	,deadline(ios)
+//	,deadline(ios)
 {
 	
 	m_bConnected = false;
 
 
-	deadline.expires_at(boost::posix_time::pos_infin);
+	//deadline.expires_at(boost::posix_time::pos_infin);
 	
 	check_deadline();
 }
@@ -42,7 +42,7 @@ CTCPClientSync::~CTCPClientSync(void)
 // 超时回调函数
 void CTCPClientSync::check_deadline()
 {
-	
+	/*
 	if (deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now())
 	{
 		gFileLog::instance().Log("新意服务器：连接超时或读写超时");
@@ -53,6 +53,7 @@ void CTCPClientSync::check_deadline()
 	}
 	
 	deadline.async_wait( boost::bind(&CTCPClientSync::check_deadline, this) );
+	*/
 }
 
 // 建立连接

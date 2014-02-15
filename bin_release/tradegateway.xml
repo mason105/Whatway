@@ -21,18 +21,10 @@
       <sendthreadpool>16</sendthreadpool>
     </tcp>
 
-    <!--flash交易-->
-    <http>
-      <port>5002</port>
-      <!-- flash交易url上下文 -->
-      <!-- https://trade.domain.com/tradegw/?-->
-      <flashurlcontext>/tradegw/?</flashurlcontext>
-      <workerthreadpool>16</workerthreadpool>
-      <sendthreadpool>16</sendthreadpool>
-    </http>
+
 
     <ssl_new>
-      <port>5003</port>
+      <port>5002</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
       <!-- 单向认证还是双向认证 -->
@@ -41,13 +33,23 @@
 
 
     <tcp_new>
-      <port>5004</port>
+      <port>5003</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
     </tcp_new>
 
+    <!--flash交易-->
+    <http>
+      <port>5004</port>
+      <!-- flash交易url上下文 -->
+      <!-- https://trade.domain.com/tradegw/?-->
+      <flashurlcontext>/tradegw/?</flashurlcontext>
+      <workerthreadpool>16</workerthreadpool>
+      <sendthreadpool>16</sendthreadpool>
+    </http>
+
     <!-- 大于以下设置会被压缩 -->
-    <zlib>4096</zlib>
+    <zlib>256</zlib>
 
     <!-- 运行状态：0.debug 1.run-->
     <RunMode>0</RunMode>
@@ -55,362 +57,364 @@
   </communication>
 
   <Counter_Common>
-     <connectpool>
-        <min>2</min>
-        <increase>1</increase>
-        <max>1000</max>
-      </connectpool>
+    <connectpool>
+      <min>2</min>
+      <increase>1</increase>
+      <max>1000</max>
+    </connectpool>
 
 
     <!-- 连接柜台重试次数 -->
     <connect_retry>1</connect_retry>
 
-     <!-- 业务失败重试次数 -->
-    <business_retry>1</business_retry>   
-   
+    <!-- 业务失败重试次数 -->
+    <business_retry>1</business_retry>
+
   </Counter_Common>
-  
-    
-    <system>
-      <id>gtja_yht</id>
-      <desc>国泰君安一户通</desc>
-      <version>
-        <web>1</web>
-        <mobileweb>0</mobileweb>
-        <windows>1</windows>
-        <osx>0</osx>
-        <iphone>0</iphone>
-        <ipad>1</ipad>
-        <aphone>0</aphone>
-        <apad>1</apad>
-        <wphone>0</wphone>
-        <wpad>0</wpad>
-      </version>
-      
-      
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>0</type>
-        
-         <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>1</CounterType>
-     
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>10</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>1</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-     
-        <branch>
-          <!-- 营业部列表 -->
-          <branch_list>0000</branch_list>
+
+
+  <system>
+    <id>gtja_yht</id>
+    <desc>国泰君安一户通</desc>
+    <version>
+      <web>1</web>
+      <mobileweb>0</mobileweb>
+      <windows>1</windows>
+      <osx>0</osx>
+      <iphone>0</iphone>
+      <ipad>1</ipad>
+      <aphone>0</aphone>
+      <apad>1</apad>
+      <wphone>0</wphone>
+      <wpad>0</wpad>
+    </version>
+
+
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>0</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>1</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>10</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>1</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+      <branch>
+        <!-- 营业部列表 -->
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
           <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-            <ip>115.238.72.123</ip>
-            <port>4910</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-          <server>
-            <enable>0</enable>
-            <servername>KCBP01</servername>
-            <ip>10.103.2.177</ip>
-            <port>21000</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      
-        <branch>
-          <branch_list>0001</branch_list>
+          <servername>KCBP01</servername>
+          <ip>115.238.72.123</ip>
+          <port>4910</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+        <server>
           <enable>0</enable>
-          <server>
-            <enable>0</enable>
-            <servername></servername>
-            <ip>10.103.2.224</ip>
-            <port>21000</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-          <server>
-            <enable>0</enable>
-            <servername></servername>
-            <ip>10.103.2.224</ip>
-            <port>21000</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      </BusinessType>
-    </system>
+          <servername>KCBP01</servername>
+          <ip>10.103.2.177</ip>
+          <port>21000</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
 
-    <system>
-      <id>gtja_yyz</id>
-      <desc>国泰君安易阳指</desc>
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>0</type>
-        
-        <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>3</CounterType>
-      
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>10</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>1</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-      
-        <branch>
-          <branch_list>0000</branch_list>
+      <branch>
+        <branch_list>0001</branch_list>
+        <enable>0</enable>
+        <server>
+          <enable>0</enable>
+          <servername></servername>
+          <ip>10.103.2.224</ip>
+          <port>21000</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+        <server>
+          <enable>0</enable>
+          <servername></servername>
+          <ip>10.103.2.224</ip>
+          <port>21000</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
+    </BusinessType>
+  </system>
+
+  <system>
+    <id>gtja_yyz</id>
+    <desc>国泰君安易阳指</desc>
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>0</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>3</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>10</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>1</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+      <branch>
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
           <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-            <ip>10.101.23.47</ip>
-            <port>21000</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      </BusinessType>
-    </system>
+          <servername>KCBP01</servername>
+          <ip>10.101.23.47</ip>
+          <port>21000</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
+    </BusinessType>
+  </system>
 
-    <system>
-      <id>njzq_jlp</id>
-      <desc>南京证券金罗盘</desc>
-      
-      
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>1</type>
-        
-       <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>5</CounterType>
-       
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>60</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>10</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-        
-        <!-- 柜员代码 -->
-        <gydm>99995559</gydm>
-        
-        <!--委托方式-->
-        <wtfs_web>32</wtfs_web>
-        <wtfs_mobile>256</wtfs_mobile>
-        
-       
-        <branch>
-          <branch_list>0000</branch_list>
+  <system>
+    <id>njzq_jlp</id>
+    <desc>南京证券金罗盘</desc>
+
+
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>1</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>5</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>60</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>10</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+      <!-- 柜员代码 -->
+      <gydm>99995559</gydm>
+
+      <!--委托方式-->
+      <wtfs_web>32</wtfs_web>
+      <wtfs_mobile>256</wtfs_mobile>
+
+
+      <branch>
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
           <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-            <ip>192.168.1.100</ip>
-            <port>8080</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      
+          <servername>KCBP01</servername>
+          <ip>221.226.125.220</ip>
+          <port>8080</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
 
-      </BusinessType>
-      
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>2</type>
-        
-        <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>1</CounterType>
-      
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>10</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>1</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-        
-        
-      
-        <branch>
-          <branch_list>0000</branch_list>
+
+    </BusinessType>
+
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>2</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>1</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>10</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>1</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+
+
+      <branch>
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
           <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-            <ip>221.226.125.220</ip>
-            <port>8080</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
+          <servername>KCBP01</servername>
+          <ip>221.226.125.220</ip>
+          <port>8080</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
 
-        </branch>
-      
+      </branch>
 
-      </BusinessType>
-    </system>
 
-    <system>
-      <id>njzq_flash</id>
-      <desc>南京证券flash交易</desc>
-      
-      
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>1</type>
-        
-       <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>5</CounterType>
-       
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>60</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>10</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-        
-        <!-- 柜员代码 -->
-        <gydm>99995559</gydm>
-        
-        <!--委托方式-->
-        <wtfs_web>32</wtfs_web>
-        <wtfs_mobile>256</wtfs_mobile>
-        
-        <branch>
-          <branch_list>0000</branch_list>
+    </BusinessType>
+  </system>
+
+  <system>
+    <id>njzq_flash</id>
+    <desc>南京证券flash交易</desc>
+
+
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>1</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>5</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>60</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>10</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+      <!-- 柜员代码 -->
+      <gydm>99995559</gydm>
+
+      <!--委托方式-->
+      <wtfs_web>32</wtfs_web>
+      <wtfs_mobile>256</wtfs_mobile>
+
+      <branch>
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
           <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-            <ip>221.226.125.220</ip>
-            <port>8080</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      </BusinessType>
-    </system>
- <system>
-      <id>njzq_wt</id>
-      <desc>南京证券网厅</desc>
-      
-      
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>1</type>
-        
-       <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>5</CounterType>
-       
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>180</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>10</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-        
-        <!-- 柜员代码 -->
-        <gydm>99995559</gydm>
-        
-        <!--委托方式-->
-        <wtfs_web>32</wtfs_web>
-        <wtfs_mobile>256</wtfs_mobile>
-        
-        <branch>
-          <branch_list>0000</branch_list>
-          <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-			<ip>221.226.125.220</ip>
-            <port>8080</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      </BusinessType>
-    </system>
+          <servername>KCBP01</servername>
+          <ip>221.226.125.220</ip>
+          <port>8080</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
+    </BusinessType>
+  </system>
 
-	<system>
-      <id>njzq_zt</id>
-      <desc>南京证券掌厅</desc>
-      
-      
-      <BusinessType>
-        <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
-        <type>1</type>
-        
-       <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
-        <CounterType>5</CounterType>
-       
-        <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
-        <recv_timeout>180</recv_timeout>
-     
-        <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
-        <connect_timeout>10</connect_timeout>
-     
-        <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
-        <idle_timeout>540</idle_timeout>
-        
-        <!-- 柜员代码 -->
-        <gydm>99995559</gydm>
-        
-        <!--委托方式-->
-        <wtfs_web>32</wtfs_web>
-        <wtfs_mobile>256</wtfs_mobile>
-        
-        <branch>
-          <branch_list>0000</branch_list>
+  <system>
+    <id>njzq_wt</id>
+    <desc>南京证券网厅</desc>
+
+
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>1</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>5</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>180</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>10</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+      <!-- 柜员代码 -->
+      <gydm>99995559</gydm>
+
+      <!--委托方式-->
+      <wtfs_web>32</wtfs_web>
+      <wtfs_mobile>256</wtfs_mobile>
+
+      <branch>
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
           <enable>1</enable>
-          <server>
-            <enable>1</enable>
-            <servername>KCBP01</servername>
-			<ip>221.226.125.220</ip>
-            <port>8080</port>
-            <username>KCXP00</username>
-            <password>888888</password>
-            <req>req_zb</req>
-            <res>ans_zb</res>
-          </server>
-        </branch>
-      </BusinessType>
-    </system>
+          <servername>KCBP01</servername>
+          <ip>221.226.125.220</ip>
+          <port>8080</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
+    </BusinessType>
+  </system>
+
+  <system>
+    <id>njzq_zt</id>
+    <desc>南京证券掌厅</desc>
+
+
+    <BusinessType>
+      <!-- 业务类型：0.通用, 1.证券交易, 2.融资融券, 3.网上开户 4.账户系统, 5.统一认证， 6.期权, 7.验签-->
+      <type>1</type>
+
+      <!-- 柜台类型：1.恒生T2, 2.恒生COM 3.金证windows 4.金证linux， 5.顶点  6.金仕达， 7.核新同花顺统一认证-->
+      <CounterType>5</CounterType>
+
+      <!-- 请求处理超时时间：秒 （如果柜台api没有提供接口则无效）-->
+      <recv_timeout>180</recv_timeout>
+
+      <!-- 连接超时：秒（如果柜台api没有提供接口则无效）-->
+      <connect_timeout>10</connect_timeout>
+
+      <!-- 柜台连接，在idle_timeout时间内没有产生数据流量，则被强制中断并重连，单位秒, 540=60*9-->
+      <idle_timeout>540</idle_timeout>
+
+      <!-- 柜员代码 -->
+      <gydm>99995559</gydm>
+
+      <!--委托方式-->
+      <wtfs_web>32</wtfs_web>
+      <wtfs_mobile>256</wtfs_mobile>
+
+      <branch>
+        <branch_list>0000</branch_list>
+        <enable>1</enable>
+        <server>
+          <enable>1</enable>
+          <servername>KCBP01</servername>
+          <ip>221.226.125.220</ip>
+          <port>8080</port>
+          <username>KCXP00</username>
+          <password>888888</password>
+          <req>req_zb</req>
+          <res>ans_zb</res>
+        </server>
+      </branch>
+    </BusinessType>
+  </system>
+
   <system>
     <id>sywg_yht</id>
     <desc>申银万国一户通</desc>
@@ -492,23 +496,23 @@
       </branch>
     </BusinessType>
 
-  </system>	
-	
-   <!--日志 -->
+  </system>
+
+  <!--日志 -->
   <log>
     <!-- 日志级别 0debug, 1info, 2warn, 3error-->
     <loglevel>0</loglevel>
-    
+
     <!-- 截取响应长度 -->
     <response_len>1024</response_len>
-    
+
     <!--是否启用功能号过滤 0不启用 1启用，默认启用1，建议生产环境启用过滤-->
     <filterfuncid>0</filterfuncid>
-    
+
     <!-- 是否过滤输出字段 0不启用，1启用，默认启用1, 建议生产环境启用过滤-->
-     <filterfield>1</filterfield>
-    
-   <!-- 根据客户号单独生成日志 -->
+    <filterfield>1</filterfield>
+
+    <!-- 根据客户号单独生成日志 -->
     <filtercustid>123,456</filtercustid>
 
     <file>
@@ -516,7 +520,7 @@
       <path>d:\tradegateway\log</path>
       <threadpool>1</threadpool>
     </file>
-    
+
     <db>
       <enable>0</enable>
       <threadpool>8</threadpool>
@@ -527,23 +531,22 @@
       <max>100</max>
       <increase>5</increase>
     </db>
-    
+
     <gui>
       <enable>0</enable>
       <showcount>20</showcount>
       <threadpool>8</threadpool>
     </gui>
-    
+
     <mq>
       <enable>0</enable>
       <threadpool>8</threadpool>
       <min>5</min>
       <max>100</max>
       <increase>5</increase>
-      
-    <mqserver>172.16.2.16:8080</mqserver>
-      <mqserver>172.16.2.18:8080</mqserver>
-      <mqserver>172.16.2.24:8080</mqserver>
+
+      <mqserver>172.16.3.58:8080</mqserver>
+
 
     </mq>
   </log>
@@ -557,8 +560,8 @@
   <!-- 崩溃 -->
   <dump>
     <path></path>
-  </dump>  
-  
+  </dump>
+
   <!-- 验证码过期时间 -->
   <captcha_timeout>30</captcha_timeout>
 
