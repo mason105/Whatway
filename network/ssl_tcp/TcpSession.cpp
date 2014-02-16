@@ -118,7 +118,7 @@ void TcpSession::handle_read_head(const boost::system::error_code& error, size_t
 {
 	if (error)
 	{
-		gFileLog::instance().Log("TcpSession 读包头失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
+		//gFileLog::instance().Log("TcpSession 读包头失败， 错误代码:" + boost::lexical_cast<std::string>(error.value()) + ", 错误消息:" + error.message());
 
 		close();
 		return;
