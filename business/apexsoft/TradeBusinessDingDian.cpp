@@ -1,6 +1,5 @@
-
-
 #include "StdAfx.h"
+
 #include "TradeBusinessDingDian.h"
 //#include "LogManager.h"
 #include "./connectpool/ConnectManager.h"

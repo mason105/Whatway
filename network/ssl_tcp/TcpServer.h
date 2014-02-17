@@ -51,7 +51,7 @@ public:
 
 private:
 	void start_accept();
-	void accept_handler(const boost::system::error_code& error, ISession * session);
+	void accept_handler(const boost::system::error_code& error, TcpSessionPtr session);
 	
 
 public:
@@ -60,6 +60,7 @@ public:
 	void stop();
 	
 	int m_msgType;
+	TcpSessionPtr m_session;
 };
 
 #endif

@@ -175,7 +175,9 @@
       <FileType>CppHeader</FileType>
     </Text>
     <ClInclude Include="network\io_service_pool.h" />
-    <ClInclude Include="network\ISession.h" />
+    <Text Include="network\ISession.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="network\ssl\pkgheader.pb.h" />
     <ClInclude Include="network\ssl\ssl_message.h" />
     <Text Include="network\ssl\ssl_server.h.txt">
@@ -250,7 +252,9 @@
     <Text Include="network\http\trade_server_http.cpp.txt">
       <FileType>CppCode</FileType>
     </Text>
-    <ClCompile Include="network\ISession.cpp" />
+    <Text Include="network\ISession.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="network\ssl\pkgheader.pb.cc" />
     <Text Include="network\ssl\ssl_session.cpp.txt">
       <FileType>CppCode</FileType>

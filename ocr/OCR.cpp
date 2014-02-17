@@ -222,7 +222,7 @@ IMessage* OCR::Recognition(IMessage* req)
 	resp->SetMsgContent(ocr);
 
 	// ÉèÖÃ»á»°
-	resp->SetSession(req->GetSession());
+	resp->SetSslSession(req->GetSslSession());
 
 	return resp;
 }

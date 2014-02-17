@@ -361,9 +361,6 @@
     <ClInclude Include="network\tcp\tcp_message_old.h">
       <Filter>核心代码\0.网络消息\Tcp Old</Filter>
     </ClInclude>
-    <ClInclude Include="network\ISession.h">
-      <Filter>核心代码\2.会话层</Filter>
-    </ClInclude>
     <ClInclude Include="network\IMessage.h">
       <Filter>核心代码\0.网络消息</Filter>
     </ClInclude>
@@ -503,9 +500,6 @@
     </ClCompile>
     <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
       <Filter>加解密</Filter>
-    </ClCompile>
-    <ClCompile Include="network\ISession.cpp">
-      <Filter>核心代码\2.会话层</Filter>
     </ClCompile>
     <ClCompile Include="network\IMessage.cpp">
       <Filter>核心代码\0.网络消息</Filter>
@@ -735,6 +729,12 @@
     </Text>
     <Text Include="network\http\http_session.h.txt">
       <Filter>核心代码\2.会话层\需要删除\http old</Filter>
+    </Text>
+    <Text Include="network\ISession.h.txt">
+      <Filter>核心代码\2.会话层</Filter>
+    </Text>
+    <Text Include="network\ISession.cpp.txt">
+      <Filter>核心代码\2.会话层</Filter>
     </Text>
   </ItemGroup>
 </Project>

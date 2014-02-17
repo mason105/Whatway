@@ -11,6 +11,7 @@ SSLServer::SSLServer(unsigned short port, queue_type& q, int msgType, int n)
 		,queue_(q)
 		,acceptor_(ios_pool_.get(),boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 		,context_(boost::asio::ssl::context::sslv23)
+		,m_session()
 {
 	m_msgType = msgType;
 	acceptor_.set_option(acceptor_type::reuse_address(true));
@@ -44,6 +45,7 @@ SSLServer::SSLServer(io_service_pool& ios, unsigned short port, queue_type& q, i
 		,queue_(q)
 		,acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 		,context_(boost::asio::ssl::context::sslv23)
+		,m_session()
 {
 	m_msgType = msgType;
 	acceptor_.set_option(acceptor_type::reuse_address(true));
@@ -100,23 +102,23 @@ void SSLServer::run()
 
 void SSLServer::start_accept()
 {
-	ISession * session = new SSLSession(ios_pool_.get(), queue_, m_msgType, context_);
+	m_session.reset(new SSLSession(ios_pool_.get(), queue_, m_msgType, context_));
 
-	acceptor_.async_accept( ((SSLSession*)session)->socket(), 
+	acceptor_.async_accept( m_session->socket(), 
 		boost::bind(&SSLServer::accept_handler, 
 		this, 
 		boost::asio::placeholders::error, 
-		session));
+		m_session));
 }
 
-
-void SSLServer::accept_handler(const boost::system::error_code& error, ISession* session)
+// sess不要和session冲突
+void SSLServer::accept_handler(const boost::system::error_code& error, SSLSessionPtr session)
 {
 	if (error)
 	{
 		gFileLog::instance().Log("SSLServer accept_handler，错误代码:" + boost::lexical_cast<std::string>(error.value()) + "，错误消息:" + error.message());
 
-		delete session;
+		//delete session;
 		
 	}
 	else

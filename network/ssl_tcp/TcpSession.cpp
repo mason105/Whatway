@@ -21,6 +21,19 @@
 #include "network/ssl_tcp/custommessage.h" 
 
 
+// 金证
+#include "business/szkingdom_win/tradebusiness.h"
+#include "business/hundsun_com/TradeBusinessComm.h"
+// 恒生
+#include "business/hundsun_t2/tradebusinesst2.h"
+// 顶点
+#include "business/apexsoft/TradeBusinessDingDian.h"
+#include "business/apexsoft/DingDian.h"
+// AGC
+#include "business/SunGuard/SywgConnect.h"
+// 新意
+#include "business/xinyi/TCPClientSync.h"
+
 TcpSession::TcpSession( ios_type& ios, queue_type& q, int msgType):
 	socket_(ios), 
 	strand_(ios), 
@@ -28,11 +41,53 @@ TcpSession::TcpSession( ios_type& ios, queue_type& q, int msgType):
 {
 	
 	m_msgType = msgType;
+
+	counterT2 = NULL;
+	counterSzkingdom = NULL;
+	counterApex = NULL;
+	counterAGC = NULL;
+	counterXinYi = NULL;
+
+	counterT2 = new TradeBusinessT2();
+	counterSzkingdom = new TradeBusiness();
+	counterApex = new TradeBusinessDingDian();
+	counterAGC = new CSywgConnect();
+	counterXinYi = new CTCPClientSync();
 }
 
 TcpSession::~TcpSession()
 {
 	TRACE("~TcpSession()\n");
+
+	if (counterT2 != NULL)
+	{
+		delete counterT2;
+		counterT2 = NULL;
+	}
+
+	if (counterSzkingdom != NULL)
+	{
+		delete counterSzkingdom;
+		counterSzkingdom = NULL;
+	}
+
+	if (counterApex != NULL)
+	{
+		delete counterApex;
+		counterApex = NULL;
+	}
+
+	if (counterAGC != NULL)
+	{
+		delete counterAGC;
+		counterAGC = NULL;
+	}
+
+	if (counterXinYi != NULL)
+	{
+		delete counterXinYi;
+		counterXinYi = NULL;
+	}
 }
 
 
@@ -90,7 +145,7 @@ IMessage* TcpSession::create_request()
 		break;
 	}
 
-	req->SetSession((TcpSession*)this);
+	req->SetTcpSession(shared_from_this());
 	return req;
 
 	// 内存池
@@ -110,9 +165,9 @@ void TcpSession::read()
 
 	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
-		boost::asio::transfer_all(),
+		//boost::asio::transfer_all(),
 		strand_.wrap(
-			boost::bind(&TcpSession::handle_read_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
+			boost::bind(&TcpSession::handle_read_head, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
 	);
 }
@@ -144,11 +199,11 @@ void TcpSession::handle_read_head(const boost::system::error_code& error, size_t
 		return;
 	}
 
-	async_read(socket_, 
+	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgContent(), req->GetMsgContentSize()),
-		boost::asio::transfer_all(),
+		//boost::asio::transfer_all(),
 		strand_.wrap(
-			bind(&TcpSession::handle_read_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
+			bind(&TcpSession::handle_read_msg, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
 	);
 }
@@ -197,9 +252,9 @@ void TcpSession::write(IMessage* resp)
 
 		boost::asio::async_write(socket_,
 			boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
-			boost::asio::transfer_all(),
+			//boost::asio::transfer_all(),
 			strand_.wrap(
-				bind(&TcpSession::handle_write_head, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
+				bind(&TcpSession::handle_write_head, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 			)
 		);
 	}
@@ -233,9 +288,9 @@ void TcpSession::handle_write_head(const boost::system::error_code& error, size_
 	{
 		boost::asio::async_write(socket_,
 			boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
-			boost::asio::transfer_all(),
+			//boost::asio::transfer_all(),
 			strand_.wrap(
-				bind(&TcpSession::handle_write_msg, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
+				bind(&TcpSession::handle_write_msg, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 			)
 		);
 	}
@@ -287,3 +342,71 @@ void TcpSession::handle_write_msg(const boost::system::error_code& error, size_t
 	resp->destroy();
 }
 
+
+void TcpSession::CloseCounterConnect()
+{
+	if (counterT2 != NULL)
+	{
+		counterT2->CloseConnect();
+		
+	}
+
+	if (counterSzkingdom != NULL)
+	{
+		counterSzkingdom->CloseConnect();
+		
+	}
+
+	if (counterApex != NULL)
+	{
+		counterApex->CloseConnect();
+		
+	}
+
+	if (counterAGC != NULL)
+	{
+		counterAGC->CloseConnect();
+		
+	}
+
+	if (counterXinYi != NULL)
+	{
+		counterXinYi->CloseConnect();
+		
+	}
+}
+
+// 根据参数，返回对应的柜台连接
+IBusiness * TcpSession::GetCounterConnect(int counterType)
+{
+
+	IBusiness * business = NULL;
+
+	switch(counterType)
+	{
+	case COUNTER_TYPE_HS_T2:
+		business = counterT2;
+		break;
+	case COUNTER_TYPE_HS_COM:
+		
+		break;
+	case COUNTER_TYPE_JZ_WIN:
+		business = counterSzkingdom;
+		break;
+	case COUNTER_TYPE_JZ_LINUX:
+		
+		break;
+	case COUNTER_TYPE_DINGDIAN:
+		business = counterApex;
+		break;
+	case COUNTER_TYPE_JSD:
+		business = counterAGC;
+		break;
+	case COUNTER_TYPE_XINYI:
+		business = counterXinYi;
+		break;
+	
+	}
+
+	return business;
+}

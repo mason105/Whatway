@@ -95,8 +95,11 @@ TradeServer::req_queue_type& TradeServer::recv_queue()
 // 处理应答
 bool TradeServer::ProcessResponse(IMessage* resp)
 {
-	
-	resp->GetSession()->write(resp);
+	if (resp->m_msgType == MSG_TYPE_TCP_OLD || resp->m_msgType == MSG_TYPE_TCP_NEW)
+		resp->GetTcpSession()->write(resp);
+
+	if (resp->m_msgType == MSG_TYPE_SSL_PB || resp->m_msgType == MSG_TYPE_SSL_NEW)
+		resp->GetSslSession()->write(resp);
 
 	return true;
 }
@@ -323,7 +326,14 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		// 轮询每一个服务器
 		for (int i=0; i<serverCount; i++)
 		{
-			if (req->GetSession()->GetCounterConnect(nCounterType)->IsConnected())
+			bool bCounterConnected = false;
+			if (req->m_msgType == MSG_TYPE_TCP_OLD || req->m_msgType == MSG_TYPE_TCP_NEW)
+				bCounterConnected = req->GetTcpSession()->GetCounterConnect(nCounterType)->IsConnected();
+
+			if (req->m_msgType == MSG_TYPE_SSL_PB || req->m_msgType == MSG_TYPE_SSL_NEW)
+				bCounterConnected = req->GetSslSession()->GetCounterConnect(nCounterType)->IsConnected();
+			
+			if (bCounterConnected)
 			{
 				
 
@@ -342,9 +352,22 @@ bool TradeServer::ProcessRequest(IMessage* req)
 				counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
 				counterType = GetCounterType(counter->m_eCounterType);
 				
-				req->GetSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
+				bool bRet = false;
 
-				if (req->GetSession()->GetCounterConnect(nCounterType)->CreateConnect())
+				if (req->m_msgType == MSG_TYPE_TCP_OLD || req->m_msgType == MSG_TYPE_TCP_NEW)
+				{
+					req->GetTcpSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
+					bRet = req->GetTcpSession()->GetCounterConnect(nCounterType)->CreateConnect();
+				}
+
+				if (req->m_msgType == MSG_TYPE_SSL_PB || req->m_msgType == MSG_TYPE_SSL_NEW)
+				{
+					req->GetSslSession()->GetCounterConnect(nCounterType)->SetCounterServer(counter);
+					bRet = req->GetSslSession()->GetCounterConnect(nCounterType)->CreateConnect();
+				}
+
+				
+				if (bRet)
 				{
 					// 建立连接成功，跳出循环
 					bConnect = true;
@@ -399,14 +422,32 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		}
 
 		// 每次请求都需要记录柜台的ip和port
-				Counter * counter = req->GetSession()->GetCounterConnect(nCounterType)->m_Counter;
-				counterIp = counter->m_sIP;
-				counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
-				counterType = GetCounterType(counter->m_eCounterType);
-				counterServer = counterIp + ":"+ counterPort;
+				
 		
 		// 处理业务，业务失败或成功都算成功的，只有通信失败才需要重试
-		if (req->GetSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg))
+		bool bNetwork = false;
+		if (req->m_msgType == MSG_TYPE_TCP_OLD || req->m_msgType == MSG_TYPE_TCP_NEW)
+		{
+			Counter * counter = req->GetTcpSession()->GetCounterConnect(nCounterType)->m_Counter;
+			counterIp = counter->m_sIP;
+			counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
+			counterType = GetCounterType(counter->m_eCounterType);
+			counterServer = counterIp + ":"+ counterPort;
+
+			req->GetTcpSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg);
+		}
+		if (req->m_msgType == MSG_TYPE_SSL_PB || req->m_msgType == MSG_TYPE_SSL_NEW)
+		{
+			Counter * counter = req->GetSslSession()->GetCounterConnect(nCounterType)->m_Counter;
+			counterIp = counter->m_sIP;
+			counterPort = boost::lexical_cast<std::string>(counter->m_nPort);
+			counterType = GetCounterType(counter->m_eCounterType);
+			counterServer = counterIp + ":"+ counterPort;
+
+			req->GetSslSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg);
+		}
+
+		if (bNetwork)
 		{
 			// 业务失败，重构response
 			if (status == 0)
@@ -472,12 +513,12 @@ finish:
 	{
 	case MSG_TYPE_TCP_OLD:
 		{
-			if (req->GetSession()->m_msgType != MSG_TYPE_TCP_OLD)
+			if (req->GetTcpSession()->m_msgType != MSG_TYPE_TCP_OLD)
 				AfxMessageBox("消息类型错误");
 
 		resp = new tcp_message_old();
 		// 设置会话
-		resp->SetSession((TcpSession*)req->GetSession());
+		resp->SetTcpSession(req->GetTcpSession());
 
 		int msgHeaderSize = response.size();
 		msgHeaderSize = htonl(msgHeaderSize);
@@ -491,11 +532,11 @@ finish:
 		{
 			AfxMessageBox("MSG_TYPE_SSL_PB");
 
-			if (req->GetSession()->m_msgType != MSG_TYPE_SSL_PB)
+			if (req->GetSslSession()->m_msgType != MSG_TYPE_SSL_PB)
 				AfxMessageBox("消息类型错误");
 		resp = new ssl_message();
 		// 设置会话
-		resp->SetSession((SSLSession*)req->GetSession());
+		resp->SetSslSession(req->GetSslSession());
 
 		quote::PkgHeader pbHeader;
 
@@ -537,11 +578,11 @@ finish:
 		break;
 	case MSG_TYPE_TCP_NEW:
 		{
-			if (req->GetSession()->m_msgType != MSG_TYPE_TCP_NEW)
+			if (req->GetTcpSession()->m_msgType != MSG_TYPE_TCP_NEW)
 				AfxMessageBox("消息类型错误");
 		resp = new CustomMessage(MSG_TYPE_TCP_NEW);
 		// 设置会话
-		resp->SetSession((TcpSession*)req->GetSession());
+		resp->SetTcpSession(req->GetTcpSession());
 
 		MSG_HEADER binRespMsgHeader;
 		binRespMsgHeader.CRC = 0;
@@ -581,12 +622,12 @@ finish:
 		{
 			AfxMessageBox("MSG_TYPE_SSL_NEW");
 
-			if (req->GetSession()->m_msgType != MSG_TYPE_SSL_NEW)
+			if (req->GetSslSession()->m_msgType != MSG_TYPE_SSL_NEW)
 				AfxMessageBox("消息类型错误");
 
 		resp = new CustomMessage(MSG_TYPE_SSL_NEW);
 		// 设置会话
-		resp->SetSession((SSLSession*)req->GetSession());
+		resp->SetSslSession(req->GetSslSession());
 
 		MSG_HEADER binRespMsgHeader;
 		binRespMsgHeader.CRC = 0;

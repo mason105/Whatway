@@ -21,8 +21,8 @@
 
 
 
-#include "network/ISession.h"
-
+#include "network/ssl_tcp/TcpSession.h"
+#include "business/IBusiness.h"
 
 
 /*
@@ -32,7 +32,9 @@ http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio/example/cpp03/ssl/serve
 http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio/example/cpp03/http/server2/connection.hpp
 */
 
-class TcpSession : public ISession
+class IMessage;
+
+class TcpSession : public boost::enable_shared_from_this<TcpSession>
 {
 public:
 	typedef boost::asio::ip::tcp::socket socket_type;
@@ -82,11 +84,27 @@ public:
 	
 
 	// 建立线程，发送心跳消息，调用业务连接的心跳自定义实现方法，保持活动
+
+	// 柜台连接
+	IBusiness * counterT2;
+	IBusiness * counterSzkingdom;
+	IBusiness * counterApex;
+	IBusiness * counterAGC;
+	IBusiness * counterXinYi;
+
+	// 消息类型
+	int m_msgType;
+
+	
+	// 关闭柜台连接
+	void CloseCounterConnect();
+	// 得到柜台连接
+	IBusiness * GetCounterConnect(int counterType);
 	
 };
 
 
-//typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
+typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
 
 #endif // _TCP_SESSION_
 

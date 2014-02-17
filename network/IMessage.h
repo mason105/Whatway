@@ -4,6 +4,8 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
+#include "network/ssl_tcp/sslsession.h"
+#include "network/ssl_tcp/tcpsession.h"
 
 #include "log/tradelog.pb.h"
 
@@ -14,7 +16,8 @@
 #define MSG_TYPE_SSL_NEW 4
 
 
-class ISession;
+//class TcpSession;
+//class SSLSession;
 
 class IMessage
 {
@@ -30,9 +33,14 @@ public:
 	Trade::TradeLog log;
 	void Log(Trade::TradeLog::LogLevel logLevel, std::string sysNo, std::string sysVer, std::string busiType, std::string funcId, std::string account, std::string clientIp, std::string request, std::string response, int status, std::string errCode, std::string errMsg, std::string beginTime, int runtime, std::string gatewayIp, std::string gatewayPort, std::string counterIp, std::string counterPort, std::string counterType);
 
-	ISession* session;
-	void SetSession(ISession* session);
-	ISession* GetSession();
+	TcpSessionPtr tcpSession;
+	void SetTcpSession(TcpSessionPtr session);
+	TcpSessionPtr GetTcpSession();
+
+	SSLSessionPtr sslSession;
+	void SetSslSession(SSLSessionPtr session);
+	SSLSessionPtr GetSslSession();
+
 
 	size_t m_MsgHeaderSize;
 	std::vector<char> m_MsgHeader;

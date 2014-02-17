@@ -14,13 +14,14 @@
 
 
 #include "ThreadSafeQueue/job_queue.h"
+#include "business/IBusiness.h"
+//#include "network/ISession.h"
 
-#include "network/ISession.h"
 
 
+class IMessage;
 
-//public boost::enable_shared_from_this<SSLSession>,
-class SSLSession : public ISession
+class SSLSession : public boost::enable_shared_from_this<SSLSession>
 {
 public:
 	
@@ -62,9 +63,25 @@ public:
 	virtual void handle_write_head(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 	virtual void handle_write_msg(const boost::system::error_code& error, size_t bytes_transferred, IMessage* resp);
 	
+
+	// 柜台连接
+	IBusiness * counterT2;
+	IBusiness * counterSzkingdom;
+	IBusiness * counterApex;
+	IBusiness * counterAGC;
+	IBusiness * counterXinYi;
+
+	// 消息类型
+	int m_msgType;
+
+	
+	// 关闭柜台连接
+	void CloseCounterConnect();
+	// 得到柜台连接
+	IBusiness * GetCounterConnect(int counterType);
 };
 
-//typedef boost::shared_ptr<SSLSession> SSLSessionPtr;
+typedef boost::shared_ptr<SSLSession> SSLSessionPtr;
 
 #endif // _TCP_SESSION_
 

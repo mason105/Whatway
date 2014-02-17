@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "IMessage.h"
 #include <boost/checked_delete.hpp>
 
@@ -13,14 +15,24 @@ IMessage::~IMessage(void)
 {
 }
 
-ISession* IMessage::GetSession()
+TcpSessionPtr IMessage::GetTcpSession()
 {
-	return session;
+	return tcpSession;
 }
-void IMessage::SetSession(ISession* sess)
+void IMessage::SetTcpSession(TcpSessionPtr sess)
 {
-	session = sess;
+	tcpSession = sess;
 }
+
+SSLSessionPtr IMessage::GetSslSession()
+{
+	return sslSession;
+}
+void IMessage::SetSslSession(SSLSessionPtr sess)
+{
+	sslSession = sess;
+}
+
 
 std::vector<char>& IMessage::GetMsgHeader()
 {

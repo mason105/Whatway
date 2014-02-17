@@ -9,6 +9,7 @@ TcpServer::TcpServer(io_service_pool& ios, unsigned short port, queue_type& q, i
 	ios_pool_(ios),
 	queue_(q),
 	acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+	,m_session()
 {
 	m_msgType = msgType;
 	acceptor_.set_option(acceptor_type::reuse_address(true));
@@ -20,6 +21,7 @@ TcpServer::TcpServer(unsigned short port, queue_type& q, int msgType, int n):
 	  ios_pool_(*boost::factory<io_service_pool*>()(n)),
 	  queue_(q),
 	  acceptor_(ios_pool_.get(), boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+	  ,m_session()
 {
 	m_msgType = msgType;
 	acceptor_.set_option(acceptor_type::reuse_address(true));
@@ -29,17 +31,17 @@ TcpServer::TcpServer(unsigned short port, queue_type& q, int msgType, int n):
 
 void TcpServer::start_accept()
 {
-	ISession * session = new TcpSession(ios_pool_.get(), queue_, m_msgType);
+	m_session.reset(new TcpSession(ios_pool_.get(), queue_, m_msgType));
 
-		acceptor_.async_accept( ((TcpSession*)session)->socket(), 
+		acceptor_.async_accept( m_session->socket(), 
 			boost::bind(&TcpServer::accept_handler, 
 			this, 
 			boost::asio::placeholders::error, 
-			session));
+			m_session));
 
 }
-
-void TcpServer::accept_handler(const boost::system::error_code& error, ISession * session)
+// sess不要和session冲突
+void TcpServer::accept_handler(const boost::system::error_code& error, TcpSessionPtr session)
 {
 	if (error)
 	{
@@ -48,7 +50,7 @@ void TcpServer::accept_handler(const boost::system::error_code& error, ISession 
 		session->close();
 
 		// 释放资源
-		delete session;
+		//delete session;
 			
 	}
 	else
