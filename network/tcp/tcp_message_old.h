@@ -27,7 +27,7 @@ public:
 		
 		m_MsgHeader.resize(m_MsgHeaderSize);
 
-		msgType = MSG_TYPE_TCP_OLD;
+		m_msgType = MSG_TYPE_TCP_OLD;
 	}
 
 	

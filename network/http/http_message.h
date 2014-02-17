@@ -32,7 +32,7 @@ public:
 		
 		m_MsgHeader.resize(m_MsgHeaderSize);
 
-		msgType = MSG_TYPE_HTTP;
+		m_msgType = MSG_TYPE_HTTP;
 	}
 
 	virtual bool DecoderMsgHeader()

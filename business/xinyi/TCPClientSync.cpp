@@ -294,7 +294,7 @@ bool CTCPClientSync::Send(std::string& request, std::string& response, int& stat
 	
 
 	// 发送请求
-	CustomMessage * pReq = new CustomMessage();
+	CustomMessage * pReq = new CustomMessage(MSG_TYPE_TCP_NEW);
 
 	
 
@@ -318,7 +318,7 @@ bool CTCPClientSync::Send(std::string& request, std::string& response, int& stat
 		return false;
 
 	// 接收应答
-	CustomMessage* pRes = new CustomMessage();
+	CustomMessage* pRes = new CustomMessage(MSG_TYPE_TCP_NEW);
 	bRet = Read(pRes);
 	if (bRet)
 	{

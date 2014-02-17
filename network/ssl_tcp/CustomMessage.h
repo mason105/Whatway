@@ -27,7 +27,7 @@
 class CustomMessage : public IMessage
 {
 public:
-	CustomMessage();
+	CustomMessage(int msgType);
 
 private:
 	// ÏûÏ¢Í·

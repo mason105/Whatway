@@ -19,8 +19,8 @@
 
 
 
-
-class SSLSession : public boost::enable_shared_from_this<SSLSession>, public ISession
+//public boost::enable_shared_from_this<SSLSession>,
+class SSLSession : public ISession
 {
 public:
 	
@@ -64,7 +64,7 @@ public:
 	
 };
 
-typedef boost::shared_ptr<SSLSession> SSLSessionPtr;
+//typedef boost::shared_ptr<SSLSession> SSLSessionPtr;
 
 #endif // _TCP_SESSION_
 

@@ -45,7 +45,7 @@ public:
 	std::vector<char>& GetMsgContent();
 	
 
-	int msgType;
+	int m_msgType;
 	
 	
 

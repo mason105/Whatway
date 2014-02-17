@@ -83,7 +83,10 @@ IMessage* TcpSession::create_request()
 		req = new ssl_message();
 		break;
 	case MSG_TYPE_TCP_NEW:
-		req = new CustomMessage();
+		req = new CustomMessage(MSG_TYPE_TCP_NEW);
+		break;
+	case MSG_TYPE_SSL_NEW:
+		req = new CustomMessage(MSG_TYPE_SSL_NEW);
 		break;
 	}
 
@@ -187,6 +190,11 @@ void TcpSession::write(IMessage* resp)
 {
 	try
 	{
+		if (m_msgType != resp->m_msgType)
+		{
+			AfxMessageBox("消息类型错误");
+		}
+
 		boost::asio::async_write(socket_,
 			boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
 			boost::asio::transfer_all(),

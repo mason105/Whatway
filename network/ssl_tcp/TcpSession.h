@@ -32,7 +32,7 @@ http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio/example/cpp03/ssl/serve
 http://www.boost.org/doc/libs/1_55_0/doc/html/boost_asio/example/cpp03/http/server2/connection.hpp
 */
 
-class TcpSession : public boost::enable_shared_from_this<TcpSession>, public ISession
+class TcpSession : public ISession
 {
 public:
 	typedef boost::asio::ip::tcp::socket socket_type;
@@ -86,7 +86,7 @@ public:
 };
 
 
-typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
+//typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
 
 #endif // _TCP_SESSION_
 

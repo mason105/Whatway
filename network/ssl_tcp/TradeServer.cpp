@@ -468,20 +468,17 @@ finish:
 	
 	//std::vector<char> msgHeader;
 
-	switch(req->msgType)
+	switch(req->m_msgType)
 	{
-	case MSG_TYPE_HTTP:
-		{
-			
-		resp = new http_message();
-		// 设置消息内容
-		resp->SetMsgContent(response);
-
-		}
-		break;
 	case MSG_TYPE_TCP_OLD:
 		{
+			if (req->GetSession()->m_msgType != MSG_TYPE_TCP_OLD)
+				AfxMessageBox("消息类型错误");
+
 		resp = new tcp_message_old();
+		// 设置会话
+		resp->SetSession((TcpSession*)req->GetSession());
+
 		int msgHeaderSize = response.size();
 		msgHeaderSize = htonl(msgHeaderSize);
 		memcpy(&(resp->m_MsgHeader.front()), &msgHeaderSize, 4);
@@ -492,7 +489,11 @@ finish:
 		break;
 	case MSG_TYPE_SSL_PB:
 		{
+			if (req->GetSession()->m_msgType != MSG_TYPE_SSL_PB)
+				AfxMessageBox("消息类型错误");
 		resp = new ssl_message();
+		// 设置会话
+		resp->SetSession((SSLSession*)req->GetSession());
 
 		quote::PkgHeader pbHeader;
 
@@ -534,7 +535,54 @@ finish:
 		break;
 	case MSG_TYPE_TCP_NEW:
 		{
-		resp = new CustomMessage();
+			if (req->GetSession()->m_msgType != MSG_TYPE_TCP_NEW)
+				AfxMessageBox("消息类型错误");
+		resp = new CustomMessage(MSG_TYPE_TCP_NEW);
+		// 设置会话
+		resp->SetSession((TcpSession*)req->GetSession());
+
+		MSG_HEADER binRespMsgHeader;
+		binRespMsgHeader.CRC = 0;
+		binRespMsgHeader.FunctionNo = nFuncId;
+		
+		binRespMsgHeader.MsgType = MSG_TYPE_RESPONSE_END;
+
+		if (response.size() > gConfigManager::instance().zlib)
+		{
+			boost::iostreams::filtering_streambuf<boost::iostreams::output> compress_out;
+			compress_out.push(boost::iostreams::zlib_compressor());
+			compress_out.push(boost::iostreams::back_inserter(compressedMsgContent));
+			boost::iostreams::copy(boost::make_iterator_range(response), compress_out);
+
+			binRespMsgHeader.zip = 1;
+			int compressedMsgContentSize = compressedMsgContent.size();
+			binRespMsgHeader.MsgContentSize = compressedMsgContentSize;
+			// 设置消息内容
+			resp->SetMsgContent(compressedMsgContent);
+
+		}
+		else
+		{
+			binRespMsgHeader.zip = 0;
+			binRespMsgHeader.MsgContentSize = response.size();
+			// 设置消息内容
+			resp->SetMsgContent(response);
+
+		}
+
+		//msgHeader.resize(sizeof(MSG_HEADER));
+
+		memcpy(&(resp->m_MsgHeader.front()), &binRespMsgHeader, sizeof(MSG_HEADER));
+		}
+		break;
+	case MSG_TYPE_SSL_NEW:
+		{
+			if (req->GetSession()->m_msgType != MSG_TYPE_SSL_NEW)
+				AfxMessageBox("消息类型错误");
+
+		resp = new CustomMessage(MSG_TYPE_SSL_NEW);
+		// 设置会话
+		resp->SetSession((SSLSession*)req->GetSession());
 
 		MSG_HEADER binRespMsgHeader;
 		binRespMsgHeader.CRC = 0;
@@ -577,8 +625,7 @@ finish:
 	resp->log = req->log; 
 
 
-	// 设置会话
-	resp->SetSession(req->GetSession());
+	
 
 	
 	
