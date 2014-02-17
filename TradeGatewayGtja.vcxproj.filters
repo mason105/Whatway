@@ -227,9 +227,6 @@
     <Filter Include="核心代码\1.网络服务\需要删除\SSL old">
       <UniqueIdentifier>{c560affd-45df-43d7-aba3-eceddcfe5b17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\1.网络服务\需要删除\SSL old\protobuf">
-      <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
-    </Filter>
     <Filter Include="核心代码\1.网络服务\需要删除\TCP old">
       <UniqueIdentifier>{d66611b8-3af3-41ef-aeb6-edbd7e4ba920}</UniqueIdentifier>
     </Filter>
@@ -247,6 +244,9 @@
     </Filter>
     <Filter Include="核心代码\0.网络消息\SSL old">
       <UniqueIdentifier>{060612fd-4e12-4651-809d-43c7e0069baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\0.网络消息\SSL old\protobuf">
+      <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -295,12 +295,6 @@
     <ClInclude Include="output\FileLog.h">
       <Filter>调试输出</Filter>
     </ClInclude>
-    <ClInclude Include="network\http\http_server.h">
-      <Filter>核心代码\1.网络服务\需要删除\HTTP old</Filter>
-    </ClInclude>
-    <ClInclude Include="network\ssl\ssl_server.h">
-      <Filter>核心代码\1.网络服务\需要删除\SSL old</Filter>
-    </ClInclude>
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h">
       <Filter>核心代码\5.柜台系统\恒生T2</Filter>
     </ClInclude>
@@ -324,9 +318,6 @@
     </ClInclude>
     <ClInclude Include="business\IBusiness.h">
       <Filter>核心代码\5.柜台系统</Filter>
-    </ClInclude>
-    <ClInclude Include="network\tcp\tcp_server_old.h">
-      <Filter>核心代码\1.网络服务\需要删除\TCP old</Filter>
     </ClInclude>
     <ClInclude Include="lib\OpenCV\opencv_h.h">
       <Filter>第三方库\OpenCV</Filter>
@@ -370,24 +361,6 @@
     <ClInclude Include="network\tcp\tcp_message_old.h">
       <Filter>核心代码\0.网络消息\Tcp Old</Filter>
     </ClInclude>
-    <ClInclude Include="network\tcp\tcp_session_old.h">
-      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
-    </ClInclude>
-    <ClInclude Include="network\http\http_session.h">
-      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
-    </ClInclude>
-    <ClInclude Include="network\ssl\ssl_session.h">
-      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
-    </ClInclude>
-    <ClInclude Include="network\http\trade_server_http.h">
-      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
-    </ClInclude>
-    <ClInclude Include="network\ssl\trade_server_ssl.h">
-      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
-    </ClInclude>
-    <ClInclude Include="network\tcp\trade_server_tcp_old.h">
-      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
-    </ClInclude>
     <ClInclude Include="network\ISession.h">
       <Filter>核心代码\2.会话层</Filter>
     </ClInclude>
@@ -413,7 +386,7 @@
       <Filter>日志\日志消息</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\pkgheader.pb.h">
-      <Filter>核心代码\1.网络服务\需要删除\SSL old\protobuf</Filter>
+      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\CustomMessage.h">
       <Filter>核心代码\0.网络消息\Tcp  &amp; SSL</Filter>
@@ -531,24 +504,6 @@
     <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
       <Filter>加解密</Filter>
     </ClCompile>
-    <ClCompile Include="network\tcp\tcp_session_old.cpp">
-      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
-    </ClCompile>
-    <ClCompile Include="network\http\http_session.cpp">
-      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
-    </ClCompile>
-    <ClCompile Include="network\ssl\ssl_session.cpp">
-      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
-    </ClCompile>
-    <ClCompile Include="network\http\trade_server_http.cpp">
-      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
-    </ClCompile>
-    <ClCompile Include="network\ssl\trade_server_ssl.cpp">
-      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
-    </ClCompile>
-    <ClCompile Include="network\tcp\trade_server_tcp_old.cpp">
-      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
-    </ClCompile>
     <ClCompile Include="network\ISession.cpp">
       <Filter>核心代码\2.会话层</Filter>
     </ClCompile>
@@ -574,7 +529,7 @@
       <Filter>日志\日志消息</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\pkgheader.pb.cc">
-      <Filter>核心代码\1.网络服务\需要删除\SSL old\protobuf</Filter>
+      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\CustomMessage.cpp">
       <Filter>核心代码\0.网络消息\Tcp  &amp; SSL</Filter>
@@ -655,10 +610,10 @@
       <Filter>日志\日志消息</Filter>
     </None>
     <None Include="network\ssl\pkgheader.proto">
-      <Filter>核心代码\1.网络服务\需要删除\SSL old\protobuf</Filter>
+      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
     </None>
     <None Include="network\ssl\proto2cpp.bat">
-      <Filter>核心代码\1.网络服务\需要删除\SSL old\protobuf</Filter>
+      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
     </None>
     <None Include="bin\tradeparam.map">
       <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
@@ -735,6 +690,51 @@
     </Text>
     <Text Include="开发计划.txt">
       <Filter>开发计划</Filter>
+    </Text>
+    <Text Include="network\tcp\tcp_server_old.h.txt">
+      <Filter>核心代码\1.网络服务\需要删除\TCP old</Filter>
+    </Text>
+    <Text Include="network\http\http_server.h.txt">
+      <Filter>核心代码\1.网络服务\需要删除\HTTP old</Filter>
+    </Text>
+    <Text Include="network\ssl\ssl_server.h.txt">
+      <Filter>核心代码\1.网络服务\需要删除\SSL old</Filter>
+    </Text>
+    <Text Include="network\tcp\trade_server_tcp_old.h.txt">
+      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
+    </Text>
+    <Text Include="network\tcp\trade_server_tcp_old.cpp.txt">
+      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
+    </Text>
+    <Text Include="network\ssl\trade_server_ssl.cpp.txt">
+      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
+    </Text>
+    <Text Include="network\ssl\trade_server_ssl.h.txt">
+      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
+    </Text>
+    <Text Include="network\http\trade_server_http.h.txt">
+      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
+    </Text>
+    <Text Include="network\http\trade_server_http.cpp.txt">
+      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
+    </Text>
+    <Text Include="network\tcp\tcp_session_old.h.txt">
+      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
+    </Text>
+    <Text Include="network\tcp\tcp_session_old.cpp.txt">
+      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
+    </Text>
+    <Text Include="network\ssl\ssl_session.cpp.txt">
+      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
+    </Text>
+    <Text Include="network\ssl\ssl_session.h.txt">
+      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
+    </Text>
+    <Text Include="network\http\http_session.cpp.txt">
+      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
+    </Text>
+    <Text Include="network\http\http_session.h.txt">
+      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
     </Text>
   </ItemGroup>
 </Project>

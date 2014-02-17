@@ -167,16 +167,26 @@
     <ClInclude Include="log\tradelog.pb.h" />
     <ClInclude Include="network\IMessage.h" />
     <ClInclude Include="network\http\http_message.h" />
-    <ClInclude Include="network\http\http_server.h" />
-    <ClInclude Include="network\http\http_session.h" />
-    <ClInclude Include="network\http\trade_server_http.h" />
+    <Text Include="network\http\http_server.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
+    <Text Include="network\http\http_session.h.txt" />
+    <Text Include="network\http\trade_server_http.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="network\io_service_pool.h" />
     <ClInclude Include="network\ISession.h" />
     <ClInclude Include="network\ssl\pkgheader.pb.h" />
     <ClInclude Include="network\ssl\ssl_message.h" />
-    <ClInclude Include="network\ssl\ssl_server.h" />
-    <ClInclude Include="network\ssl\ssl_session.h" />
-    <ClInclude Include="network\ssl\trade_server_ssl.h" />
+    <Text Include="network\ssl\ssl_server.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
+    <Text Include="network\ssl\ssl_session.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
+    <Text Include="network\ssl\trade_server_ssl.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="network\ssl_tcp\CustomMessage.h" />
     <ClInclude Include="network\ssl_tcp\MsgHeader.h" />
     <ClInclude Include="network\ssl_tcp\SSLServer.h" />
@@ -185,9 +195,15 @@
     <ClInclude Include="network\ssl_tcp\TcpSession.h" />
     <ClInclude Include="network\ssl_tcp\TradeServer.h" />
     <ClInclude Include="network\tcp\tcp_message_old.h" />
-    <ClInclude Include="network\tcp\tcp_server_old.h" />
-    <ClInclude Include="network\tcp\tcp_session_old.h" />
-    <ClInclude Include="network\tcp\trade_server_tcp_old.h" />
+    <Text Include="network\tcp\tcp_server_old.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
+    <Text Include="network\tcp\tcp_session_old.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
+    <Text Include="network\tcp\trade_server_tcp_old.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="ocr\OCR.h" />
     <ClInclude Include="output\FileLog.h" />
     <ClInclude Include="Resource.h" />
@@ -230,20 +246,30 @@
     <ClCompile Include="log\mq\LogConnectPool.cpp" />
     <ClCompile Include="log\tradelog.pb.cc" />
     <ClCompile Include="network\IMessage.cpp" />
-    <ClCompile Include="network\http\http_session.cpp" />
-    <ClCompile Include="network\http\trade_server_http.cpp" />
+    <Text Include="network\http\http_session.cpp.txt" />
+    <Text Include="network\http\trade_server_http.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="network\ISession.cpp" />
     <ClCompile Include="network\ssl\pkgheader.pb.cc" />
-    <ClCompile Include="network\ssl\ssl_session.cpp" />
-    <ClCompile Include="network\ssl\trade_server_ssl.cpp" />
+    <Text Include="network\ssl\ssl_session.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
+    <Text Include="network\ssl\trade_server_ssl.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="network\ssl_tcp\CustomMessage.cpp" />
     <ClCompile Include="network\ssl_tcp\SSLServer.cpp" />
     <ClCompile Include="network\ssl_tcp\SSLSession.cpp" />
     <ClCompile Include="network\ssl_tcp\TcpServer.cpp" />
     <ClCompile Include="network\ssl_tcp\TcpSession.cpp" />
     <ClCompile Include="network\ssl_tcp\TradeServer.cpp" />
-    <ClCompile Include="network\tcp\tcp_session_old.cpp" />
-    <ClCompile Include="network\tcp\trade_server_tcp_old.cpp" />
+    <Text Include="network\tcp\tcp_session_old.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
+    <Text Include="network\tcp\trade_server_tcp_old.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="ocr\OCR.cpp" />
     <ClCompile Include="output\FileLog.cpp" />
     <ClCompile Include="stdafx.cpp">

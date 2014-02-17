@@ -489,6 +489,8 @@ finish:
 		break;
 	case MSG_TYPE_SSL_PB:
 		{
+			AfxMessageBox("MSG_TYPE_SSL_PB");
+
 			if (req->GetSession()->m_msgType != MSG_TYPE_SSL_PB)
 				AfxMessageBox("消息类型错误");
 		resp = new ssl_message();
@@ -577,6 +579,8 @@ finish:
 		break;
 	case MSG_TYPE_SSL_NEW:
 		{
+			AfxMessageBox("MSG_TYPE_SSL_NEW");
+
 			if (req->GetSession()->m_msgType != MSG_TYPE_SSL_NEW)
 				AfxMessageBox("消息类型错误");
 

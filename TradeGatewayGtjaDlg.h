@@ -6,17 +6,17 @@
 #include "./network/io_service_pool.h"
 
 // ÍøÂç²ã
-#include "network/ssl/ssl_server.h"
-#include "network/tcp/tcp_server_old.h"
-#include "network/http/http_server.h"
+//#include "network/ssl/ssl_server.h"
+//#include "network/tcp/tcp_server_old.h"
+//#include "network/http/http_server.h"
 
 #include "network/ssl_tcp/TcpServer.h"
 #include "network/ssl_tcp/SSLServer.h"
 
 // ÒµÎñ²ã
-#include "./network/ssl/trade_server_ssl.h"
-#include "./network/tcp/trade_server_tcp_old.h"
-#include "./network/http/trade_server_http.h"
+//#include "./network/ssl/trade_server_ssl.h"
+//#include "./network/tcp/trade_server_tcp_old.h"
+//#include "./network/http/trade_server_http.h"
 
 #include "./network/ssl_tcp/TradeServer.h"
 
