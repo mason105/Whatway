@@ -32,7 +32,7 @@ TcpSession::TcpSession( ios_type& ios, queue_type& q, int msgType):
 
 TcpSession::~TcpSession()
 {
-	
+	TRACE("~TcpSession()\n");
 }
 
 
@@ -87,7 +87,7 @@ IMessage* TcpSession::create_request()
 		break;
 	}
 
-	req->SetSession(this);
+	req->SetSession((TcpSession*)this);
 	return req;
 
 	// ÄÚ´æ³Ø

@@ -40,6 +40,7 @@ private:
 
 public:
 	SSLSession(ios_type& ios, queue_type& q, int msgType, boost::asio::ssl::context& context);
+	~SSLSession();
 
 	socket_type::lowest_layer_type& socket();
 	

@@ -29,9 +29,9 @@ TcpServer::TcpServer(unsigned short port, queue_type& q, int msgType, int n):
 
 void TcpServer::start_accept()
 {
-	TcpSession * session = new TcpSession(ios_pool_.get(), queue_, m_msgType);
+	ISession * session = new TcpSession(ios_pool_.get(), queue_, m_msgType);
 
-		acceptor_.async_accept(session->socket(), 
+		acceptor_.async_accept( ((TcpSession*)session)->socket(), 
 			boost::bind(&TcpServer::accept_handler, 
 			this, 
 			boost::asio::placeholders::error, 
@@ -39,7 +39,7 @@ void TcpServer::start_accept()
 
 }
 
-void TcpServer::accept_handler(const boost::system::error_code& error, TcpSession * session)
+void TcpServer::accept_handler(const boost::system::error_code& error, ISession * session)
 {
 	if (error)
 	{

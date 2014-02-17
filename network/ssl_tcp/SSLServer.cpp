@@ -13,6 +13,8 @@ SSLServer::SSLServer(unsigned short port, queue_type& q, int msgType, int n)
 		,context_(boost::asio::ssl::context::sslv23)
 {
 	m_msgType = msgType;
+	acceptor_.set_option(acceptor_type::reuse_address(true));
+
 /*
 context_.set_options(
         boost::asio::ssl::context::default_workarounds
@@ -44,6 +46,8 @@ SSLServer::SSLServer(io_service_pool& ios, unsigned short port, queue_type& q, i
 		,context_(boost::asio::ssl::context::sslv23)
 {
 	m_msgType = msgType;
+	acceptor_.set_option(acceptor_type::reuse_address(true));
+
 
 	if (gConfigManager::instance().m_nAuth)
 	{
@@ -96,9 +100,9 @@ void SSLServer::run()
 
 void SSLServer::start_accept()
 {
-	SSLSession * session = new SSLSession(ios_pool_.get(), queue_, m_msgType, context_);
+	ISession * session = new SSLSession(ios_pool_.get(), queue_, m_msgType, context_);
 
-	acceptor_.async_accept(session->socket(), 
+	acceptor_.async_accept( ((SSLSession*)session)->socket(), 
 		boost::bind(&SSLServer::accept_handler, 
 		this, 
 		boost::asio::placeholders::error, 
@@ -106,7 +110,7 @@ void SSLServer::start_accept()
 }
 
 
-void SSLServer::accept_handler(const boost::system::error_code& error, SSLSession* session)
+void SSLServer::accept_handler(const boost::system::error_code& error, ISession* session)
 {
 	if (error)
 	{

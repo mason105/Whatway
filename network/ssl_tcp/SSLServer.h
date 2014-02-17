@@ -46,7 +46,7 @@ public:
 
 private:
 	void start_accept();
-	void accept_handler(const boost::system::error_code& error, SSLSession* session);
+	void accept_handler(const boost::system::error_code& error, ISession* session);
 	
 };
 

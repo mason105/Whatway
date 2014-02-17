@@ -34,6 +34,10 @@ SSLSession::SSLSession(ios_type& ios, queue_type& q, int msgType, boost::asio::s
 	m_msgType = msgType;
 }
 
+SSLSession::~SSLSession()
+{
+	TRACE("~SSLSession()\n");
+}
 
 SSLSession::ios_type& SSLSession::io_service()
 {
@@ -109,7 +113,7 @@ IMessage* SSLSession::create_request()
 		break;
 	}
 			
-	req->SetSession(this);
+	req->SetSession((SSLSession*)this);
 	return req;
 	/*
 	ssl_session_ptr sess = shared_from_this();
