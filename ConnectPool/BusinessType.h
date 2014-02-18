@@ -6,7 +6,7 @@
 
 #include "common.h"
 #include "Counter.h"
-#include "ConnectPool.h"
+
 #include "branch.h"
 
 class BusinessType
@@ -18,7 +18,7 @@ public:
 	
 	int counterType;
 
-	std::map<std::string, ConnectPool*> connPool;
+	//std::map<std::string, ConnectPool*> connPool;
 
 	std::map<std::string/*ÓªÒµ²¿id*/, Branch> branches;
 };

@@ -2,6 +2,8 @@
 
 #include <boost/range/iterator_range.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
 
 // xml
 #include "./lib/xml/rapidxml.hpp"
@@ -179,7 +181,7 @@ bool FileLogManager::file_log(Trade::TradeLog log)
 
 	// 当前日期
 	boost::gregorian::date day = boost::gregorian::day_clock::local_day();
-	sLogFileName += to_iso_extended_string(day);
+	sLogFileName += boost::gregorian::to_iso_extended_string(day);
 	sLogFileName += "\\";
 
 

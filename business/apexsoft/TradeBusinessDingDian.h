@@ -2,7 +2,7 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include "./log/tradelog.pb.h"
-#include "./connectpool/Connect.h"
+
 #include <map>
 
 
@@ -10,7 +10,7 @@
 
 
 
-#include "./connectpool/Connect.h"
+
 #include "./business/IBusiness.h"
 
 

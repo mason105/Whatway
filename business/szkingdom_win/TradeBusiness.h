@@ -5,13 +5,13 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "./log/tradelog.pb.h"
-#include "./connectpool/Connect.h"
+
 
 
 
 //#include "trade.pb.h"
 
-#include "./connectpool/Connect.h"
+
 #include "./business/IBusiness.h"
 
 

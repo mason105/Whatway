@@ -148,9 +148,13 @@
     <ClInclude Include="ConnectPool\Branch.h" />
     <ClInclude Include="ConnectPool\BusinessSystem.h" />
     <ClInclude Include="ConnectPool\BusinessType.h" />
-    <ClInclude Include="ConnectPool\Connect.h" />
+    <Text Include="ConnectPool\Connect.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="ConnectPool\ConnectManager.h" />
-    <ClInclude Include="ConnectPool\ConnectPool.h" />
+    <Text Include="ConnectPool\ConnectPool.h.txt">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="ConnectPool\Counter.h" />
     <ClInclude Include="encrypt\MyBotan.h" />
     <ClInclude Include="lib\OpenCV\opencv_h.h" />
@@ -234,9 +238,13 @@
     <ClCompile Include="ConnectPool\Branch.cpp" />
     <ClCompile Include="ConnectPool\BusinessSystem.cpp" />
     <ClCompile Include="ConnectPool\BusinessType.cpp" />
-    <ClCompile Include="ConnectPool\Connect.cpp" />
+    <Text Include="ConnectPool\Connect.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="ConnectPool\ConnectManager.cpp" />
-    <ClCompile Include="ConnectPool\ConnectPool.cpp" />
+    <Text Include="ConnectPool\ConnectPool.cpp.txt">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="ConnectPool\Counter.cpp" />
     <ClCompile Include="encrypt\MyBotan.cpp" />
     <ClCompile Include="encrypt\testbotan.cpp" />

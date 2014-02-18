@@ -337,12 +337,6 @@
     <ClInclude Include="ConnectPool\Branch.h">
       <Filter>核心代码\柜台连接池</Filter>
     </ClInclude>
-    <ClInclude Include="ConnectPool\Connect.h">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
-    </ClInclude>
-    <ClInclude Include="ConnectPool\ConnectPool.h">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
-    </ClInclude>
     <ClInclude Include="ocr\OCR.h">
       <Filter>身份证识别OCR</Filter>
     </ClInclude>
@@ -485,12 +479,6 @@
     </ClCompile>
     <ClCompile Include="ConnectPool\Branch.cpp">
       <Filter>核心代码\柜台连接池</Filter>
-    </ClCompile>
-    <ClCompile Include="ConnectPool\Connect.cpp">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
-    </ClCompile>
-    <ClCompile Include="ConnectPool\ConnectPool.cpp">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
     </ClCompile>
     <ClCompile Include="ocr\OCR.cpp">
       <Filter>身份证识别OCR</Filter>
@@ -735,6 +723,18 @@
     </Text>
     <Text Include="network\ISession.cpp.txt">
       <Filter>核心代码\2.会话层</Filter>
+    </Text>
+    <Text Include="ConnectPool\Connect.cpp.txt">
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
+    </Text>
+    <Text Include="ConnectPool\Connect.h.txt">
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
+    </Text>
+    <Text Include="ConnectPool\ConnectPool.cpp.txt">
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
+    </Text>
+    <Text Include="ConnectPool\ConnectPool.h.txt">
+      <Filter>核心代码\柜台连接池\代码作废</Filter>
     </Text>
   </ItemGroup>
 </Project>

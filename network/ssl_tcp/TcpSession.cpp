@@ -113,7 +113,7 @@ void TcpSession::close()
 	socket_.close(ignored_ec);
 
 	// 释放Server创建的指针
-	delete this;
+	//delete this;
 }
 
 

@@ -21,11 +21,11 @@
 #include "ConfigManager.h"
 #include "./connectpool/counter.h"
 #include "./connectpool/ConnectManager.h"
-#include "./connectpool/ConnectPool.h"
 
 
 
-using namespace boost::property_tree;
+
+
 using namespace boost::filesystem;
 
 

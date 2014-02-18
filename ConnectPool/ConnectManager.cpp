@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <boost/lexical_cast.hpp>
+
 #include "ConnectManager.h"
 #include "./config/ConfigManager.h"
 #include "./output/FileLog.h"

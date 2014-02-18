@@ -567,7 +567,7 @@
 
   <OCR>
     <path>C:\Program Files (x86)\Tesseract-OCR</path>
-    <output>d:\tradegateway\ocr</output>
+    <output>e:\trade\tradegateway\bin_release\ocr</output>
     <name>
       <!-- 0:二进制, 1:OTSU-->
       <algorithm>1</algorithm>

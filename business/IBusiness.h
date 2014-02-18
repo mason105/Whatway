@@ -11,7 +11,7 @@
 
 #include "common.h"
 #include "./log/tradelog.pb.h"
-#include "./connectpool/Connect.h"
+
 #include "ConnectPool/Counter.h"
 
 class IBusiness

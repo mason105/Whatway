@@ -10,7 +10,7 @@
 #include "BusinessSystem.h"
 #include "BusinessType.h"
 #include "Counter.h"
-#include "connectpool.h"
+
 
 
 class CConnectManager
