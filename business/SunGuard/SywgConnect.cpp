@@ -37,6 +37,7 @@ CSywgConnect::CSywgConnect(void)
 
 CSywgConnect::~CSywgConnect(void)
 {
+	
 }
 
 // OK

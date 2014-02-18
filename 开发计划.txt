@@ -1,6 +1,5 @@
-找出sslsesion失败的问题
+找出sslsesion失败的问题， 有可能是柜台类增加了ios_service引起的，等客户端采用socket直接写，代替boost::asio
 
-客户端采用socket直接写，代替boost::asio
 每个类写不同的日志文件
 
 
