@@ -277,43 +277,31 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 	}
 	else
 	{
-		if (pConnect->IsConnected())
+		int retry = 1;
+		for (int i=0; i <= retry; i++)
 		{
 			std::string response = "";
 			if (pConnect->Send(json, response))
 			{
 				// 归还连接
 				gLogConnectPool::instance().PushConnect(pConnect);
-			
+				break;
 			}
 			else
 			{
-				delete pConnect; // 不归还连接，需要释放
-				gFileLog::instance().Log(json, "写分布式日志失败");
-			}
-		}
-		else
-		{
-			if (pConnect->ReConnect())
-			{
-				std::string response = "";
-				if (pConnect->Send(json, response))
+				if (pConnect->ReConnect())
 				{
-					// 归还连接
-					gLogConnectPool::instance().PushConnect(pConnect);
+					continue;
 				}
 				else
 				{
 					delete pConnect; // 不归还连接，需要释放
 					gFileLog::instance().Log(json, "写分布式日志失败");
-				}
+					break;
+				}				
 			}
-			else
-			{
-				delete pConnect; // 不归还连接，需要释放
-				gFileLog::instance().Log(json, "写分布式日志失败");
-			}
-		}
+		}//end for retry
+		
 	} // end if
 
 	

@@ -165,7 +165,7 @@ void TcpSession::read()
 
 	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgHeader(), req->GetMsgHeaderSize()), 
-		//boost::asio::transfer_all(),
+		boost::asio::transfer_all(),
 		strand_.wrap(
 			boost::bind(&TcpSession::handle_read_head, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
@@ -201,7 +201,7 @@ void TcpSession::handle_read_head(const boost::system::error_code& error, size_t
 
 	boost::asio::async_read(socket_, 
 		boost::asio::buffer(req->GetMsgContent(), req->GetMsgContentSize()),
-		//boost::asio::transfer_all(),
+		boost::asio::transfer_all(),
 		strand_.wrap(
 			bind(&TcpSession::handle_read_msg, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, req)
 		)
@@ -252,7 +252,7 @@ void TcpSession::write(IMessage* resp)
 
 		boost::asio::async_write(socket_,
 			boost::asio::buffer(resp->GetMsgHeader(), resp->GetMsgHeaderSize()),
-			//boost::asio::transfer_all(),
+			boost::asio::transfer_all(),
 			strand_.wrap(
 				bind(&TcpSession::handle_write_head, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 			)
@@ -288,7 +288,7 @@ void TcpSession::handle_write_head(const boost::system::error_code& error, size_
 	{
 		boost::asio::async_write(socket_,
 			boost::asio::buffer(resp->GetMsgContent(), resp->GetMsgContentSize()),
-			//boost::asio::transfer_all(),
+			boost::asio::transfer_all(),
 			strand_.wrap(
 				bind(&TcpSession::handle_write_msg, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, resp)
 			)

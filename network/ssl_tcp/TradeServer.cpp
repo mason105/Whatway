@@ -434,7 +434,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 			counterType = GetCounterType(counter->m_eCounterType);
 			counterServer = counterIp + ":"+ counterPort;
 
-			req->GetTcpSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg);
+			bNetwork = req->GetTcpSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg);
 		}
 		if (req->m_msgType == MSG_TYPE_SSL_PB || req->m_msgType == MSG_TYPE_SSL_NEW)
 		{
@@ -444,7 +444,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 			counterType = GetCounterType(counter->m_eCounterType);
 			counterServer = counterIp + ":"+ counterPort;
 
-			req->GetSslSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg);
+			bNetwork = req->GetSslSession()->GetCounterConnect(nCounterType)->Send(request, response, status, errCode, errMsg);
 		}
 
 		if (bNetwork)
@@ -530,7 +530,7 @@ finish:
 		break;
 	case MSG_TYPE_SSL_PB:
 		{
-			AfxMessageBox("MSG_TYPE_SSL_PB");
+			
 
 			if (req->GetSslSession()->m_msgType != MSG_TYPE_SSL_PB)
 				AfxMessageBox("消息类型错误");
@@ -620,7 +620,7 @@ finish:
 		break;
 	case MSG_TYPE_SSL_NEW:
 		{
-			AfxMessageBox("MSG_TYPE_SSL_NEW");
+			
 
 			if (req->GetSslSession()->m_msgType != MSG_TYPE_SSL_NEW)
 				AfxMessageBox("消息类型错误");
@@ -697,7 +697,9 @@ finish:
 
 bool TradeServer::GetSysNoAndBusiType(std::string& request, std::string& sysNo, std::string& busiType, std::string& sysVer, std::string& account, std::string& funcId, std::string& clientIp)
 {
-	
+	if (request.empty() || request.size() < 10)
+		return false;
+
 	std::string SOH = "\x01";
 
 	std::vector<std::string> keyvalues;
@@ -714,6 +716,8 @@ bool TradeServer::GetSysNoAndBusiType(std::string& request, std::string& sysNo, 
 
 		std::vector<std::string> kv;
 		boost::split(kv, keyvalue, boost::is_any_of("="));
+		if (kv.size() < 2)
+			return false;
 
 		std::string key = "";
 		if (!kv[0].empty())
