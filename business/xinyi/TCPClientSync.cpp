@@ -290,6 +290,10 @@ void CTCPClientSync::SetReadWriteTimeout(int readWriteTimeout)
 
 bool CTCPClientSync::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
+	// 临时修改，无论新意服务器业务处理成功，还是失败，都不让TradeServer处理逻辑
+
+	status = 1;
+
 	bool bRet = true;
 	
 

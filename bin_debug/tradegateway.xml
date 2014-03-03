@@ -539,7 +539,7 @@
     </gui>
     
     <mq>
-      <enable>1</enable>
+      <enable>0</enable>
       <threadpool>8</threadpool>
       <min>5</min>
       <max>100</max>

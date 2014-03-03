@@ -51,6 +51,7 @@ public:
 private:
 	long cn_id;      	// 网关连接号
 	BYTE des_key[8];         // DES密钥(请用“ExpressT”作为密钥des解密)
+	std::string branchNo; 
 
 	boost::asio::io_service ios;
 	boost::asio::ip::tcp::socket socket;

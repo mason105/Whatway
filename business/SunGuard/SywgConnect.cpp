@@ -520,7 +520,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	}
 
 	memcpy_s(request.account, sizeof(request.account), reqmap["account"].c_str(), reqmap["account"].length());
-	std::string branch_no = account.substr(0, 4);
+	branchNo = account.substr(0, 4);
 
 	std::string account_type = reqmap["account_type"];
 	if (account_type.empty())
@@ -580,7 +580,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	request.head.block_type = 1; // request
 	request.head.cn_id = cn_id;
 	
-	request.head.dest_dpt = boost::lexical_cast<WORD>(branch_no);
+	request.head.dest_dpt = boost::lexical_cast<WORD>(branchNo);
 	request.head.function_no = 0x111;
 
 	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
@@ -935,7 +935,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 	int nBlockSize = 0; // 真实大小
 	size_t nSendBytes = 0; // 发送的字节
 	int nRecvBytes = 0; // 累计接收的字节
-	std::string branch_no = "";
+
 	WORD row_no = 0;
 	long return_status = 0;
 
@@ -965,8 +965,8 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
 		//如果前端没有传值，那么可以传送默认值
 
-		if (field.name == "account")
-			branch_no = value.substr(0, 4);
+		//if (field.name == "account")
+		//	branch_no = value.substr(0, 4);
 
 		if (field.type == "char")
 		{
@@ -1118,7 +1118,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 	headRequest.block_type = 1; // request
 	headRequest.cn_id = cn_id;
 	
-	headRequest.dest_dpt = boost::lexical_cast<WORD>(branch_no);
+	headRequest.dest_dpt = boost::lexical_cast<WORD>(branchNo);
 	headRequest.function_no = wFuncId;
 
 	memcpy(request, &headRequest, sizeof(SWI_BlockHead));

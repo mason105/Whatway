@@ -61,70 +61,232 @@
       <field name="errmsg" type="char" size="80"/>
     </return>
   </function>
-
-  <function funcid="0x301" response="return" desc="查询资金">
+  
+  <function funcid="0x4601" response="result" desc="query ">
     <request>
-      <field name="account_type" type="char" size="1"/>
-      <field name="account" type="char" size="16"/>
-      <field name="currency_type" type="char" size="1"/>
-    </request>
-    <result>
-
-    </result>
-    <return>
-      <field name="return_status" type="long" size="0"/>
-      <field name="name" type="char" size="20"/>
-      <field name="deposite" type="SWIMoney" size="0"/>
-      <field name="available" type="SWIMoney" size="0"/>
-      <field name="buyable" type="SWIMoney" size="0"/>
-      <field name="financeable" type="SWIMoney" size="0"/>
-      <field name="financedebt" type="SWIMoney" size="0"/>
-    </return>
-  </function>
-
-  <function funcid="0x311" response="result" desc="查询综合资金信息">
-    <request>
-      <field name="account_type" type="char" size="1"/>
-      <field name="account" type="char" size="16"/>
-      <field name="currency_type" type="char" size="1"/>
+      <field name="inst_id" type="char" size="21"/>
     </request>
     <result>
       <field name="row_no" type="WORD" size="0"/>
-      <field name="name" type="char" size="20"/>
-      <field name="currency_type" type="char" size="1"/>
-      <field name="deposite" type="SWIMoney" size="0"/>
-      <field name="available" type="SWIMoney" size="0"/>
-      <field name="buyable" type="SWIMoney" size="0"/>
-      <field name="financeable" type="SWIMoney" size="0"/>
-      <field name="financedebt" type="SWIMoney" size="0"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="security_name" type="char" size="30"/>
+      <field name="product_status" type="char" size="1"/>
+      <field name="expected_return" type="SWISmallMoney" size="0"/>
+      <field name="risk_level" type="char" size="1"/>
+      <field name="iss_code" type="char" size="8"/>
+      <field name="inst_code" type="char" size="21"/>
+      <field name="iss_begin_date" type="long" size="0"/>
+      <field name="iss_end_date" type="long" size="0"/>
+      <field name="product_due_date" type="long" size="0"/>
+      <field name="product_value_date" type="long" size="0"/>
     </result>
     <return>
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
   
-  <function funcid="0x2601" response="return" desc="OTC录入委托">
+  <function funcid="0x4602" response="result" desc="query ">
     <request>
-      <field name="account" type="char" size="16"/>
-      <field name="bs_type" type="char" size="1"/>
-      <field name="ta_code" type="char" size="8"/>
-      <field name="security_code" type="char" size="7"/>
-      <field name="fund_amount" type="SWIMoney" size="0"/>
-      <field name="price" type="SWISmallMoney" size="0"/>
-      <field name="effect_days" type="short" size="0"/>
-      <field name="apply_amount" type="SWIMoney" size="0"/>
-      <field name="mark" type="BYTE" size="0"/>
-      <field name="MarketOrder_type" type="char" size="2"/>
-      <field name="match_type" type="char" size="1"/>
-      <field name="contract_no" type="long" size="0"/>
-      <field name="contact_name" type="char" size="30"/>
-      <field name="contact_tel" type="char" size="30"/>
-      <field name="Entrust_sign" type="char" size="10"/>
+      <field name="inst_id" type="char" size="21"/>
     </request>
-    <result></result>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="security_name" type="char" size="30"/>
+      <field name="entrust_date" type="long" size="0"/>
+      <field name="entrust_time" type="char" size="9"/>
+      <field name="buy_entrust_sn" type="char" size="21"/>
+      <field name="buy_num" type="SWIMoney" size="0"/>
+      <field name="buy_price" type="SWISmallMoney" size="0"/>
+      <field name="sell_entrust_sn" type="char" size="21"/>
+      <field name="sell_num" type="SWIMoney" size="0"/>
+      <field name="sell_price" type="SWISmallMoney" size="0"/>
+    </result>
     <return>
       <field name="return_status" type="long" size="0"/>
-      <field name="entrust_sn" type="long" size="0"/>
+    </return>
+  </function>
+  
+  <function funcid="0x2601" response="return" desc=" ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="bs_type" type="char" size="3"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="app_amt" type="SWIMoney" size="0"/>
+      <field name="redeem_num" type="SWIMoney" size="0"/>
+    </request>
+    <result>
+	
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+      <field name="entrust_sn" type="char" size="21"/>
+    </return>
+  </function>
+  
+  <function funcid="0x2602" response="return" desc=" ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="bs_type" type="char" size="3"/>
+      <field name="bs_way" type="char" size="2"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="num" type="SWIMoney" size="0"/>
+      <field name="price" type="SWISmallMoney" size="0"/>
+      <field name="target_ta_acct" type="char" size="32"/>
+      <field name="contract_no" type="char" size="20"/>
+      <field name="quot_app_sno" type="char" size="21"/>
+    </request>
+    <result>
+	
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+      <field name="entrust_sn" type="char" size="21"/>
+    </return>
+  </function>
+  
+  <function funcid="0x2603" response="return" desc=" ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="entrust_sn" type="char" size="21"/>
+      <field name="entrust_date" type="long" size="0"/>
+    </request>
+    <result>
+	
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+      <field name="withdraw_sn" type="char" size="21"/>
+    </return>
+  </function>
+  
+  <function funcid="0x2604" response="return" desc=" ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="entrust_sn" type="char" size="21"/>
+      <field name="entrust_date" type="long" size="0"/>
+    </request>
+    <result>
+	
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+      <field name="withdraw_sn" type="char" size="21"/>
+    </return>
+  </function>
+  
+  <function funcid="0x4603" response="result" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="query_type" type="char" size="1"/>
+      <field name="begin_date" type="long" size="0"/>
+      <field name="end_date" type="long" size="0"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="query_flag" type="char" size="1"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="entrust_date" type="long" size="0"/>
+      <field name="entrust_sn" type="char" size="21"/>
+      <field name="entrust_time" type="char" size="9"/>
+      <field name="ta_acct" type="char" size="30"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="security_name" type="char" size="30"/>
+      <field name="bs_type" type="char" size="3"/>
+      <field name="app_amt" type="SWIMoney" size="0"/>
+      <field name="redeem_num" type="SWIMoney" size="0"/>
+      <field name="entrust_status" type="char" size="1"/>
+      <field name="cancel_flag" type="char" size="1"/>
+      <field name="orient_app_no" type="char" size="21"/>
+      <field name="cancelled_flag" type="char" size="1"/>
+      <field name="can_cancel_flag" type="char" size="1"/>
+      <field name="cfm_amt" type="SWIMoney" size="0"/>
+      <field name="cfm_num" type="SWIMoney" size="0"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+    </return>
+  </function>
+  
+  <function funcid="0x4604" response="result" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="query_flag" type="char" size="1"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="entrust_date" type="long" size="0"/>
+      <field name="entrust_sn" type="char" size="21"/>
+      <field name="entrust_time" type="char" size="9"/>
+      <field name="ta_acct" type="char" size="30"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="security_name" type="char" size="32"/>
+      <field name="bs_type" type="char" size="3"/>
+      <field name="bs_way" type="char" size="2"/>
+      <field name="num" type="SWIMoney" size="0"/>
+      <field name="price" type="SWISmallMoney" size="0"/>
+      <field name="target_ta_acct" type="char" size="32"/>
+      <field name="contract_no" type="char" size="20"/>
+      <field name="quot_app_sno" type="char" size="21"/>
+      <field name="entrust_status" type="char" size="1"/>
+      <field name="cancel_flag" type="char" size="1"/>
+      <field name="orient_app_no" type="char" size="21"/>
+      <field name="cancelled_flag" type="char" size="1"/>
+      <field name="can_cancel_flag" type="char" size="1"/>
+      <field name="done_num" type="SWIMoney" size="0"/>
+      <field name="done_price" type="SWISmallMoney" size="0"/>
+      <field name="done_amt" type="SWIMoney" size="0"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+    </return>
+  </function>
+  
+  <function funcid="0x4605" response="result" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="inst_id" type="char" size="21"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="ta_acct" type="char" size="30"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="security_name" type="char" size="32"/>
+      <field name="fund_deposite" type="SWIMoney" size="0"/>
+      <field name="fund_available" type="SWIMoney" size="0"/>
+      <field name="today_bought_amount" type="SWIMoney" size="0"/>
+      <field name="today_sell_amount" type="SWIMoney" size="0"/>
+      <field name="buy_cost" type="SWIMoney" size="0"/>
+      <field name="market_value" type="SWIMoney" size="0"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+    </return>
+  </function>
+  
+  <function funcid="0x4606" response="result" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="begin_date" type="long" size="0"/>
+      <field name="end_date" type="long" size="0"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="ta_acct" type="char" size="30"/>
+      <field name="inst_id" type="char" size="21"/>
+      <field name="security_name" type="char" size="32"/>
+      <field name="bs_type" type="char" size="3"/>
+      <field name="done_num" type="SWIMoney" size="0"/>
+      <field name="done_price" type="SWISmallMoney" size="0"/>
+      <field name="clr_amt" type="SWIMoney" size="0"/>
+      <field name="commision" type="SWIMoney" size="0"/>
+      <field name="sf_amt" type="SWIMoney" size="0"/>
+      <field name="clr_date" type="long" size="0"/>
+      <field name="app_date" type="long" size="0"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
     </return>
   </function>
 </functions>
