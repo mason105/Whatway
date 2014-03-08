@@ -229,7 +229,7 @@ void IBusiness::RetNoRecordRes(std::string& response)
 {
 	response = "1";
 	response += SOH;
-	response += "3";
+	response += "2";
 	response += SOH;
 
 	response += "cssweb_code";
@@ -238,17 +238,17 @@ void IBusiness::RetNoRecordRes(std::string& response)
 	response += SOH;
 //	response += "cssweb_flashCallback";
 //	response += SOH;
-	response += "cssweb_gwInfo";
-	response += SOH;
+//	response += "cssweb_gwInfo";
+//	response += SOH;
 
 	response += "1";
 	response += SOH;
-	response += "请求成功，没有结果集返回。";
+	response += "请求执行成功，柜台系统没有数据返回。";
 	response += SOH;
 //	response += cssweb_flashCallback;
 //	response += SOH;
-	response += "0.0.0.0:5000";
-	response += SOH;
+//	response += "0.0.0.0:5000";
+//	response += SOH;
 
 //	logLevel = Trade::TradeLog::INFO_LEVEL;	
 //	status = 1;

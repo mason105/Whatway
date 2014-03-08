@@ -70,7 +70,11 @@ public:
 	
 
 private:
-	// 保存登录信息，用于自动重连
+	int64_t GetMoney(std::string buf);
+	std::string GetMoney(int64_t money);
+
+	long GetSmallMoney(std::string buf);
+	std::string GetSmallMoney(long price);
 
 };
 

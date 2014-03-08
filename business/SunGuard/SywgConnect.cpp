@@ -944,6 +944,13 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
 	SWI_BlockHead headRequest;
 
+	if (branchNo.empty())
+	{
+		this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+		bRet = true;
+		return bRet;
+	}
+
 	std::string funcid = reqmap["cssweb_funcid"];
 	
 	WORD wFuncId = strtol(funcid.c_str(), NULL, 16);
@@ -1074,15 +1081,15 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 		}
 		if (field.type == "SWISmallMoney")
 		{
-			long  buf;
-			if (value.empty())
-			{
-				buf = 0;
-			}
-			else
-			{
-				buf = boost::lexical_cast<long>(value);
-			}
+			long  buf = GetSmallMoney(value);
+			//if (value.empty())
+			//{
+			//	buf = 0;
+			//}
+			//else
+			//{
+			//	buf = boost::lexical_cast<long>(value);
+			//}
 
 			memcpy(request + pos, &buf, sizeof(long));
 			pos += sizeof(long);
@@ -1091,7 +1098,13 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
 		if (field.type == "SWIMoney")
 		{
-			double buf;
+			int64_t money = GetMoney(value);
+
+			
+			//long long t = _atoi64(money.c_str());
+			//int x = sizeof(long long);
+			/*
+			double buf = 0.0f;
 			
 			if (value.empty())
 			{
@@ -1102,9 +1115,9 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 			{
 				buf = boost::lexical_cast<double>(value);
 			}
-
-			memcpy(request + pos, &buf, sizeof(double));
-			pos += sizeof(double);
+			*/
+			memcpy(request + pos, &money, sizeof(long long));
+			pos += sizeof(long long);
 
 			// 这里如何转成SWIMoney类型呢？？？
 			//entrustReq.apply_amount = double(strtod(szValue,NULL));
@@ -1118,7 +1131,9 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 	headRequest.block_type = 1; // request
 	headRequest.cn_id = cn_id;
 	
-	headRequest.dest_dpt = boost::lexical_cast<WORD>(branchNo);
+	if (!branchNo.empty())
+		headRequest.dest_dpt = boost::lexical_cast<WORD>(branchNo);
+
 	headRequest.function_no = wFuncId;
 
 	memcpy(request, &headRequest, sizeof(SWI_BlockHead));
@@ -1180,7 +1195,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 					pos += sizeof(int);
 
 				if (field.type == "SWIMoney")
-					pos += sizeof(SWIMoney);
+					pos += sizeof(int64_t);
 
 				if (field.type == "short")
 					pos += sizeof(short);
@@ -1371,7 +1386,8 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 						memcpy(&buf, pResultBuf + pos, sizeof(long));
 						pos += sizeof(long);
 
-						sResult += boost::lexical_cast<std::string>(buf) + SOH;
+						
+						sResult += GetSmallMoney(buf) + SOH;
 					}
 
 					if (field.type == "int")
@@ -1386,21 +1402,15 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
 					if (field.type == "SWIMoney")
 					{
-						__int64  buf;
+						int64_t  buf;
 
-						memcpy(&buf, pResultBuf + pos, sizeof(__int64));
-						pos += sizeof(__int64);
+						memcpy(&buf, pResultBuf + pos, sizeof(int64_t));
+						pos += sizeof(int64_t);
 
-						double val = buf/10000.0;
-
-						std::ostringstream osbuf2;    
-						osbuf2 << std::setiosflags(std::ios::fixed) << std::setprecision(2);
-						osbuf2 << val;
 						
-						std::string tmp = osbuf2.str();
 						
 
-						sResult += tmp + SOH;
+						sResult += GetMoney(buf) + SOH;
 					}
 					
 
@@ -1539,7 +1549,7 @@ RETURN:
 							pos += sizeof(int);
 
 						if (field.type == "SWIMoney")
-							pos += sizeof(SWIMoney);
+							pos += sizeof(int64_t);
 
 						if (field.type == "short")
 							pos += sizeof(short);
@@ -1567,27 +1577,34 @@ RETURN:
 
 		if (func.response == "result")
 		{
-			// 如果请求返回result
-			// 添加列头
-			response = boost::lexical_cast<std::string>(nRows);
-			response += SOH;
-			int cols = func.vResult.size() - 1; // 减1是因为row_no
-			response += boost::lexical_cast<std::string>(cols);
-			response += SOH;
-
-			for (std::vector<FIELD>::iterator it = func.vResult.begin(); it != func.vResult.end(); it++)
+			if (nRows == 0)
 			{
-				FIELD field = *it;
-
-				if (field.name == "row_no")
-					continue;
-
-				response += field.name + SOH;
+				// 操作成功，柜台没有数据返回
+				RetNoRecordRes(response);
 			}
+			else
+			{
+				// 如果请求返回result
+				// 添加列头
+				response = boost::lexical_cast<std::string>(nRows);
+				response += SOH;
+				int cols = func.vResult.size() - 1; // 减1是因为row_no
+				response += boost::lexical_cast<std::string>(cols);
+				response += SOH;
 
+				for (std::vector<FIELD>::iterator it = func.vResult.begin(); it != func.vResult.end(); it++)
+				{
+					FIELD field = *it;
+
+					if (field.name == "row_no")
+						continue;
+
+					response += field.name + SOH;
+				}
 		
-			// 添加内容
-			response += sResult;
+				// 添加内容
+				response += sResult;
+			}
 		}
 		else
 		{
@@ -1669,7 +1686,7 @@ RETURN:
 					memcpy(&buf, pReturnBuf + pos, sizeof(long));
 					pos += sizeof(long);
 
-					response += boost::lexical_cast<std::string>(buf) + SOH;
+					response += GetSmallMoney(buf) + SOH;
 				}
 
 				if (field.type == "short")
@@ -1694,21 +1711,15 @@ RETURN:
 
 				if (field.type == "SWIMoney")
 				{
-					__int64  buf;
+					int64_t  buf;
 
-					memcpy(&buf, pReturnBuf + pos, sizeof(__int64));
-					pos += sizeof(__int64);
+					memcpy(&buf, pReturnBuf + pos, sizeof(int64_t));
+					pos += sizeof(int64_t);
 
-					double val = buf/10000.0;
-
-					std::ostringstream osbuf2;    
-					osbuf2 << std::setiosflags(std::ios::fixed) << std::setprecision(2);
-					osbuf2 << val;
-						
-					std::string tmp = osbuf2.str();
+					
 						
 
-					response += tmp + SOH;
+					response += GetMoney(buf) + SOH;
 				}
 			}// end for vReturn
 		}
@@ -1742,4 +1753,98 @@ error:
 
 	return bRet;
 	
+}
+
+int64_t CSywgConnect::GetMoney(std::string buf)
+{
+	int64_t ret = 0;
+	std::string result = "0";
+	std::string integer = "";
+	std::string decimal = "";
+
+	std::vector<std::string> kv;
+	boost::split(kv, buf, boost::is_any_of("."));
+
+	// 没有小数点
+	if (kv.size() == 1)
+	{
+		integer = kv[0];
+		decimal = "0000";
+		result = integer + decimal;
+	}
+
+	if (kv.size() == 2)
+	{
+		integer = kv[0];
+
+		decimal = kv[1];
+		for (int i = decimal.length(); i < 4; i++)
+		{
+			decimal += "0";
+		}
+
+		result = integer + decimal;
+	}
+
+	
+	ret = _atoi64(result.c_str());
+	return ret;
+}
+
+long CSywgConnect::GetSmallMoney(std::string buf)
+{
+	long ret = 0;
+	std::string result = "0";
+	std::string integer = "";
+	std::string decimal = "";
+
+	std::vector<std::string> kv;
+	boost::split(kv, buf, boost::is_any_of("."));
+
+	// 没有小数点
+	if (kv.size() == 1)
+	{
+		integer = kv[0];
+		decimal = "000";
+		result = integer + decimal;
+	}
+
+	if (kv.size() == 2)
+	{
+		integer = kv[0];
+
+		decimal = kv[1];
+		for (int i = decimal.length(); i < 3; i++)
+		{
+			decimal += "0";
+		}
+
+		result = integer + decimal;
+	}
+
+	
+	ret = atol(result.c_str());
+	return ret;
+}
+
+std::string CSywgConnect::GetMoney(int64_t money)
+{
+	double val = money/10000.0;
+
+	std::ostringstream osbuf2;    
+	osbuf2 << std::setiosflags(std::ios::fixed) << std::setprecision(2);
+	osbuf2 << val;
+						
+	return osbuf2.str();
+}
+
+std::string CSywgConnect::GetSmallMoney(long price)
+{
+	double val = price/1000.0;
+
+	std::ostringstream osbuf2;    
+	osbuf2 << std::setiosflags(std::ios::fixed) << std::setprecision(2);
+	osbuf2 << val;
+						
+	return osbuf2.str();
 }

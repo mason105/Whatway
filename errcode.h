@@ -22,7 +22,7 @@ public:
 	{
 		err[CONNECT_COUNTER_ERROR] = "连接柜台失败";
 		err[CONNECT_ALL_COUNTER_ERROR] = "连接所有柜台失败";
-		err[PARAM_ERROR] = "参数错误";
+		err[PARAM_ERROR] = "参数错误或尚未登录";
 		err[MSG_HEADER_ERROR] = "消息头错误";
 		err[CONFIG_ERROR] = "配置文件错误";
 		err[BUSI_CRYPT_ERROR] = "业务层加解密错误";
