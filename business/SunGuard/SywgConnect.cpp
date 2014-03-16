@@ -22,7 +22,6 @@
 
 
 CSywgConnect::CSywgConnect(void)
-	:socket(ios)
 {
 	// AGC测试环境
 	//m_sIP = "192.168.24.36";
@@ -43,58 +42,101 @@ CSywgConnect::~CSywgConnect(void)
 // OK
 bool CSywgConnect::CreateConnect()
 {
-	m_sIP = m_Counter->m_sIP;
-		m_nPort = m_Counter->m_nPort;
+	int rc = 0;
+	u_long bio = 1;
+	int connectTimeout = m_Counter->m_nConnectTimeout;
+	int readTimeout = m_Counter->m_nRecvTimeout * 1000;
+	int writeTimeout = m_Counter->m_nRecvTimeout * 1000;
+	sockfd = INVALID_SOCKET;
 
-	try
+
+	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sockfd == INVALID_SOCKET )
 	{
-		boost::system::error_code ec;
-
-		boost::asio::ip::tcp::resolver resolver(ios);
-
-		boost::asio::ip::tcp::resolver::query query(boost::asio::ip::tcp::v4(), m_sIP, boost::lexical_cast<std::string>(m_nPort));
-
-		boost::asio::ip::tcp::resolver::iterator iterator = resolver.resolve(query, ec);
-
-		boost::asio::connect(socket, iterator, ec);
-	
-		//socket->non_blocking(false);
-
-		if (ec)
-		{
-			//gFileLog::instance().Log(ec.message(), m_sLogFile);
-			m_bConnected = false;
-			return FALSE;
-		}
-
-		TRACE("连接成功\n");
-		
-		m_bConnected =  InitConnect();
-		return m_bConnected;
-	}
-	catch(std::exception& e)
-	{
-		e.what();
-		m_bConnected = false;
 		return FALSE;
 	}
+	
+	//设置为非阻塞模式
+	bio = 1;
+	rc = ioctlsocket(sockfd, FIONBIO, &bio); 
+	if (rc == SOCKET_ERROR)
+	{
+		closesocket(sockfd);
+		return FALSE;
+	}
+	
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET;
+	addr.sin_addr.s_addr = inet_addr(m_Counter->m_sIP.c_str());
+	addr.sin_port = htons(m_Counter->m_nPort);
+
+	rc = connect(sockfd, (const sockaddr *)&addr, sizeof(addr));
+	// 异步模式不用判断
+	if (rc == SOCKET_ERROR)
+	{
+		//closesocket(sockfd);
+		//return FALSE;
+	}
+
+	
+	
+	
+	fd_set writefds;
+	FD_ZERO(&writefds);
+	FD_SET(sockfd, &writefds);
+
+	struct timeval timeout;
+	timeout.tv_sec = connectTimeout;
+	timeout.tv_usec = 0;
+
+	rc = select(0, NULL, &writefds, NULL, &timeout);
+	if (rc == 0)
+	{
+		// timeout
+		closesocket(sockfd);
+		return FALSE;
+	}
+
+	if (rc == SOCKET_ERROR)
+	{
+		closesocket(sockfd);
+		return FALSE;
+	}
+
+	if(!FD_ISSET(sockfd, &writefds))  
+    {  
+		closesocket(sockfd);
+		return FALSE;
+    }  
+
+	 
+	// 设置为阻塞模式
+	bio = 0;
+	rc = ioctlsocket(sockfd, FIONBIO, &bio);
+	if (rc == SOCKET_ERROR)
+	{
+		closesocket(sockfd);
+		return FALSE;
+	}
+
+	// 设置读写超时
+	//rc = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,(char*)&readTimeout, sizeof(readTimeout));
+    //rc = setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO,(char*)&writeTimeout, sizeof(writeTimeout));
+
+	
+		
+	m_bConnected =  InitConnect();
+	return m_bConnected;
+	
 }
 
 // OK
 void CSywgConnect::CloseConnect()
 {
+	closesocket(sockfd);
+	sockfd = INVALID_SOCKET;
+	
 	m_bConnected = false;
-	boost::system::error_code ec;
-
-	socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
-	
-	if (ec)
-	{
-		
-		//gFileLog::instance().Log(ec.message(), m_sLogFile);
-	}
-	
-	socket.close(ec);
 }
 
 // 读SWI_BlockHead
@@ -110,10 +152,13 @@ int CSywgConnect::ReadMsgHeader(char * buf)
 	int recv_bytes = 0; // 存放累计收到的数据
 	int read_bytes = total_bytes - recv_bytes; // 存放剩余需要读取的数据
 	
-	boost::system::error_code ec;
-	
 
-	
+	if ( !Recv(buf, total_bytes, 0))
+	{
+		return FALSE;
+	}
+
+	/*
 	while ( bytes = socket.read_some(boost::asio::buffer(buf + recv_bytes, read_bytes), ec) )
 	{
 		if (ec)
@@ -136,6 +181,7 @@ int CSywgConnect::ReadMsgHeader(char * buf)
 	{
 		return FALSE;
 	}
+	*/
 
 	memcpy(&msgHeader, buf, sizeof(SWI_BlockHead));	
 	TRACE("读返回包头：功能号：%d, 类型：%d\n", msgHeader.function_no, msgHeader.block_type);
@@ -222,6 +268,12 @@ bool CSywgConnect::InitConnect()
     memset(pRequestBuf, 0x00, nPacketSize);
     memcpy(pRequestBuf, &request, request.head.block_size);
 	
+	if (!Send(pRequestBuf, nPacketSize, 0))
+	{
+		bRet = FALSE;
+		goto error;
+	}
+	/*
 	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
 	if (ec)
 	{
@@ -234,6 +286,7 @@ bool CSywgConnect::InitConnect()
 		bRet = FALSE;
 		goto error;
 	}
+	*/
 
 	
 	
@@ -264,12 +317,8 @@ bool CSywgConnect::InitConnect()
 	do 
 	{
 		int nBytes = 0;
-		nBytes = socket.read_some(boost::asio::buffer(pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
-		if (ec)
-		{
-			bRet = FALSE;
-			goto error;
-		}
+		nBytes = recv(sockfd, pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+		
 
 		if (nBytes > 0)
 		{
@@ -374,6 +423,13 @@ bool CSywgConnect::GetErrorMsg(int nReturnStatus, std::string& sErrMsg)
     memset(pRequestBuf, 0x00, nPacketSize);
     memcpy(pRequestBuf, &request, request.head.block_size);
 	
+	if (!Send(pRequestBuf, nPacketSize, 0))
+	{
+		bRet = FALSE;
+		goto error;
+	}
+
+	/*
 	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
 
 	if (ec)
@@ -387,7 +443,7 @@ bool CSywgConnect::GetErrorMsg(int nReturnStatus, std::string& sErrMsg)
 		bRet = FALSE;
 		goto error;
 	}
-	
+	*/
 
 	// 接收响应
 	
@@ -417,12 +473,8 @@ bool CSywgConnect::GetErrorMsg(int nReturnStatus, std::string& sErrMsg)
 	do 
 	{
 		int nBytes = 0;
-		nBytes = socket.read_some(boost::asio::buffer(pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
-		if (ec)
-		{
-			bRet = FALSE;
-			goto error;
-		}
+		nBytes = recv(sockfd, pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+		
 
 		if (nBytes > 0)
 		{
@@ -607,6 +659,12 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
     memset(pRequestBuf, 0x00, nPacketSize);
     memcpy(pRequestBuf, &request, request.head.block_size);
 	
+	if (!Send(pRequestBuf, nPacketSize, 0))
+	{
+		bRet = FALSE;
+		goto error;
+	}
+	/*
 	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
 
 	if (ec)
@@ -622,6 +680,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		SetErrInfo(ERR_CODE_NETWORK);
 		goto error;
 	}
+	*/
 
 	// 场景一：返回result，返回return
 	// 场景二：返回return
@@ -642,7 +701,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		if (nBlockSize <= 0)
 		{
 			bRet = FALSE;
-			SetErrInfo(ERR_CODE_NETWORK);
+//			SetErrInfo(ERR_CODE_NETWORK);
 			goto error;
 		}
 
@@ -654,13 +713,8 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		do 
 		{
 			int nBytes = 0;
-			nBytes = socket.read_some(boost::asio::buffer(pResultBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
-			if (ec)
-			{
-				bRet = FALSE;
-				SetErrInfo(ec.value(), ec.message());
-				goto error;
-			}
+			nBytes = recv(sockfd, pResultBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+			
 
 			if (nBytes > 0)
 			{
@@ -669,7 +723,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 			else if (nBytes <= 0)
 			{
 				bRet = FALSE;
-				SetErrInfo(ERR_CODE_NETWORK);
+				
 				goto error;
 			}
 		} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
@@ -706,7 +760,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		else
 		{
 			bRet = FALSE;
-			SetErrInfo(ERR_CODE_PACKAGE);
+//			SetErrInfo(ERR_CODE_PACKAGE);
 			goto error;
 		}
 	} while(result.row_no != 0xFFF);
@@ -727,7 +781,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	if (nBlockSize <= 0)
 	{
 		bRet = FALSE;
-		SetErrInfo(ERR_CODE_NETWORK);
+//		SetErrInfo(ERR_CODE_NETWORK);
 		goto error;
 	}
 
@@ -740,14 +794,8 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	do 
 	{
 		int nBytes = 0;
-		nBytes = socket.read_some(boost::asio::buffer(pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
-		if (ec)
-		{
-			bRet = FALSE;
-			SetErrInfo(ec.value(), ec.message());
-			goto error;
-		}
-
+		nBytes = recv(sockfd, pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+		
 		if (nBytes > 0)
 		{
 			nRecvBytes += nBytes;
@@ -755,7 +803,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		else if (nBytes <= 0)
 		{
 			bRet = FALSE;
-			SetErrInfo(ERR_CODE_NETWORK);
+			//SetErrInfo(ERR_CODE_NETWORK);
 			goto error;
 		}
 	} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
@@ -767,7 +815,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	if (ret.head.function_no != 0x111 || ret.head.block_type != BLOCK_TYPE_RETURN)
 	{
 		bRet = FALSE;
-		SetErrInfo(ERR_CODE_PACKAGE);
+		//SetErrInfo(ERR_CODE_PACKAGE);
 		goto error;
 	}
 
@@ -849,7 +897,7 @@ error:
 
 	return bRet;
 }
-
+/*
 void CSywgConnect::SetErrInfo(int nErrCode, std::string sErrMsg)
 {
 	m_nErrCode = nErrCode;
@@ -887,6 +935,7 @@ void CSywgConnect::GetErrInfo(std::string& sErrCode, std::string& sErrMsg)
 
 	
 }
+*/
 
 /*
 
@@ -1219,6 +1268,12 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
     memcpy(pRequestBuf, request, headRequest.block_size);
 	
+	if (!Send(pRequestBuf, nPacketSize, 0))
+	{
+		bRet = FALSE;
+		goto error;
+	}
+	/*
 	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
 
 	if (ec)
@@ -1234,7 +1289,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 		SetErrInfo(ERR_CODE_NETWORK);
 		goto error;
 	}
-
+	*/
 
 	// 场景一：返回result，返回return
 	// 场景二：返回return
@@ -1258,7 +1313,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 		if (nBlockSize <= 0)
 		{
 			bRet = FALSE;
-			SetErrInfo(ERR_CODE_NETWORK);
+//			SetErrInfo(ERR_CODE_NETWORK);
 			goto error;
 		}
 
@@ -1270,13 +1325,8 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 		do 
 		{
 			int nBytes = 0;
-			nBytes = socket.read_some(boost::asio::buffer(pResultBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
-			if (ec)
-			{
-				bRet = FALSE;
-				SetErrInfo(ec.value(), ec.message());
-				goto error;
-			}
+			nBytes = recv(sockfd, pResultBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+			
 
 			if (nBytes > 0)
 			{
@@ -1285,7 +1335,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 			else if (nBytes <= 0)
 			{
 				bRet = FALSE;
-				SetErrInfo(ERR_CODE_NETWORK);
+				//SetErrInfo(ERR_CODE_NETWORK);
 				goto error;
 			}
 		} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
@@ -1427,7 +1477,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 		else
 		{
 			bRet = FALSE;
-			SetErrInfo(ERR_CODE_PACKAGE);
+//			SetErrInfo(ERR_CODE_PACKAGE);
 			goto error;
 		}
 	} while(row_no != 0xFFF);
@@ -1450,7 +1500,7 @@ RETURN:
 	if (nBlockSize <= 0)
 	{
 		bRet = FALSE;
-		SetErrInfo(ERR_CODE_NETWORK);
+//		SetErrInfo(ERR_CODE_NETWORK);
 		goto error;
 	}
 
@@ -1463,13 +1513,8 @@ RETURN:
 	do 
 	{
 		int nBytes = 0;
-		nBytes = socket.read_some(boost::asio::buffer(pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes), ec);
-		if (ec)
-		{
-			bRet = FALSE;
-			SetErrInfo(ec.value(), ec.message());
-			goto error;
-		}
+		nBytes = recv(sockfd, pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+		
 
 		if (nBytes > 0)
 		{
@@ -1478,7 +1523,7 @@ RETURN:
 		else if (nBytes <= 0)
 		{
 			bRet = FALSE;
-			SetErrInfo(ERR_CODE_NETWORK);
+			//SetErrInfo(ERR_CODE_NETWORK);
 			goto error;
 		}
 	} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
@@ -1494,7 +1539,7 @@ RETURN:
 	if (headReturn.function_no != wFuncId || headReturn.block_type != BLOCK_TYPE_RETURN)
 	{
 		bRet = FALSE;
-		SetErrInfo(ERR_CODE_PACKAGE);
+		//SetErrInfo(ERR_CODE_PACKAGE);
 		goto error;
 	}
 
@@ -1850,4 +1895,71 @@ std::string CSywgConnect::GetSmallMoney(long price)
 	osbuf2 << val;
 						
 	return osbuf2.str();
+}
+
+int CSywgConnect::Send(const char * buf, int len, int flags)
+{
+	int rc = 0;
+	
+	int totalBytes = 0;
+
+	do
+	{
+		int bytes = 0;
+		bytes = send(sockfd, buf + totalBytes, len - totalBytes, flags);
+		if (bytes == 0)
+		{
+			// connection is closed
+			break;
+		}
+
+		if (bytes < 0)
+		{
+			break;
+		}
+
+		totalBytes += bytes;
+
+
+	} while(totalBytes < len);
+
+	if (totalBytes != len)
+		rc = FALSE;
+	else
+		rc = TRUE;
+
+	return rc;
+}
+
+int CSywgConnect::Recv(char* buf, int len, int flags)
+{
+	int rc = 0;
+	int totalBytes = 0;
+
+	do
+	{
+		int bytes = 0;
+		bytes = recv(sockfd, buf + totalBytes, len - totalBytes, flags);
+		if (bytes == 0)
+		{
+			// connection is closed
+			break;
+		}
+
+		if (bytes < 0)
+		{
+			break;
+		}
+
+		totalBytes += bytes;
+
+
+	} while(totalBytes < len);
+
+	if (totalBytes != len)
+		rc = FALSE;
+	else
+		rc = TRUE;
+
+	return rc;
 }
