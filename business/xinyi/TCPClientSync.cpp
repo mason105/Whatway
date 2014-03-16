@@ -17,97 +17,108 @@
 #include <boost/system/system_error.hpp>
 
 #include "TCPClientSync.h"
-#include "./output/FileLog.h"
 
+#include "./output/FileLog.h"
 #include "ConnectPool/counter.h"
+#include "config/ConfigManager.h"
 
 
 CTCPClientSync::CTCPClientSync(void)
-	:socket(ios)
-//	,deadline(ios)
 {
-	
 	m_bConnected = false;
-
-
-	//deadline.expires_at(boost::posix_time::pos_infin);
-	
-	check_deadline();
 }
 
 CTCPClientSync::~CTCPClientSync(void)
 {
 }
 
-// 超时回调函数
-void CTCPClientSync::check_deadline()
-{
-	/*
-	if (deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now())
-	{
-		gFileLog::instance().Log("新意服务器：连接超时或读写超时");
 
-		CloseConnect();
-
-		deadline.expires_at(boost::posix_time::pos_infin);
-	}
-	
-	deadline.async_wait( boost::bind(&CTCPClientSync::check_deadline, this) );
-	*/
-}
 
 // 建立连接
 bool CTCPClientSync::CreateConnect()
 {
-	try
+	int rc = 0;
+	u_long bio = 1;
+	int connectTimeout = m_Counter->m_nConnectTimeout;
+	int readTimeout = m_Counter->m_nRecvTimeout * 1000;
+	int writeTimeout = m_Counter->m_nRecvTimeout * 1000;
+	sockfd = INVALID_SOCKET;
+
+
+	sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sockfd == INVALID_SOCKET )
 	{
-		m_bConnected = false;
-	
-		m_sIP = m_Counter->m_sIP;
-		m_nPort = m_Counter->m_nPort;
-
-		boost::system::error_code ec;
-
-		boost::asio::ip::tcp::resolver resolver(ios);
-
-		boost::asio::ip::tcp::resolver::query query(boost::asio::ip::tcp::v4(), m_sIP, boost::lexical_cast<std::string>(m_nPort));
-
-		boost::asio::ip::tcp::resolver::iterator iterator = resolver.resolve(query, ec);
-
-		// 设置连接超时
-		//int nConnectTimeout = sConfigManager::instance().m_nConnectTimeout;
-		//deadline.expires_from_now( boost::posix_time::seconds(nConnectTimeout) );
-
-		ec = boost::asio::error::would_block;
-
-		boost::asio::async_connect(socket, iterator, boost::lambda::var(ec) = boost::lambda::_1);
-	
-		do 
-			ios.run_one(); 
-		while (ec == boost::asio::error::would_block);
-
-		if (ec || !socket.is_open())
-		{
-			std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
-			std::string sErrMsg = ec.message();
-			std::string sErrInfo = "连接新意服务器失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-			gFileLog::instance().Log(sErrInfo);
-			
-			
-			m_bConnected = false;
-			return m_bConnected;
-		}
-
-		gFileLog::instance().Log("连接新意服务器成功!");
-		m_bConnected = true;
-		return m_bConnected;
+		return FALSE;
 	}
-	catch(std::exception& e)
+	
+	//设置为非阻塞模式
+	bio = 1;
+	rc = ioctlsocket(sockfd, FIONBIO, &bio); 
+	if (rc == SOCKET_ERROR)
 	{
-		gFileLog::instance().Log("连接新意服务器异常：" + std::string(e.what()));
-		m_bConnected = false;
-		return m_bConnected;
+		closesocket(sockfd);
+		return FALSE;
 	}
+	
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET;
+	addr.sin_addr.s_addr = inet_addr(m_Counter->m_sIP.c_str());
+	addr.sin_port = htons(m_Counter->m_nPort);
+
+	rc = connect(sockfd, (const sockaddr *)&addr, sizeof(addr));
+	// 异步模式不用判断
+	if (rc == SOCKET_ERROR)
+	{
+		//closesocket(sockfd);
+		//return FALSE;
+	}
+
+	
+	
+	
+	fd_set writefds;
+	FD_ZERO(&writefds);
+	FD_SET(sockfd, &writefds);
+
+	struct timeval timeout;
+	timeout.tv_sec = connectTimeout;
+	timeout.tv_usec = 0;
+
+	rc = select(0, NULL, &writefds, NULL, &timeout);
+	if (rc == 0)
+	{
+		// timeout
+		closesocket(sockfd);
+		return FALSE;
+	}
+
+	if (rc == SOCKET_ERROR)
+	{
+		closesocket(sockfd);
+		return FALSE;
+	}
+
+	if(!FD_ISSET(sockfd, &writefds))  
+    {  
+		closesocket(sockfd);
+		return FALSE;
+    }  
+
+	 
+	// 设置为阻塞模式
+	bio = 0;
+	rc = ioctlsocket(sockfd, FIONBIO, &bio);
+	if (rc == SOCKET_ERROR)
+	{
+		closesocket(sockfd);
+		return FALSE;
+	}
+
+	// 设置读写超时
+	//rc = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,(char*)&readTimeout, sizeof(readTimeout));
+    //rc = setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO,(char*)&writeTimeout, sizeof(writeTimeout));
+
+	return TRUE;
 }
 
 
@@ -126,24 +137,11 @@ bool CTCPClientSync::Write(CustomMessage * pReq)
 // 写包头
 bool CTCPClientSync::WriteMsgHeader(CustomMessage * pReq)
 {
-	boost::system::error_code ec = boost::asio::error::would_block;
-
-	
-	
-	boost::asio::async_write(socket, 
-		boost::asio::buffer(pReq->GetMsgHeader(), sizeof(MSG_HEADER)), 
-		boost::asio::transfer_all(), 
-		boost::lambda::var(ec) = boost::lambda::_1);
-	
-	do 
-		ios.run_one(); 
-	while (ec == boost::asio::error::would_block);
-
-	if (ec)
+	if (!Send(pReq->GetMsgHeader().data(), sizeof(MSG_HEADER), 0) )
 	{
-		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
-		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "新意服务器写包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+
+		//std::string sErrInfo = "新意服务器写包头失败，错误代码：" + "sErrCode" + ", 错误消息：" + "sErrMsg";
+		std::string sErrInfo = "新意服务器写包头失败";
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -156,22 +154,11 @@ bool CTCPClientSync::WriteMsgHeader(CustomMessage * pReq)
 
 bool CTCPClientSync::WriteMsgContent(CustomMessage * pReq)
 {
-	boost::system::error_code ec = boost::asio::error::would_block;
-
-	boost::asio::async_write(socket, 
-		boost::asio::buffer(pReq->GetMsgContent(), pReq->GetMsgContentSize()), 
-		boost::asio::transfer_all(), 
-		boost::lambda::var(ec) = boost::lambda::_1);
-	
-	do 
-		ios.run_one(); 
-	while (ec == boost::asio::error::would_block);
-
-	if (ec)
+	if (!Send(pReq->GetMsgContent().data(), pReq->GetMsgContentSize(), 0) )
 	{
-		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
-		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "新意服务器写包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		
+		//std::string sErrInfo = "新意服务器写包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器写包内容失败";
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -197,21 +184,11 @@ bool CTCPClientSync::Read(CustomMessage * pRes)
 // 读包头
 bool CTCPClientSync::ReadMsgHeader(CustomMessage * pRes)
 {
-	boost::system::error_code ec = boost::asio::error::would_block;
-
-	boost::asio::async_read(socket, 
-		boost::asio::buffer(pRes->GetMsgHeader(), sizeof(MSG_HEADER)), 
-		boost::asio::transfer_all(), 
-		boost::lambda::var(ec) = boost::lambda::_1);
-	do 
-		ios.run_one(); 
-	while (ec == boost::asio::error::would_block);
-
-	if (ec)
+	if (!Recv(pRes->GetMsgHeader().data(), sizeof(MSG_HEADER), 0) )
 	{
-		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
-		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "新意服务器读包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		
+		//std::string sErrInfo = "新意服务器读包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器读包头失败";
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -225,27 +202,19 @@ bool CTCPClientSync::ReadMsgHeader(CustomMessage * pRes)
 // 读包内容
 bool CTCPClientSync::ReadMsgContent(CustomMessage * pRes)
 {
-	boost::system::error_code ec = boost::asio::error::would_block;
+	
 
 	if (!pRes->DecoderMsgHeader())
 	{
 		return false;
 	}
 		
-	boost::asio::async_read(socket, 
-		boost::asio::buffer(pRes->GetMsgContent(), pRes->GetMsgContentSize()),
-		boost::asio::transfer_all(), 
-		boost::lambda::var(ec) = boost::lambda::_1);
-	do 
-		ios.run_one(); 
-	while (ec == boost::asio::error::would_block);
 
-		
-	if (ec)
+	if (!Recv(pRes->GetMsgContent().data(), pRes->GetMsgContentSize(), 0) )
 	{
-		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
-		std::string sErrMsg = ec.message();
-		std::string sErrInfo = "新意服务器读包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		
+		//std::string sErrInfo = "新意服务器读包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
+		std::string sErrInfo = "新意服务器读包内容失败";
 		gFileLog::instance().Log(sErrInfo);
 
 		m_bConnected = false;
@@ -259,34 +228,15 @@ bool CTCPClientSync::ReadMsgContent(CustomMessage * pRes)
 // 关闭连接
 void CTCPClientSync::CloseConnect()
 {
+	closesocket(sockfd);
+	sockfd = INVALID_SOCKET;
+	
 	m_bConnected = false;
-
-	boost::system::error_code ec;
-
-	
-
-	socket.close(ec);
-	
-	if (ec)
-	{
-		gFileLog::instance().Log("断开新意服务器异常：" + ec.message());
-	}
-
-	
-	//gFileLog::instance().Log("断开新意服务器!");
 }
 
 
 
-void CTCPClientSync::SetConnectTimeout(int connecTimeout)
-{
-	this->connectTimeout = connectTimeout;
-}
 
-void CTCPClientSync::SetReadWriteTimeout(int readWriteTimeout)
-{
-	this->readWriteTimeout = readWriteTimeout;
-}
 
 bool CTCPClientSync::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
@@ -395,4 +345,72 @@ bool CTCPClientSync::HeartBeat()
 	//gFileLog::instance().Log("执行时间：" + boost::lexical_cast<std::string>(nRuntime));
 	*/
 	return bRet;
+}
+
+
+int CTCPClientSync::Send(const char * buf, int len, int flags)
+{
+	int rc = 0;
+	
+	int totalBytes = 0;
+
+	do
+	{
+		int bytes = 0;
+		bytes = send(sockfd, buf + totalBytes, len - totalBytes, flags);
+		if (bytes == 0)
+		{
+			// connection is closed
+			break;
+		}
+
+		if (bytes < 0)
+		{
+			break;
+		}
+
+		totalBytes += bytes;
+
+
+	} while(totalBytes < len);
+
+	if (totalBytes != len)
+		rc = FALSE;
+	else
+		rc = TRUE;
+
+	return rc;
+}
+
+int CTCPClientSync::Recv(char* buf, int len, int flags)
+{
+	int rc = 0;
+	int totalBytes = 0;
+
+	do
+	{
+		int bytes = 0;
+		bytes = recv(sockfd, buf + totalBytes, len - totalBytes, flags);
+		if (bytes == 0)
+		{
+			// connection is closed
+			break;
+		}
+
+		if (bytes < 0)
+		{
+			break;
+		}
+
+		totalBytes += bytes;
+
+
+	} while(totalBytes < len);
+
+	if (totalBytes != len)
+		rc = FALSE;
+	else
+		rc = TRUE;
+
+	return rc;
 }

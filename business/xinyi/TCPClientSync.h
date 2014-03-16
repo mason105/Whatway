@@ -30,18 +30,14 @@ public:
 	~CTCPClientSync(void);
 
 	virtual bool CreateConnect();
-	virtual void CloseConnect();
 	virtual bool Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg);
+	virtual void CloseConnect();
 
-	
-
-	
-
-
+	//void SetConnectTimeout(int seconds);
+	//void SetReadWriteTimeout(int seconds);
 	// 心跳功能，由于后台业务不同，所以封装
 	bool HeartBeat();
-	void SetConnectTimeout(int seconds);
-	void SetReadWriteTimeout(int seconds);
+	
 
 private:
 	bool Write(CustomMessage * pReq);
@@ -52,19 +48,12 @@ private:
 	bool ReadMsgHeader(CustomMessage * pRes);
 	bool ReadMsgContent(CustomMessage * pRes);
 
-	void check_deadline();
-	std::string decompress(std::string data);
+	int Send(const char * buf, int len, int flags);
+	int Recv(char* buf, int len, int flags);
+	//std::string decompress(std::string data);
 
 private:
-	boost::asio::io_service ios;
-	boost::asio::ip::tcp::socket socket;
-
-	//boost::asio::deadline_timer deadline;
+	SOCKET sockfd;
 	
-
-	std::string m_sIP;
-	int m_nPort;
-	int connectTimeout;
-	int readWriteTimeout;
 };
 #endif

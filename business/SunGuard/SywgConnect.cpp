@@ -548,12 +548,15 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	std::string note = reqmap["cssweb_hardinfo"];
 	if (note.empty())
 	{
-		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+		//GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
-		bRet = true;
-		return bRet;
+		//bRet = true;
+		//return bRet;
 	}
-	memcpy_s(request.note, sizeof(request.note), note.c_str(), note.length());
+	else
+	{
+		memcpy_s(request.note, sizeof(request.note), note.c_str(), note.length());
+	}
 
 	std::string productno = reqmap["productno"];
 	if (productno.empty())
