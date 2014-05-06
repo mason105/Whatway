@@ -61,6 +61,7 @@ void IBusiness::ParseRequest(std::string& request)
 
 	// 全部转成小写
 	//取的时候也全部改成小写
+	reqmap.clear();
 
 	for (std::vector<std::string>::iterator it = keyvalues.begin(); it != keyvalues.end(); it++)
 	{
@@ -225,7 +226,7 @@ void IBusiness::RetErrRes(Trade::TradeLog::LogLevel level, std::string& response
 
 */
 
-void IBusiness::RetNoRecordRes(std::string& response)
+void IBusiness::RetNoRecordRes(std::string& response, int& status)
 {
 	response = "1";
 	response += SOH;
@@ -251,7 +252,7 @@ void IBusiness::RetNoRecordRes(std::string& response)
 //	response += SOH;
 
 //	logLevel = Trade::TradeLog::INFO_LEVEL;	
-//	status = 1;
+	status = 1;
 //	retcode = "";
 //	retmsg = "";
 }

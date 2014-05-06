@@ -105,7 +105,7 @@ public:
 	bool FilterRequestField(std::string& key);
 	
 	//void RetErrRes(Trade::TradeLog::LogLevel logLevel, std::string& response, std::string retcode, std::string retmsg);
-	void RetNoRecordRes(std::string& response);
+	void RetNoRecordRes(std::string& response, int& status);
 
 	
 

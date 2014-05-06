@@ -62,6 +62,32 @@
     </return>
   </function>
   
+  <function funcid="0x706" response="result" desc="query ">
+    <request>
+      <field name="account" type="char" size="16"/>
+      <field name="banktrans_sn" type="long" size="0"/>
+      <field name="flag" type="char" size="1"/>
+      <field name="flag2" type="char" size="1"/>
+    </request>
+    <result>
+      <field name="row_no" type="WORD" size="0"/>
+      <field name="banktrans_sn" type="long" size="0"/>
+      <field name="bank_id" type="char" size="2"/>
+      <field name="bank_account" type="char" size="20"/>
+      <field name="currency_type" type="char" size="2"/>
+      <field name="type" type="char" size="2"/>
+      <field name="change" type="SWIMoney" size="0"/>
+      <field name="status" type="char" size="2"/>
+      <field name="reason" type="char" size="60"/>
+      <field name="error_code" type="long" size="0"/>
+      <field name="account" type="char" size="16"/>
+      <field name="bank_name" type="char" size="40"/>
+    </result>
+    <return>
+      <field name="return_status" type="long" size="0"/>
+    </return>
+  </function>
+  
   <function funcid="0x4601" response="result" desc="query ">
     <request>
       <field name="inst_id" type="char" size="21"/>

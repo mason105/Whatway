@@ -417,7 +417,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 
 		if (nErrCode == 0)
 		{
-			RetNoRecordRes(response);
+			RetNoRecordRes(response, status);
 			goto FINISH;
 		}
 
@@ -499,7 +499,7 @@ bool TradeBusiness::Send(std::string& request, std::string& response, int& statu
 	if (nRows == 0)
 	{
 		// 执行成功，柜台没有数据返回
-		RetNoRecordRes(response);
+		RetNoRecordRes(response, status);
 		goto FINISH;
 	}
 

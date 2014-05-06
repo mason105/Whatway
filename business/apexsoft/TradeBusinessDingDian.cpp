@@ -69,7 +69,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	ParseRequest(request);
 
 	// 南京证券禁止修改资料功能
-	if ( (sysNo == "njzq_jlp" || sysNo == "njzq_flash") && funcid == "202002")
+	if ( (sysNo.compare("njzq_jlp") == 0 || sysNo.compare("njzq_flash") == 0) && funcid.compare("202002") == 0)
 	{
 		response = "1";
 		response += SOH;
@@ -258,24 +258,34 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 
 	// set wtfs
 	
-	if (sysVer == "iphone" || sysVer == "aphone")
+	if (sysVer.compare("iphone")==0 || sysVer.compare("aphone") == 0)
 	{
 		//gFileLog::instance().Log("set wtfs:"+m_pConn->m_Counter->m_sWtfs_mobile);
 		Fix_SetWTFS(session, m_Counter->m_sWtfs_mobile.c_str());
+
+		std::string wtfs;
+		if (sysVer == "iphone")
+			wtfs = "iphone委托方式=" + m_Counter->m_sWtfs_mobile;
+		if (sysVer == "android")
+			wtfs = "aphone委托方式=" + m_Counter->m_sWtfs_mobile;
+
+		gFileLog::instance().Log(wtfs);
 	}
 	else
 	{
-		//RetErrRes(Trade::TradeLog::ERROR_LEVEL, response, "1009", "委托方式参数错误");
-		//goto FINISH;
+		
 		Fix_SetWTFS(session, m_Counter->m_sWtfs_web.c_str());
 
+		std::string wtfs = "web委托方式=" + m_Counter->m_sWtfs_mobile;
+
+		gFileLog::instance().Log(wtfs);
 	}
 
 
 
 	// set node
 	
-	if (sysVer == "iphone" || sysVer == "aphone")
+	if (sysVer.compare("iphone")==0 || sysVer.compare("aphone")==0)
 	{
 		std::string node;
 		node =reqmap["cssweb_note"];
@@ -293,37 +303,41 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	Fix_CreateHead(session, boost::lexical_cast<long>(funcid));
 
 	
+	gFileLog::instance().Log("==开始设置请求参数==");
 	for (std::map<std::string, std::string>::iterator it = reqmap.begin(); it != reqmap.end(); it++)
 	{
 		std::string key = it->first;
 		std::string value = it->second;
 
+		std::string tmp = "key=" + key;
+		tmp += ",value=" + value;
+		gFileLog::instance().Log(tmp);
 
 		if (FilterRequestField(key))
 		{
 			continue;
 		}
-		else if(key == "client_id")
+		else if(key.compare("client_id")==0)
 		{
 			continue;
 		}
-		else if(key == "branch_no")
+		else if(key.compare("branch_no")==0)
 		{
 			continue;
 		}
-		else if (key == "FBDM")
+		else if (key.compare("FBDM")==0)
 		{
 			Fix_SetFBDM(session, value.c_str());
 			Fix_SetDestFBDM(session, value.c_str());
 		}
-		else if (key == "FID_JYMM")
+		else if (key.compare("FID_JYMM")==0)
 		{
 
 			
 			// 登录
-			if (funcid == "190101")
+			if (funcid.compare("190101")==0)
 			{
-				if (sysVer == "web" || sysVer == "flash")
+				if (sysVer.compare("web")==0 || sysVer.compare("flash")==0)
 				{
 					//加了FID_JMLX=2，所有不需要加密传给柜台
 					std::string pwd;
@@ -362,12 +376,12 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 				}
 			}
 		}
-		else if(key == "FID_MM" || key == "FID_NEWMM" || key == "FID_ZJMM" || key == "FID_WBZHMM")
+		else if(key.compare("FID_MM")==0 || key.compare("FID_NEWMM")==0 || key.compare("FID_ZJMM")==0 || key.compare("FID_WBZHMM")==0)
 		{
-			if (sysVer == "flash")
+			if (sysVer.compare("flash")==0)
 			{
 				
-				if (cssweb_pwdType == "1")
+				if (cssweb_pwdType.compare("1")==0)
 				{
 					// 安全模式
 					std::string pwd;
@@ -403,7 +417,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 						Fix_SetItem(session, l, szPwd);
 					}
 
-					if (key == "FID_NEWMM")
+					if (key.compare("FID_NEWMM")==0)
 					{
 						// 新密码
 						bool bRet = g_MyBotan.AESEncrypt_Base16Encoder("AES-256/ECB/PKCS7", "29dlo*%AO+3i16BaweTw.lc!)61K{9^5", pwd, flash_normal_modifypwd_newpwd);
@@ -411,7 +425,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 					}
 				}
 			}
-			else if (sysVer == "web")
+			else if (sysVer.compare("web")==0)
 			{
 					// 安全模式
 					std::string pwd;
@@ -456,6 +470,8 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 			//}
 		}
 	} // end for
+	gFileLog::instance().Log("==结束设置请求参数==");
+
 
 	// 默认为30秒
 	Fix_SetTimeOut(session, m_Counter->m_nRecvTimeout);
@@ -503,7 +519,8 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		// 处理成功，无数据返回
 		if (nRows == 0)
 		{
-			RetNoRecordRes(response);
+			RetNoRecordRes(response, status);
+			status = 1;
 			goto FINISH;
 		}
 
@@ -512,7 +529,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		int nCols = mReturnField.size();
 
 		//flash交易，普通模式，修改密码功能
-		if (sysVer=="flash" && cssweb_pwdType == "0" && funcid=="202010")
+		if (sysVer.compare("flash")==0 && cssweb_pwdType.compare("0")==0 && funcid.compare("202010")==0)
 		{
 			nCols += 1;
 		}
@@ -535,7 +552,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		}
 
 		//flash交易，普通模式，修改密码功能
-		if (sysVer=="flash" && cssweb_pwdType == "0" && funcid=="202010")
+		if (sysVer.compare("flash")==0 && cssweb_pwdType.compare("0")==0 && funcid.compare("202010")==0)
 		{
 			response += "cssweb_pwd";
 			response += SOH;

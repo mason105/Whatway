@@ -1628,7 +1628,7 @@ RETURN:
 			if (nRows == 0)
 			{
 				// 操作成功，柜台没有数据返回
-				RetNoRecordRes(response);
+				RetNoRecordRes(response, status);
 			}
 			else
 			{

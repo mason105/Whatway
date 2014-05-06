@@ -30,6 +30,7 @@
 
 #include "./output/FileLog.h"
 #include "errcode.h"
+#include "log/FileLogManager.h"
 
 
 
@@ -76,6 +77,10 @@ bool TradeBusinessT2::CreateConnect()
 
 	if (nRet != 0)
 	{
+		std::string sErrMsg = lpConnection->GetErrorMsg(nRet);
+			std::string msg = "建立连接失败" + s + ",错误信息" + sErrMsg;
+			gFileLog::instance().Log(msg);
+
 		m_bConnected = false;
 		return false;
 	}
@@ -106,8 +111,11 @@ void TradeBusinessT2::CloseConnect()
 
 bool TradeBusinessT2::Send(std::string& request, std::string& response, int& status, std::string& errCode, std::string& errMsg)
 {
+	
+
 	bool bRet = true;
 	int nRet = 0;
+	
 
 	ParseRequest(request);
 
@@ -264,24 +272,30 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 
 		if (nRows == 0)
 		{
-			RetNoRecordRes(response);
+			RetNoRecordRes(response, status);
+			bRet = true;
+			status = 1;
+			
 			goto FINISH;
 		}
 		
-		/*
-		std::map<std::string, FUNCTION_DESC>::iterator it = sLogManager::instance().m_mT2_FilterFunc.find(funcid);
-		if (it != sLogManager::instance().m_mT2_FilterFunc.end())
+		
+		std::map<std::string, FUNCTION_DESC>::iterator it = gFileLogManager::instance().m_mT2_FilterFunc.find(funcid);
+		if (it != gFileLogManager::instance().m_mT2_FilterFunc.end())
 		{
 			// 不应该有结果集返回
 			if (!it->second.hasResultRet)
 			{
 				gFileLog::instance().Log(funcid + "不应该返回结果集");
 
-				RetNoRecordRes(response);
+				RetNoRecordRes(response, status);
+				bRet = true;
+				status = 1;
+				
 				goto FINISH;
 			}
 		}
-		*/
+		
 
 		response = boost::lexical_cast<std::string>(nRows);
 		response += SOH;
@@ -327,6 +341,7 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 		status = 1;
 		errCode = "";
 		errMsg = "";
+		
 		//logLevel = Trade::TradeLog::INFO_LEVEL;
 
 	}
@@ -355,6 +370,7 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 	}
 	else
 	{
+		
 		GenResponse(nRet, lpConnection->GetErrorMsg(nRet), response, status, errCode, errMsg);
 		bRet = true;
 		goto FINISH;
