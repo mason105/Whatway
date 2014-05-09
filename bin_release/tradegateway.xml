@@ -7,6 +7,7 @@
 
     <!--windows, ios, android, wp8/win8, osx-->
     <ssl>
+      <enable>1</enable>
       <port>5000</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
@@ -16,6 +17,7 @@
 
     <!--weblogic-->
     <tcp>
+      <enable>1</enable>
       <port>5001</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
@@ -24,6 +26,7 @@
 
 
     <ssl_new>
+      <enable>0</enable>
       <port>5002</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
@@ -33,6 +36,7 @@
 
 
     <tcp_new>
+      <enable>0</enable>
       <port>5003</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
@@ -40,6 +44,7 @@
 
     <!--flash交易-->
     <http>
+      <enable>0</enable>
       <port>5004</port>
       <!-- flash交易url上下文 -->
       <!-- https://trade.domain.com/tradegw/?-->

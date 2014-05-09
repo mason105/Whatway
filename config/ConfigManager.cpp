@@ -99,6 +99,8 @@ bool ConfigManager::LoadConfig(std::string sPath)
 	m_nSslSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
 	node = doc.select_single_node("/config/communication/ssl/auth");
 	m_nAuth = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/ssl/enable");
+	m_nSslEnable = boost::lexical_cast<int>(node.node().child_value());
 
 	node = doc.select_single_node("/config/communication/http/port");
 	m_nHttpPort = boost::lexical_cast<int>(node.node().child_value());
@@ -108,6 +110,8 @@ bool ConfigManager::LoadConfig(std::string sPath)
 	m_nHttpSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
 	node = doc.select_single_node("/config/communication/http/flashurlcontext");
 	m_sFlashUrlContext = node.node().child_value();
+	node = doc.select_single_node("/config/communication/http/enable");
+	m_nHttpEnable = boost::lexical_cast<int>(node.node().child_value());
 
 	node = doc.select_single_node("/config/communication/tcp/port");
 	m_nTcpPort = boost::lexical_cast<int>(node.node().child_value());
@@ -115,7 +119,8 @@ bool ConfigManager::LoadConfig(std::string sPath)
 	m_nTcpWorkerThreadPool = boost::lexical_cast<int>(node.node().child_value());
 	node = doc.select_single_node("/config/communication/tcp/sendthreadpool");
 	m_nTcpSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
-
+	node = doc.select_single_node("/config/communication/tcp/enable");
+	m_nTcpEnable = boost::lexical_cast<int>(node.node().child_value());
 
 
 	node = doc.select_single_node("/config/communication/ssl_new/port");
@@ -126,6 +131,9 @@ bool ConfigManager::LoadConfig(std::string sPath)
 	m_nSslNewSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
 	node = doc.select_single_node("/config/communication/ssl_new/auth");
 	m_nNewAuth = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/ssl_new/enable");
+	m_nSslNewEnable = boost::lexical_cast<int>(node.node().child_value());
+
 
 	node = doc.select_single_node("/config/communication/tcp_new/port");
 	m_nTcpNewPort = boost::lexical_cast<int>(node.node().child_value());
@@ -133,6 +141,8 @@ bool ConfigManager::LoadConfig(std::string sPath)
 	m_nTcpNewWorkerThreadPool = boost::lexical_cast<int>(node.node().child_value());
 	node = doc.select_single_node("/config/communication/tcp_new/sendthreadpool");
 	m_nTcpNewSendThreadPool = boost::lexical_cast<int>(node.node().child_value());
+	node = doc.select_single_node("/config/communication/tcp_new/enable");
+	m_nTcpNewEnable = boost::lexical_cast<int>(node.node().child_value());
 
 
 	node = doc.select_single_node("/config/communication/zlib");

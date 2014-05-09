@@ -78,7 +78,7 @@ IDR_MAINFRAME           ICON                    "res\\TradeGatewayGtja.ico"
 IDD_TRADEGATEWAYGTJA_DIALOG DIALOGEX 0, 0, 701, 392
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "中软万维交易网关"
+CAPTION "中软万维交易网关（版本：2.0.00)"
 FONT 9, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "桌面和移动平台交易网关",IDC_SSL_ADDR,7,7,159,8
@@ -131,7 +131,7 @@ BEGIN
     LTEXT           "日志级别",IDC_LOG_LEVEL,7,174,101,8
     PUSHBUTTON      "退出",IDC_EXIT,644,29,50,14
     PUSHBUTTON      "清除缓存",IDC_CLEAR_CACHE,644,7,50,14
-    PUSHBUTTON      "Button1",IDC_BUTTON1,644,49,50,14
+    PUSHBUTTON      "版本信息",IDC_CHANGELOG,644,71,50,14
 END
 
 
@@ -141,8 +141,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 2,0,0,0
+ PRODUCTVERSION 2,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -159,12 +159,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "中软万维"
             VALUE "FileDescription", "交易网关"
-            VALUE "FileVersion", "1.0.0.1"
+            VALUE "FileVersion", "2.0.0.0"
             VALUE "InternalName", "TradeGateway.exe"
             VALUE "LegalCopyright", "中软万维保留所有权利。"
             VALUE "OriginalFilename", "TradeGateway.exe"
             VALUE "ProductName", "交易网关"
-            VALUE "ProductVersion", "1.0.0.1"
+            VALUE "ProductVersion", "2.0.0.0"
         END
     END
     BLOCK "VarFileInfo"

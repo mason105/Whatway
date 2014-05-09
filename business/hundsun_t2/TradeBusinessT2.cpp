@@ -214,9 +214,13 @@ bool TradeBusinessT2::Send(std::string& request, std::string& response, int& sta
 			//gFileLog::instance().Log(temp);
 		}
 
-		if (key == "op_station")
+		// 如果是南京证券
+		if (sysNo.find("njzq") != std::string::npos)
 		{
-			value = note;
+			if (key == "op_station")
+			{
+				value = note;
+			}
 		}
 
 		pack->AddStr(value.c_str());

@@ -62,9 +62,6 @@
     <Filter Include="第三方库\XML\RapidXML">
       <UniqueIdentifier>{732dbbb1-f9d7-4090-8fb2-32c50ae154c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="第三方库\InstantClient">
-      <UniqueIdentifier>{6f24d9ed-25d5-4312-af56-5b335cbcf6ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="配置文件\debug">
       <UniqueIdentifier>{bcda6ad1-c0aa-474b-a48d-b95620a374ec}</UniqueIdentifier>
     </Filter>
@@ -735,6 +732,9 @@
     </Text>
     <Text Include="ConnectPool\ConnectPool.h.txt">
       <Filter>核心代码\柜台连接池\代码作废</Filter>
+    </Text>
+    <Text Include="bin_release\ChangeLog.txt">
+      <Filter>配置文件\release</Filter>
     </Text>
   </ItemGroup>
 </Project>

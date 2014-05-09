@@ -161,4 +161,5 @@ public:
 	afx_msg void OnBnClickedTestCrash();
 	afx_msg void OnBnClickedButton3();
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedChangelog();
 };

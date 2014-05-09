@@ -30,33 +30,44 @@ public:
 	// 通信层
 	std::string m_sIp;
 
-	int m_nSslPort;
-	int m_nSslWorkerThreadPool;
-	int m_nSslSendThreadPool;
-	int m_nAuth;
-	
+	// 已经废弃
 	int m_nHttpPort;
 	int m_nHttpWorkerThreadPool;
 	int m_nHttpSendThreadPool;
+	int m_nHttpEnable;
 	std::string m_sFlashUrlContext;
 	int m_nFlashTradeURLContext;
-	//crossdomain.xml
 	std::string m_sFlashCrossDomain;
 	void LoadCrossDomain();
 
+
+	// 准备废弃
+	int m_nSslPort;
+	int m_nSslWorkerThreadPool;
+	int m_nSslSendThreadPool;
+	int m_nSslEnable;
+	int m_nAuth;
+	
+	// 准备废弃	
 	int m_nTcpPort;
 	int m_nTcpWorkerThreadPool;
 	int m_nTcpSendThreadPool;
+	int m_nTcpEnable;
 
 
+	// 
 	int m_nSslNewPort;
 	int m_nSslNewWorkerThreadPool;
 	int m_nSslNewSendThreadPool;
+	int m_nSslNewEnable;
 	int m_nNewAuth;
+	
 
+	//
 	int m_nTcpNewPort;
 	int m_nTcpNewWorkerThreadPool;
 	int m_nTcpNewSendThreadPool;
+	int m_nTcpNewEnable;
 	
 	// 压缩大小
 	int zlib;

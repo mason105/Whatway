@@ -148,6 +148,7 @@
     <ClInclude Include="ConnectPool\Branch.h" />
     <ClInclude Include="ConnectPool\BusinessSystem.h" />
     <ClInclude Include="ConnectPool\BusinessType.h" />
+    <Text Include="bin_release\ChangeLog.txt" />
     <Text Include="ConnectPool\Connect.h.txt">
       <FileType>CppHeader</FileType>
     </Text>
