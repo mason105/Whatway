@@ -97,7 +97,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 
 		goto FINISH;
 	}
-
+	/*
 	if (funcid == "000000")
 	{
 		//1.对解锁密码进行b64解码
@@ -172,7 +172,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 			goto FINISH;
 		}
 	}
-
+	*/
 
 	
 	if (!cssweb_cacheFlag.empty())
@@ -269,7 +269,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		if (sysVer == "android")
 			wtfs = "aphone委托方式=" + m_Counter->m_sWtfs_mobile;
 
-		gFileLog::instance().Log(wtfs);
+		//gFileLog::instance().Log(wtfs);
 	}
 	else
 	{
@@ -278,7 +278,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 
 		std::string wtfs = "web委托方式=" + m_Counter->m_sWtfs_mobile;
 
-		gFileLog::instance().Log(wtfs);
+		//gFileLog::instance().Log(wtfs);
 	}
 
 
@@ -303,15 +303,15 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	Fix_CreateHead(session, boost::lexical_cast<long>(funcid));
 
 	
-	gFileLog::instance().Log("==开始设置请求参数==");
+	//gFileLog::instance().Log("==开始设置请求参数==");
 	for (std::map<std::string, std::string>::iterator it = reqmap.begin(); it != reqmap.end(); it++)
 	{
 		std::string key = it->first;
 		std::string value = it->second;
 
-		std::string tmp = "key=" + key;
-		tmp += ",value=" + value;
-		gFileLog::instance().Log(tmp);
+		//std::string tmp = "key=" + key;
+		//tmp += ",value=" + value;
+		//gFileLog::instance().Log(tmp);
 
 		if (FilterRequestField(key))
 		{
@@ -332,7 +332,17 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		}
 		else if (key.compare("FID_JYMM")==0)
 		{
+			char szPwd[256];
+				memset(szPwd, 0x00, sizeof(szPwd));
 
+				EncryptPwd(value.c_str(), szPwd);
+				if (szPwd != NULL)
+				{
+					long l = g_DingDian.m_mRequestField[key];
+					Fix_SetItem(session, l, szPwd);
+				}
+
+				/*
 			
 			// 登录
 			if (funcid.compare("190101")==0)
@@ -375,9 +385,11 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 					Fix_SetItem(session, l, szPwd);
 				}
 			}
+			*/
 		}
 		else if(key.compare("FID_MM")==0 || key.compare("FID_NEWMM")==0 || key.compare("FID_ZJMM")==0 || key.compare("FID_WBZHMM")==0)
 		{
+			/*
 			if (sysVer.compare("flash")==0)
 			{
 				
@@ -442,7 +454,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 					}
 			}
 			else
-			{
+			{*/
 				char szPwd[256];
 				memset(szPwd, 0x00, sizeof(szPwd));
 
@@ -452,7 +464,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 					long l = g_DingDian.m_mRequestField[key];
 					Fix_SetItem(session, l, szPwd);
 				}
-			}
+			//}
 		}
 		else
 		{
@@ -470,7 +482,7 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 			//}
 		}
 	} // end for
-	gFileLog::instance().Log("==结束设置请求参数==");
+	//gFileLog::instance().Log("==结束设置请求参数==");
 
 
 	// 默认为30秒
@@ -501,8 +513,8 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	Fix_GetItem(session, FID_MESSAGE, szValue, sizeof(szValue), 0);
 	fid_message = szValue;
 	
-	tmp = "功能号：" + funcid + "fid_code: " + fid_code;
-	gFileLog::instance().Log(tmp);
+	//tmp = "功能号：" + funcid + "fid_code: " + fid_code;
+	//gFileLog::instance().Log(tmp);
 
 	int fidcode = -1;
 	if (!fid_code.empty())
@@ -529,10 +541,10 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		int nCols = mReturnField.size();
 
 		//flash交易，普通模式，修改密码功能
-		if (sysVer.compare("flash")==0 && cssweb_pwdType.compare("0")==0 && funcid.compare("202010")==0)
-		{
-			nCols += 1;
-		}
+		//if (sysVer.compare("flash")==0 && cssweb_pwdType.compare("0")==0 && funcid.compare("202010")==0)
+		////{
+			//nCols += 1;
+		//}
 
 		response = boost::lexical_cast<std::string>(nRows);
 		response += SOH;
@@ -552,11 +564,11 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		}
 
 		//flash交易，普通模式，修改密码功能
-		if (sysVer.compare("flash")==0 && cssweb_pwdType.compare("0")==0 && funcid.compare("202010")==0)
-		{
-			response += "cssweb_pwd";
-			response += SOH;
-		}
+		//if (sysVer.compare("flash")==0 && cssweb_pwdType.compare("0")==0 && funcid.compare("202010")==0)
+		//{
+		//	response += "cssweb_pwd";
+		//	response += SOH;
+		//}
 
 
 		for (int row=0; row<nRows; row++)
@@ -577,11 +589,11 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 		} // end for row
 
 		//flash交易，普通模式，修改密码功能
-		if (sysVer=="flash" && cssweb_pwdType == "0" && funcid=="202010")
-		{
-			response += flash_normal_modifypwd_newpwd;
-			response += SOH;
-		}
+		//if (sysVer=="flash" && cssweb_pwdType == "0" && funcid=="202010")
+		//{
+		//	response += flash_normal_modifypwd_newpwd;
+		//	response += SOH;
+		//}
 
 		status = 1;
 		errCode = "";

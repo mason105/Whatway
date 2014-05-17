@@ -28,7 +28,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v110</PlatformToolset>
     <UseOfMfc>Dynamic</UseOfMfc>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -64,12 +64,13 @@
       <AdditionalIncludeDirectories>.\;e:\common;D:\boost\1.55\include\boost-1_55\;D:\protobuf\protobuf-2.4.1\src;d:\openssl\include;d:\ocilib\ocilib\include;d:\botan\debug\include;D:\ImageMagick\ImageMagick-6.8.7\;D:\ImageMagick\ImageMagick-6.8.7\Magick++\lib;D:\Visual Leak Detector\include;d:\crashrpt\include;d:\icu\icu\include;D:\OpenCV\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeader />
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <StructMemberAlignment>Default</StructMemberAlignment>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -87,6 +88,7 @@
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>true</MapExports>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -328,6 +330,7 @@
     <Xml Include="bin_debug\tradegateway.xml">
       <SubType>Designer</SubType>
     </Xml>
+    <Xml Include="bin_release\agc.xml" />
     <Xml Include="bin_release\tradegateway.xml" />
   </ItemGroup>
   <ItemGroup>

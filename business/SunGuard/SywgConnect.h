@@ -10,6 +10,8 @@
 
 #include "business/IBusiness.h"
 
+#include "sywg.h"
+
 // 采用同步模式实现
 // 采用boost::asio，实现跨平台
 // 需要支持CRC
@@ -35,12 +37,14 @@ public:
 
 	bool InitConnect();
 	bool GetErrorMsg(int nErrCode, std::string& sErrMsg);
+
 	bool Login(std::string& response, int& status, std::string& errCode, std::string& errMsg);
+
 	bool Send(std::string& response, int& status, std::string& errCode, std::string& errMsg);
 	
-	//BOOL OpenAccount(std::map<std::string, std::string>& reqmap, std::string& response);
-	// 705
-	//BOOL BankTransfReq(std::map<std::string, std::string>& reqmap, std::string& response);
+	bool f4603(std::string& response, int& status, std::string& errCode, std::string& errMsg);
+	bool f4605(std::string& response, int& status, std::string& errCode, std::string& errMsg);
+	bool f4606(std::string& response, int& status, std::string& errCode, std::string& errMsg);
 	
 
 private:
@@ -75,6 +79,15 @@ private:
 
 	int Send(const char * buf, int len, int flags);
 	int Recv(char* buf, int len, int flags);
+
+public:
+	double Int64_double( SWIMoney SW_Money);
+	void Int64_double(double *l, SWIMoney SW_Money);
+	void Int64_char(char * buff, SWIMoney SW_Money, BYTE Is_JgdOpen);
+	void char_Int64(SWIMoney *SW_Money, const char * QL_Char);
+
+	uint64_t read_be_dd(const void* p)  ;
+	uint64_t read_le_dd(const void* p)  ;
 
 };
 

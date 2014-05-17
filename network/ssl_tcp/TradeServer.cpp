@@ -63,6 +63,11 @@
 #include "network/ssl_tcp/custommessage.h"
 
 
+// ICU
+#include <unicode/putil.h>
+#include <unicode/ucnv.h>
+
+
 TradeServer::TradeServer(int msgType)
 	:req_worker_(recvq_, boost::bind(&TradeServer::ProcessRequest, this, _1), gConfigManager::instance().m_nTcpWorkerThreadPool)
 	,resp_worker_(sendq_, boost::bind(&TradeServer::ProcessResponse, this, _1), gConfigManager::instance().m_nTcpSendThreadPool)
@@ -138,8 +143,16 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	std::string beginTime = "";
 	int runtime = 0;
 
+	// utf8
+	std::string request_utf8 = req->GetMsgContentString();
 
-	std::string request = req->GetMsgContentString();
+	UErrorCode errcode = U_ZERO_ERROR;
+	char dest[8192];
+	memset(dest, 0x00, sizeof(dest));
+	int ret = ucnv_convert("gbk", "utf8", dest, sizeof(dest), request_utf8.c_str(), -1, &errcode);
+	std::string request = dest;
+	
+
 	std::string response = "";
 	int status = 0;
 	std::string errCode = "";

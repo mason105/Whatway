@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <functions>
-  
+
   <function funcid="0x400" response="result" desc="query ">
     <request>
       <field name="account_type" type="char" size="1"/>
@@ -53,7 +53,7 @@
       <field name="sub_account" type="char" size="16"/>
     </request>
     <result>
-      
+
     </result>
     <return>
       <field name="return_status" type="long" size="0"/>
@@ -61,7 +61,7 @@
       <field name="errmsg" type="char" size="80"/>
     </return>
   </function>
-  
+
   <function funcid="0x706" response="result" desc="query ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -87,7 +87,7 @@
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
-  
+
   <function funcid="0x4601" response="result" desc="query ">
     <request>
       <field name="inst_id" type="char" size="21"/>
@@ -95,7 +95,7 @@
     <result>
       <field name="row_no" type="WORD" size="0"/>
       <field name="inst_id" type="char" size="21"/>
-      <field name="security_name" type="char" size="30"/>
+      <field name="security_name" type="char" size="32"/>
       <field name="product_status" type="char" size="1"/>
       <field name="expected_return" type="SWISmallMoney" size="0"/>
       <field name="risk_level" type="char" size="1"/>
@@ -110,7 +110,7 @@
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
-  
+
   <function funcid="0x4602" response="result" desc="query ">
     <request>
       <field name="inst_id" type="char" size="21"/>
@@ -118,7 +118,7 @@
     <result>
       <field name="row_no" type="WORD" size="0"/>
       <field name="inst_id" type="char" size="21"/>
-      <field name="security_name" type="char" size="30"/>
+      <field name="security_name" type="char" size="32"/>
       <field name="entrust_date" type="long" size="0"/>
       <field name="entrust_time" type="char" size="9"/>
       <field name="buy_entrust_sn" type="char" size="21"/>
@@ -132,7 +132,7 @@
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
-  
+
   <function funcid="0x2601" response="return" desc=" ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -142,14 +142,15 @@
       <field name="redeem_num" type="SWIMoney" size="0"/>
     </request>
     <result>
-	
+
     </result>
     <return>
       <field name="return_status" type="long" size="0"/>
       <field name="entrust_sn" type="char" size="21"/>
+      <field name="errmsg" type="char" size="80"/>
     </return>
   </function>
-  
+
   <function funcid="0x2602" response="return" desc=" ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -163,14 +164,15 @@
       <field name="quot_app_sno" type="char" size="21"/>
     </request>
     <result>
-	
+
     </result>
     <return>
       <field name="return_status" type="long" size="0"/>
       <field name="entrust_sn" type="char" size="21"/>
+      <field name="errmsg" type="char" size="80"/>
     </return>
   </function>
-  
+
   <function funcid="0x2603" response="return" desc=" ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -178,14 +180,15 @@
       <field name="entrust_date" type="long" size="0"/>
     </request>
     <result>
-	
+
     </result>
     <return>
       <field name="return_status" type="long" size="0"/>
       <field name="withdraw_sn" type="char" size="21"/>
+      <field name="errmsg" type="char" size="80"/>
     </return>
   </function>
-  
+
   <function funcid="0x2604" response="return" desc=" ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -193,14 +196,15 @@
       <field name="entrust_date" type="long" size="0"/>
     </request>
     <result>
-	
+
     </result>
     <return>
       <field name="return_status" type="long" size="0"/>
       <field name="withdraw_sn" type="char" size="21"/>
+      <field name="errmsg" type="char" size="80"/>
     </return>
   </function>
-  
+
   <function funcid="0x4603" response="result" desc="query ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -217,7 +221,7 @@
       <field name="entrust_time" type="char" size="9"/>
       <field name="ta_acct" type="char" size="30"/>
       <field name="inst_id" type="char" size="21"/>
-      <field name="security_name" type="char" size="30"/>
+      <field name="security_name" type="char" size="32"/>
       <field name="bs_type" type="char" size="3"/>
       <field name="app_amt" type="SWIMoney" size="0"/>
       <field name="redeem_num" type="SWIMoney" size="0"/>
@@ -233,7 +237,7 @@
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
-  
+
   <function funcid="0x4604" response="result" desc="query ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -268,7 +272,7 @@
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
-  
+
   <function funcid="0x4605" response="result" desc="query ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -290,7 +294,7 @@
       <field name="return_status" type="long" size="0"/>
     </return>
   </function>
-  
+
   <function funcid="0x4606" response="result" desc="query ">
     <request>
       <field name="account" type="char" size="16"/>
@@ -317,4 +321,3 @@
   </function>
 </functions>
 
-  

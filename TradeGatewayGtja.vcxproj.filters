@@ -245,6 +245,12 @@
     <Filter Include="核心代码\0.网络消息\SSL old\protobuf">
       <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
     </Filter>
+    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\debug">
+      <UniqueIdentifier>{4eb5b1df-b3ac-43a1-812e-813892a92142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\release">
+      <UniqueIdentifier>{253f4c2a-c7fd-4f0f-916b-00639a62a2bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -627,7 +633,10 @@
       <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
     </Xml>
     <Xml Include="bin_debug\agc.xml">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
+      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\debug</Filter>
+    </Xml>
+    <Xml Include="bin_release\agc.xml">
+      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\release</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>

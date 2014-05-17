@@ -26,7 +26,7 @@
    
 
     <ssl_new>
-      <enable>0</enable>
+      <enable>1</enable>
       <port>5002</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>
@@ -36,7 +36,7 @@
 
     
     <tcp_new>
-      <enable>0</enable>
+      <enable>1</enable>
       <port>5003</port>
       <workerthreadpool>16</workerthreadpool>
       <sendthreadpool>16</sendthreadpool>

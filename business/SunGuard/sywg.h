@@ -19,38 +19,63 @@
 // 价格
 typedef long	 SWISmallMoney;
 
-// 货币
-/*
-typedef struct _SWIMoney            // Same as the type CURRENCY in VB
-{
-DWORD lo_value;
-long  hi_value;
-} SWIMoney;
-*/
+
+
 #pragma   pack(1)
 
+
+/*
+7、金额用8字节SQLMONEY来表示，内部表示为__int64，其十进制后四位代表四位小数, 如￥12.32  表示为 123200
 typedef struct _SWIMoney    // Same as the type CURRENCY in VB
 {
-    DWORD lo_value;
-    long  hi_value;
-#ifdef WIN32
-    operator double()
-    {
-        return 0.0001 * *((__int64*)this);
-    }
+		DWORD lo_value;
+		long  hi_value;
+} SWIMoney;
 
-    _SWIMoney& operator = (double v)
-    {
-        union{ __int64 i64;
-        _SWIMoney  mny;
-        } x;
-        x.i64 = (__int64)(10000.0 * v + 0.1 * (v>=0?1:-1));
-        lo_value = x.mny.lo_value;
-        hi_value = x.mny.hi_value;
-        return *this;
-    }
+注意： 对开放式基金的委托或查询返回股票数量(fund_amount，使用SWIMoney来表示)，其十进制后4位代表4位小数，如1000000.12表示为10000001200。
+*/
+typedef struct _SWIMoney    // Same as the type CURRENCY in VB
+
+{
+
+         DWORD lo_value;
+
+         long  hi_value;
+
+#ifdef WIN32
+
+         operator double()
+
+         {
+
+                   return 0.0001 * *((__int64*)this);
+
+         }
+
+ 
+
+         _SWIMoney& operator = (double v)
+
+         {
+
+                   union{ __int64 i64;
+
+                            _SWIMoney  mny;
+
+                   } x;
+
+                   x.i64 = (__int64)(10000.0 * v + 0.1 * (v>=0?1:-1));
+
+                   lo_value = x.mny.lo_value;
+
+                   hi_value = x.mny.hi_value;
+
+                   return *this;
+
+         }
+
 #endif
-    //#pragma pack(show)
+
 }SWIMoney, FAR* PSWIMoney;
 
 
@@ -242,6 +267,119 @@ struct SWI_AddOTCEntrustReturn
 	long entrust_sn;      			//  委托编号
 };
 
+// 0x4603
+struct SWI_QueryOTCPDEntrustRequest
+{
+	struct SWI_BlockHead head; 	// function_no == 0x4603 ,block_type==1
+	char    account[16];     	// 登录客户资金账号
+char    query_type;         // 查询类型 
+//‘1’---当前记录 表示所有未申报到TA系统的委托记录
+//‘2’---历史记录
+	long    begin_date;      	// 起始日期（形如：yyyymmdd）
+	long    end_date;        	// 结束日期（形如：yyyymmdd）
+	char    inst_id [21];	    // 产品编码（默认为空，空表示全部）
+char    query_flag;         // 查询标识 (默认‘0’：返回全部委托 ；
+//               ‘1’：只返回有效委托（可撤单委托）。
+};
+
+struct SWI_QueryOTCPDEntrustResult
+{
+	struct SWI_BlockHead head; // function_no==0x4603,block_type==3
+	WORD row_no;               // 记录号,  0xFFFF结果集结束
+	long entrust_date;         // 委托日期（形如：yyyymmdd）
+char entrust_sn[21];       // 委托编号
+	char entrust_time[9];      // 委托时间（形如：hh:mm:ss）
+    char ta_acct[30];          // TA登记账户
+	char inst_id [21];	       // 产品编码（默认为空，空表示全部）
+	char security_name[30];    // 证券名称（MBCS/Unicode）
+	char bs_type[3];              // 买卖类别 见数据字典3.3,仅包含以下类型：
+                           // ‘110’ ----- 认购
+// ‘111’ ----- 申购
+// ‘112’ ----- 赎回
+SWIMoney  app_amt;         // 申请金额
+SWIMoney  redeem_num;      // 赎回份额
+	char  entrust_status;      // 委托状态（见数据字典1.4）
+char  cancel_flag;         // 撤单标志 ‘0’-正常，‘1’-撤单
+char  orient_app_no[21];   // 原申请编号
+char  cancelled_flag;      // 已撤标志 ‘0’-未撤单， ‘1’-已撤单
+char  can_cancel_flag;     // 可撤标志 ‘0’-不可撤单，‘1’-可撤单
+SWIMoney  cfm_amt;             // 确认金额
+SWIMoney  cfm_num;             // 确认数量
+};
+
+
+struct SWI_QueryOTCPDEntrustReturn
+{
+	struct SWI_BlockHead head; 	// function_no==0x4603,block_type==2
+	long   return_status;      	// 返回状态 >0表示：查询成功, <=0表示：查询失败
+};
+
+// 0x4605
+struct SWI_QueryOTCStockRequest
+{
+  struct SWI_BlockHead head;     // function_no == 0x4605, block_type==1
+  char   account[16];     // 登录客户资金账号
+  char   inst_id [21];        // 产品编码（默认为空，空表示全部）
+};
+
+struct SWI_QueryOTCStockResult
+{
+  struct SWI_BlockHead head;  // function_no == 0x4605,block_type==3
+WORD row_no;          //  记录号 , 
+//  0xFFFF -- 结果集结束(本条结果数据	  无效)
+    char ta_acct[30];            // TA登记账户
+   char inst_id[21];         // 产品编码
+  char security_name[32];   // 产品名称（MBCS/Unicode）
+  SWIMoney fund_deposite;    // 当前余额
+  SWIMoney fund_available;   // 可用份额
+  SWIMoney today_bought_amount;   // 当日买入(成交)数量
+  SWIMoney today_sell_amount;    // 当日卖出（成交）数量	
+SWIMoney	 buy_cost;	         // 买入成本金额
+	SWIMoney	 market_value;	     // 市值
+};
+
+
+struct SWI_QueryOTCStockReturn
+{
+struct SWI_BlockHead head; // function_no== 0x4605, block_type==2
+  long return_status;     // 返回状态 >0表示：查询成功, <=0表示：查询失败
+};
+
+// 0x4606
+struct SWI_QueryOTCBusinessRequest
+{
+	struct SWI_BlockHead head;		// function_no==0x4606,block_type==1
+	char    account[16];      		// 登录客户资金账号
+	long    begin_date;      	    // 起始日期（形如：yyyymmdd）
+	long    end_date;             	// 结束日期（形如：yyyymmdd）
+};
+
+struct SWI_QueryOTCBusinessResult
+{
+	struct SWI_BlockHead head;// function_no==0x4606, block_type==3
+WORD row_no;       // 记录号 , 
+// 0xFFFF -- 结果集结束(本条结果数据无效)
+char ta_acct[30];         // TA登记账户
+	char inst_id[21];       // 产品编码
+  char security_name[32];  // 产品名称（MBCS/Unicode）	
+    char bs_type[3];             // 买卖类别，详见数据字典1.3
+    SWIMoney   done_num;      // 成交数量
+    SWISmallMoney done_price; // 成交价格
+    SWIMoney   clr_amt;       // 清算金额
+SWIMoney   commision;	  // 手续费
+SWIMoney   sf_amt;	      // 收付金额
+long       clr_date;      // 清算日期
+long       app_date;      // 申请日期
+};
+
+
+struct SWI_QueryOTCBusinessReturn
+{
+	struct SWI_BlockHead head;	// function_no==0x4606, block_type==2
+	long    return_status;  	// 返回状态 >0表示：查询成功, <=0表示：查询失败
+};
+
+// 0x2601
 
 #pragma   pack()
 

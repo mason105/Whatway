@@ -12,7 +12,7 @@
 
 #include "SywgConnect.h"
 
-#include "sywg.h"
+
 #include "Sywg_CRC_DES.h"
 
 #include "AGC.h"
@@ -962,6 +962,21 @@ bool CSywgConnect::Send(std::string& request, std::string& response, int& status
 	{
 		bRet = Login(response, status, errCode, errMsg);
 	}
+	/*
+	else if(funcid == "0x4603")
+	{
+		bRet = f4603(response, status, errCode, errMsg);
+	}
+	
+	else if(funcid == "0x4605")
+	{
+		bRet = f4605(response, status, errCode, errMsg);
+	}
+	else if(funcid == "0x4606")
+	{
+		bRet = f4606(response, status, errCode, errMsg);
+	}
+	*/
 	else
 	{
 		bRet = Send(response, status, errCode, errMsg);
@@ -1153,21 +1168,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 			int64_t money = GetMoney(value);
 
 			
-			//long long t = _atoi64(money.c_str());
-			//int x = sizeof(long long);
-			/*
-			double buf = 0.0f;
 			
-			if (value.empty())
-			{
-				//前端没有传值
-				buf = 0;
-			}
-			else
-			{
-				buf = boost::lexical_cast<double>(value);
-			}
-			*/
 			memcpy(request + pos, &money, sizeof(long long));
 			pos += sizeof(long long);
 
@@ -1455,12 +1456,32 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
 					if (field.type == "SWIMoney")
 					{
-						int64_t  buf;
-
-						memcpy(&buf, pResultBuf + pos, sizeof(int64_t));
-						pos += sizeof(int64_t);
-
+						//SWIMoney buf;
+						int64_t buf;
 						
+						//char buf[8];
+						int s = sizeof(SWIMoney);
+						
+						
+
+						memcpy(&buf, pResultBuf + pos, s);
+						pos += sizeof(s);
+
+
+						//int64_t t = read_le_dd(&buf);
+						
+						//Int64_char(szBuf, buf, 1);
+
+						//long t1 = ntohl(buf.hi_value);
+						//long t2 = ntohl(buf.lo_value);
+						///long t3 = htonl(buf.hi_value);
+						// t4 = htonl(buf.lo_value);
+
+						// 方式1
+						//double tmp = double(buf);
+
+						// 方式2
+						//double tmp2 = double(buf);
 						
 
 						sResult += GetMoney(buf) + SOH;
@@ -1963,3 +1984,508 @@ int CSywgConnect::Recv(char* buf, int len, int flags)
 
 	return rc;
 }
+
+
+bool CSywgConnect::f4603(std::string& response, int& status, std::string& errCode, std::string& errMsg)
+{
+	std::string sErrMsg = "";
+	bool bRet = FALSE;
+	int nMsgHeaderSize = sizeof(struct SWI_BlockHead);
+	int nCRCBegin = 4; // sizeof(block_size) + sizeof(crc)	
+	char * pRequestBuf = NULL;
+	char * pReturnBuf = NULL;
+	char * pResultBuf = NULL;
+	boost::system::error_code ec;
+	int nPacketSize = 0; // nBlockSize的8的倍数
+	int nBlockSize = 0; // 真实大小
+	size_t nSendBytes = 0; // 发送的字节
+	int nRecvBytes = 0; // 累计接收的字节
+	std::string sResult = "";
+
+	
+
+	SWI_QueryOTCPDEntrustRequest request;
+	memset(&request, 0x00, sizeof(SWI_QueryOTCPDEntrustRequest));
+
+
+	struct SWI_QueryOTCPDEntrustResult result;
+
+	struct SWI_QueryOTCPDEntrustReturn ret;
+
+
+	std::string account = reqmap["account"];
+	if (account.empty())
+	{
+		this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+
+
+		bRet = true;
+		return bRet;
+	}
+
+	memcpy_s(request.account, sizeof(request.account), reqmap["account"].c_str(), reqmap["account"].length());
+	branchNo = account.substr(0, 4);
+
+	std::string query_type = reqmap["query_type"];
+	//if (query_type.empty())
+	//{
+	//	this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+	////	bRet = true;
+	//	return bRet;
+	//}
+	request.query_type = query_type.at(0);
+
+	std::string begin_date = reqmap["begin_date"];
+	//if (begin_date.empty())
+	//{
+	//	GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+	//	bRet = true;
+	///	return bRet;
+	//}
+	long lbegin_date = boost::lexical_cast<long>(begin_date);
+	request.begin_date = lbegin_date;
+
+	std::string end_date = reqmap["end_date"];
+	request.begin_date = boost::lexical_cast<long>(end_date);
+
+	std::string inst_id = reqmap["inst_id"];
+	//if (inst_id.empty())
+	//{
+	//	GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+	//	bRet = true;
+	//	return bRet;
+	//}
+	memcpy_s(request.inst_id, sizeof(request.inst_id), inst_id.c_str(), inst_id.length());
+
+	std::string query_flag = reqmap["query_flag"];
+	//if (query_type.empty())
+	//{
+	//	this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+	////	bRet = true;
+	//	return bRet;
+	//}
+	request.query_flag = query_flag.at(0);
+
+	
+
+
+	request.head.block_size = sizeof(SWI_QueryOTCPDEntrustRequest);
+	request.head.block_type = 1; // request
+	request.head.cn_id = cn_id;
+	
+	request.head.dest_dpt = boost::lexical_cast<WORD>(branchNo);
+	request.head.function_no = 0x4603;
+
+	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
+	
+	/*
+	int nRet = gSywg.desinit(0);
+	nRet = gSywg.dessetkey((char*)des_key);
+	gSywg.endes(request.pwd);
+	nRet = gSywg.desdone();
+	if (nRet != 0)
+	{
+		GenResponse(BUSI_CRYPT_ERROR, gError::instance().GetErrMsg(BUSI_CRYPT_ERROR), response, status, errCode, errMsg);
+		
+
+		bRet = true;
+		return bRet;
+	}
+	*/
+
+
+	nPacketSize = ComputeNetPackSize(request.head.block_size);
+	pRequestBuf = (char*) malloc(nPacketSize);
+    memset(pRequestBuf, 0x00, nPacketSize);
+    memcpy(pRequestBuf, &request, request.head.block_size);
+	
+	if (!Send(pRequestBuf, nPacketSize, 0))
+	{
+		bRet = FALSE;
+		goto error;
+	}
+	/*
+	nSendBytes = socket.write_some(boost::asio::buffer(pRequestBuf, nPacketSize), ec);
+
+	if (ec)
+	{
+		bRet = FALSE;
+		SetErrInfo(ec.value(), ec.message());
+		goto error;
+	}
+	
+	if (nSendBytes != nPacketSize)
+	{
+		bRet = FALSE;
+		SetErrInfo(ERR_CODE_NETWORK);
+		goto error;
+	}
+	*/
+
+	// 场景一：返回result，返回return
+	// 场景二：返回return
+
+	// begin Result=========================================================================================
+	nBlockSize = sizeof(SWI_QueryOTCPDEntrustResult);
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+	
+	pResultBuf = (char*)malloc(nPacketSize + EXTENSION_BUF_LEN);
+	
+
+	do
+	{
+		memset(pResultBuf, 0x00, nPacketSize + EXTENSION_BUF_LEN);
+
+		// 读消息头
+		nBlockSize = ReadMsgHeader(pResultBuf); // 返回的是整个消息的大小，包括消息头和消息内容
+		if (nBlockSize <= 0)
+		{
+			bRet = FALSE;
+//			SetErrInfo(ERR_CODE_NETWORK);
+			goto error;
+		}
+
+		nPacketSize = ComputeNetPackSize(nBlockSize);
+
+		// 读消息内容
+		int nRecvBytes = 0;
+		
+		do 
+		{
+			int nBytes = 0;
+			nBytes = recv(sockfd, pResultBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+			
+
+			if (nBytes > 0)
+			{
+				nRecvBytes += nBytes;
+			}
+			else if (nBytes <= 0)
+			{
+				bRet = FALSE;
+				
+				goto error;
+			}
+		} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
+
+		// 把缓存区转换成结构体
+		memset(&result, 0x00, sizeof(SWI_QueryOTCPDEntrustResult));
+		memcpy(&result, pResultBuf, sizeof(SWI_QueryOTCPDEntrustResult));
+
+		if (result.head.block_type == BLOCK_TYPE_RESULT && result.head.function_no == 0x4603)
+		{
+			if (result.row_no == 0xFFFF)
+			{
+				break;
+			}
+			else
+			{
+				std::string entrust_date = boost::lexical_cast<std::string>(result.entrust_date);
+				sResult += entrust_date;
+				sResult += SOH;
+
+				std::string entrust_sn = boost::lexical_cast<std::string>(result.entrust_sn);
+				sResult += entrust_sn;
+				sResult += SOH;
+
+				std::string entrust_time = boost::lexical_cast<std::string>(result.entrust_time);
+				sResult += entrust_time;
+				sResult += SOH;
+
+				std::string ta_acct = boost::lexical_cast<std::string>(result.ta_acct);
+				sResult += ta_acct;
+				sResult += SOH;
+
+				std::string inst_id = boost::lexical_cast<std::string>(result.inst_id);
+				sResult += inst_id;
+				sResult += SOH;
+
+				std::string security_name = boost::lexical_cast<std::string>(result.security_name);
+				sResult += security_name;
+				sResult += SOH;
+
+				std::string bs_type = boost::lexical_cast<std::string>(result.bs_type);
+				sResult += bs_type;
+				sResult += SOH;
+
+				char szBuf[50];
+				int nDecimal,nSign;
+
+				memset(szBuf, 0x00, sizeof(szBuf));
+				//double app_amt = Int64_double(result.app_amt);
+				double app_amt = double(result.app_amt);
+				//_fcvt_s(szBuf,sizeof(szBuf),app_amt,4,&nDecimal,&nSign);
+				int64_t tmp1 = ntohll(app_amt);
+				int64_t tmp2 = htonll(app_amt);
+				sResult += szBuf;
+				sResult += SOH;
+
+				memset(szBuf, 0x00, sizeof(szBuf));
+				double redeem_num = result.redeem_num;
+				_fcvt_s(szBuf, sizeof(szBuf), redeem_num, 4, &nDecimal, &nSign);
+				sResult += szBuf;
+				sResult += SOH;
+
+				std::string entrust_status = boost::lexical_cast<std::string>(result.entrust_status);
+				sResult += entrust_status;
+				sResult += SOH;
+
+				std::string cancel_flag = boost::lexical_cast<std::string>(result.cancel_flag);
+				sResult += cancel_flag;
+				sResult += SOH;
+
+				std::string orient_app_no = boost::lexical_cast<std::string>(result.orient_app_no);
+				sResult += orient_app_no;
+				sResult += SOH;
+
+				std::string cancelled_flag = boost::lexical_cast<std::string>(result.cancelled_flag);
+				sResult += cancelled_flag;
+				sResult += SOH;
+
+				std::string can_cancel_flag = boost::lexical_cast<std::string>(result.can_cancel_flag);
+				sResult += can_cancel_flag;
+				sResult += SOH;
+
+				memset(szBuf, 0x00, sizeof(szBuf));
+				double cfm_amt = result.cfm_amt;
+				_fcvt_s(szBuf, sizeof(szBuf), cfm_amt, 4, &nDecimal, &nSign);
+				sResult += szBuf;
+				sResult += SOH;
+
+				memset(szBuf, 0x00, sizeof(szBuf));
+				double cfm_num = result.cfm_num;
+				_fcvt_s(szBuf, sizeof(szBuf), cfm_num, 4, &nDecimal, &nSign);
+				sResult += szBuf;
+				sResult += SOH;
+			}
+		}
+		else
+		{
+			bRet = FALSE;
+//			SetErrInfo(ERR_CODE_PACKAGE);
+			goto error;
+		}
+	} while(result.row_no != 0xFFF);
+	// end result=========================================================================================
+
+
+	// 接收Return
+	nBlockSize = sizeof(SWI_QueryOTCPDEntrustReturn);
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+
+	pReturnBuf = (char*)malloc(nPacketSize + EXTENSION_BUF_LEN); // extension_buf_len其实没必要
+	memset(pReturnBuf, 0x00, nPacketSize + EXTENSION_BUF_LEN);
+
+	// 读消息头
+	// 先读消息头，主要是用来判断包的类型是result还是return
+
+	nBlockSize = ReadMsgHeader(pReturnBuf); // 返回的是整个消息的大小，包括消息头和消息内容
+	if (nBlockSize <= 0)
+	{
+		bRet = FALSE;
+//		SetErrInfo(ERR_CODE_NETWORK);
+		goto error;
+	}
+
+	// 如果返回的类型不变，那么这里nPacketSize应该等于前面的nPakcetSize
+	nPacketSize = ComputeNetPackSize(nBlockSize);
+
+	// 读消息内容
+	
+	
+	do 
+	{
+		int nBytes = 0;
+		nBytes = recv(sockfd, pReturnBuf + nMsgHeaderSize + nRecvBytes, nPacketSize - nMsgHeaderSize - nRecvBytes, 0);
+		
+		if (nBytes > 0)
+		{
+			nRecvBytes += nBytes;
+		}
+		else if (nBytes <= 0)
+		{
+			bRet = FALSE;
+			//SetErrInfo(ERR_CODE_NETWORK);
+			goto error;
+		}
+	} while(nRecvBytes < nPacketSize - nMsgHeaderSize);
+
+	
+	memset(&ret, 0x00, sizeof(SWI_QueryOTCPDEntrustReturn));
+	memcpy(&ret, pReturnBuf, sizeof(SWI_QueryOTCPDEntrustReturn));
+
+	if (ret.head.function_no != 0x4603 || ret.head.block_type != BLOCK_TYPE_RETURN)
+	{
+		bRet = FALSE;
+		//SetErrInfo(ERR_CODE_PACKAGE);
+		goto error;
+	}
+
+	if (ret.return_status <= 0)
+	{
+		if (GetErrorMsg(ret.return_status, sErrMsg))
+		{
+			GenResponse(ret.return_status, sErrMsg, response, status, errCode, errMsg);
+			
+
+			bRet = true;
+			
+		}
+	}
+	else
+	{
+		
+		response = "1";
+		response += SOH;
+		response += "16";
+		response += SOH;
+
+		
+
+		response += "entrust_date" + SOH;
+		response += "entrust_sn" + SOH;
+		response += "entrust_time" + SOH;
+		response += "ta_acct" + SOH;
+		response += "inst_id" + SOH;
+		response += "security_name" + SOH;
+		response += "bs_type" + SOH;
+		response += "app_amt" + SOH;
+		response += "redeem_num" + SOH;
+		response += "entrust_status" + SOH;
+		response += "cancel_flag" + SOH;
+		response += "orient_app_no" + SOH;
+		response += "cancelled_flag" + SOH;
+		response += "can_cancel_flag" + SOH;
+		response += "cfm_amt" + SOH;
+		response += "cfm_num" + SOH;
+
+
+		response += sResult;
+		
+		
+
+		status = 1;
+		bRet = true;
+	}
+
+error:
+	if (pRequestBuf != NULL)
+	{
+		free(pRequestBuf);
+		pRequestBuf = NULL;
+	}
+
+	if (pResultBuf != NULL)
+	{
+		free(pResultBuf);
+		pResultBuf = NULL;
+	}
+
+	if (pReturnBuf != NULL)
+	{
+		free(pReturnBuf);
+		pReturnBuf = NULL;
+	}
+
+	return bRet;
+}
+
+bool CSywgConnect::f4605(std::string& response, int& status, std::string& errCode, std::string& errMsg)
+{
+	return false;
+}
+
+bool CSywgConnect::f4606(std::string& response, int& status, std::string& errCode, std::string& errMsg)
+{
+	return false;
+}
+
+void CSywgConnect::Int64_double(double *l, SWIMoney SW_Money)
+{
+	*l = (double) (*(__int64 *)(&SW_Money)/10000.); 
+}
+
+double CSywgConnect::Int64_double( SWIMoney SW_Money)
+{
+	return (double) (*(__int64 *)(&SW_Money)/10000.); 
+}
+
+/*int64到字符串转换*/
+void CSywgConnect::Int64_char(char * buff, SWIMoney SW_Money, BYTE Is_JgdOpen)
+{
+	/*__int64 m1 = *(__int64 *)(&SW_Money)/10000 ; 
+	__int64	m2 = *(__int64 *)(&SW_Money)%10000 ; 
+
+	long j = sprintf( buff, "%ld.", m1 );
+	j += sprintf( buff+j, "%d", m2 );*/
+	double m = *(__int64 *)(&SW_Money)/10000. ; 
+	if( Is_JgdOpen)
+		sprintf( buff, "%.4lf", m );
+	else
+		sprintf( buff, "%.2lf", m );
+
+}
+
+/*数字字符串到int64转换：如、11.12－》111200*/
+void CSywgConnect::char_Int64(SWIMoney *SW_Money, const char * QL_Char)
+{
+#define W_MONEY 8 
+
+	UINT	i;
+	char temp[W_MONEY];
+	memset( temp, 0, W_MONEY );
+	
+	for (i=0; (QL_Char[i]!='.')&&(i<strlen(QL_Char)); i++)
+	{
+		temp[i] = QL_Char[i];
+	}
+	temp[i+1] = 0;
+	double hi = atof( temp );
+
+	UINT j = 0;
+	if( i!= strlen(QL_Char))  //有小数部分
+	{
+		for(j=0; i<strlen(QL_Char); i++,j++ )
+			temp[j] = QL_Char[i+1];
+
+		j--;
+		for(;j<4;j++)   //小数部分后补零
+			temp[j] = '0';
+		temp[4] = 0;
+	}
+	else
+		temp[0] = 0;
+	
+	long lo = atol(temp);
+
+	__int64 qlmoney = __int64 (hi*10000 + lo);
+	*(__int64 *)SW_Money = qlmoney;	
+}
+
+uint64_t CSywgConnect::read_be_dd(const void* p)  
+{  
+    const uint8_t* pb = (const uint8_t*)p;  
+    pb += 7;  
+    uint64_t r;  
+    uint8_t* pd = (uint8_t*)&r;  
+    for(int i=0; i<8; ++i) {  
+        *pd++ = *pb--;  
+    }  
+    return r;  
+}  
+uint64_t CSywgConnect::read_le_dd(const void* p)  
+{  
+    const uint8_t* pb = (const uint8_t*)p;  
+    pb += 7;  
+    uint64_t r;  
+    uint8_t* pd = (uint8_t*)&r;  
+    for(int i=0; i<8; ++i) {  
+        *pd++ = *pb--;  
+    }  
+    return r;  
+} 
