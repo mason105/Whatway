@@ -291,7 +291,7 @@ char entrust_sn[21];       // 委托编号
 	char entrust_time[9];      // 委托时间（形如：hh:mm:ss）
     char ta_acct[30];          // TA登记账户
 	char inst_id [21];	       // 产品编码（默认为空，空表示全部）
-	char security_name[30];    // 证券名称（MBCS/Unicode）
+	char security_name[32];    // 证券名称（MBCS/Unicode）
 	char bs_type[3];              // 买卖类别 见数据字典3.3,仅包含以下类型：
                            // ‘110’ ----- 认购
 // ‘111’ ----- 申购

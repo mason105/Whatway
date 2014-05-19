@@ -1465,7 +1465,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 						
 
 						memcpy(&buf, pResultBuf + pos, s);
-						pos += sizeof(s);
+						pos += sizeof(SWIMoney);
 
 
 						//int64_t t = read_le_dd(&buf);
@@ -2185,82 +2185,103 @@ bool CSywgConnect::f4603(std::string& response, int& status, std::string& errCod
 			}
 			else
 			{
+				char szBuf[50];
+				int nDecimal,nSign;
+
 				std::string entrust_date = boost::lexical_cast<std::string>(result.entrust_date);
 				sResult += entrust_date;
 				sResult += SOH;
+				TRACE("entrust_date=%s\n", entrust_date.c_str());
 
-				std::string entrust_sn = boost::lexical_cast<std::string>(result.entrust_sn);
+				std::string entrust_sn = result.entrust_sn;
 				sResult += entrust_sn;
 				sResult += SOH;
+				TRACE("entrust_sn=%s\n", entrust_sn.c_str());
 
-				std::string entrust_time = boost::lexical_cast<std::string>(result.entrust_time);
+				std::string entrust_time = result.entrust_time;
 				sResult += entrust_time;
 				sResult += SOH;
+				TRACE("entrust_time=%s\n", entrust_time.c_str());
 
-				std::string ta_acct = boost::lexical_cast<std::string>(result.ta_acct);
+				std::string ta_acct = result.ta_acct;
 				sResult += ta_acct;
 				sResult += SOH;
+				TRACE("ta_acct=%s\n", ta_acct.c_str());
 
-				std::string inst_id = boost::lexical_cast<std::string>(result.inst_id);
+				std::string inst_id = result.inst_id;
 				sResult += inst_id;
 				sResult += SOH;
+				TRACE("inst_id=%s\n", inst_id.c_str());
 
-				std::string security_name = boost::lexical_cast<std::string>(result.security_name);
+				std::string security_name = result.security_name;
 				sResult += security_name;
 				sResult += SOH;
+				TRACE("security_name=%s\n", security_name.c_str());
 
-				std::string bs_type = boost::lexical_cast<std::string>(result.bs_type);
-				sResult += bs_type;
+				memset(szBuf, 0x00, sizeof(szBuf));
+				int len = strlen(result.bs_type);
+				memcpy_s(szBuf, 3, result.bs_type, 3);
+				//std::string bs_type = result.bs_type;
+				sResult += szBuf;
 				sResult += SOH;
+				TRACE("bs_type=%s\n", szBuf);
 
-				char szBuf[50];
-				int nDecimal,nSign;
+				
 
 				memset(szBuf, 0x00, sizeof(szBuf));
 				//double app_amt = Int64_double(result.app_amt);
 				double app_amt = double(result.app_amt);
-				//_fcvt_s(szBuf,sizeof(szBuf),app_amt,4,&nDecimal,&nSign);
+				_fcvt_s(szBuf,sizeof(szBuf),app_amt,4,&nDecimal,&nSign);
 				int64_t tmp1 = ntohll(app_amt);
 				int64_t tmp2 = htonll(app_amt);
 				sResult += szBuf;
 				sResult += SOH;
+				TRACE("app_amt=%s\n", szBuf);
 
 				memset(szBuf, 0x00, sizeof(szBuf));
 				double redeem_num = result.redeem_num;
 				_fcvt_s(szBuf, sizeof(szBuf), redeem_num, 4, &nDecimal, &nSign);
 				sResult += szBuf;
 				sResult += SOH;
+				TRACE("redeem_num=%s\n", szBuf);
 
-				std::string entrust_status = boost::lexical_cast<std::string>(result.entrust_status);
-				sResult += entrust_status;
+				//std::string entrust_status = result.entrust_status;
+				sResult += result.entrust_status;
 				sResult += SOH;
+				TRACE("entrust_status=%c\n", result.entrust_status);
 
-				std::string cancel_flag = boost::lexical_cast<std::string>(result.cancel_flag);
-				sResult += cancel_flag;
+				//std::string cancel_flag = result.cancel_flag;
+				sResult += result.cancel_flag;
 				sResult += SOH;
+				TRACE("cancel_flag=%c\n", result.cancel_flag);
 
-				std::string orient_app_no = boost::lexical_cast<std::string>(result.orient_app_no);
+				std::string orient_app_no = result.orient_app_no;
 				sResult += orient_app_no;
 				sResult += SOH;
+				TRACE("orient_app_no=%s\n", orient_app_no.c_str());
 
-				std::string cancelled_flag = boost::lexical_cast<std::string>(result.cancelled_flag);
-				sResult += cancelled_flag;
+				//std::string cancelled_flag = result.cancelled_flag;
+				sResult += result.cancelled_flag;
 				sResult += SOH;
+				TRACE("cancelled_flag=%c\n", result.cancelled_flag);
 
-				std::string can_cancel_flag = boost::lexical_cast<std::string>(result.can_cancel_flag);
-				sResult += can_cancel_flag;
+				//std::string can_cancel_flag = result.can_cancel_flag;
+				sResult += result.can_cancel_flag;
 				sResult += SOH;
+				TRACE("can_cancel_flag=%c\n", result.can_cancel_flag);
 
 				memset(szBuf, 0x00, sizeof(szBuf));
 				double cfm_amt = result.cfm_amt;
 				_fcvt_s(szBuf, sizeof(szBuf), cfm_amt, 4, &nDecimal, &nSign);
 				sResult += szBuf;
 				sResult += SOH;
+				TRACE("cfm_amt=%s\n", szBuf);
 
 				memset(szBuf, 0x00, sizeof(szBuf));
 				double cfm_num = result.cfm_num;
 				_fcvt_s(szBuf, sizeof(szBuf), cfm_num, 4, &nDecimal, &nSign);
 				sResult += szBuf;
+				TRACE("cfm_num=%s\n", szBuf);
 				sResult += SOH;
 			}
 		}

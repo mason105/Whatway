@@ -87,8 +87,9 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>true</MapExports>
-      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <MapFileName>bin_debug\TradeGateway.map</MapFileName>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ProgramDatabaseFile>bin_debug\TradeGateway.pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,8 +126,9 @@
       <TargetMachine>MachineX86</TargetMachine>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <MapFileName>bin_release\TradeGateway.map</MapFileName>
       <MapExports>true</MapExports>
+      <ProgramDatabaseFile>bin_release\TradeGateway.pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
