@@ -11,6 +11,8 @@
 #include "log/mq/LogConnect.h"
 #include "log/mq/LogConnectPool.h"
 
+#include "encrypt/mybotan.h"
+
 
 DistributedLogManager::DistributedLogManager(void)
 	:kafka_worker_(kafka_q_, boost::bind(&DistributedLogManager::kafka_log, this, _1), gConfigManager::instance().m_nLogMqThreadPool)
@@ -179,7 +181,9 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 		sFilterRequest = request;
 
 	json += "\"request\":\"";
-	json += sFilterRequest;
+	std::string b64Request = "";
+	g_MyBotan.Base64Encoder((const unsigned char*) sFilterRequest.c_str(), sFilterRequest.length(), b64Request);
+	json += b64Request;
 	json += "\",";
 
 
@@ -247,7 +251,9 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 	json += "\",";
 	
 	json += "\"response\":\"";
-	json += log.response();
+	std::string b64Response = "";
+	g_MyBotan.Base64Encoder((const unsigned char*) log.response().c_str(), log.response().length(), b64Response);
+	json += b64Response;
 	json += "\",";
 
 	json += "\"counterIp\":\"";

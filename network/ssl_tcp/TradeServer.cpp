@@ -146,11 +146,8 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	// utf8
 	std::string request_utf8 = req->GetMsgContentString();
 
-	UErrorCode errcode = U_ZERO_ERROR;
-	char dest[8192];
-	memset(dest, 0x00, sizeof(dest));
-	int ret = ucnv_convert("gbk", "utf8", dest, sizeof(dest), request_utf8.c_str(), -1, &errcode);
-	std::string request = dest;
+	
+	std::string request = request_utf8;
 	
 
 	std::string response = "";
@@ -166,6 +163,13 @@ bool TradeServer::ProcessRequest(IMessage* req)
 	}
 	if (m_MsgType == MSG_TYPE_SSL_PB)
 	{
+		// 只有移动端需要转换字符集
+		UErrorCode errcode = U_ZERO_ERROR;
+		char dest[8192];
+		memset(dest, 0x00, sizeof(dest));
+		int ret = ucnv_convert("gbk", "utf8", dest, sizeof(dest), request_utf8.c_str(), -1, &errcode);
+		request = dest;
+
 		gatewayIp = gConfigManager::instance().m_sIp;
 
 		gatewayPort = boost::lexical_cast<std::string>(gConfigManager::instance().m_nSslPort);
