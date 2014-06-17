@@ -79,7 +79,7 @@ bool TradeBusinessT2::CreateConnect()
 	{
 		std::string sErrMsg = lpConnection->GetErrorMsg(nRet);
 			std::string msg = "建立连接失败" + s + ",错误信息" + sErrMsg;
-			gFileLog::instance().Log(msg);
+			gFileLog::instance().Log(msg, 0, "恒生");
 
 		m_bConnected = false;
 		return false;

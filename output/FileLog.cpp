@@ -16,12 +16,14 @@ FileLog::~FileLog(void)
 {
 }
 
-void FileLog::Log(std::string log, std::string file)
+
+void FileLog::Log(std::string log, int outputLevel, std::string file)
 {
 	TRACE("调试内容输出：%s\n", log.c_str());
 
 	// 如果是运行模式，直接返回，不记录日志文件
-	if (gConfigManager::instance().nRunMode == 1)
+	// 0error, 1warn, 2info, 3debug
+	if (gConfigManager::instance().nRunMode == 1 && outputLevel != 0)
 		return;
 
 	// 创建目录

@@ -297,6 +297,24 @@ bool TradeBusinessDingDian::Send(std::string& request, std::string& response, in
 	
 		Fix_SetNode(session, node.c_str());
 	}
+	else
+	{
+		std::string hardinfo;
+		hardinfo = reqmap["cssweb_hardinfo"];
+
+		std::string ip;
+		ip = reqmap["cssweb_note"];
+
+		std::string mac = "";
+		std::string diskid = "";
+
+		GetMacAndDiskID(hardinfo, mac, diskid);
+
+		//ZR:IP:MAC:DiskID
+		std::string node = "ZR:" + ip + ":" + mac + ":" + diskid;
+
+		Fix_SetNode(session, node.c_str());
+	}
 
 
 	//gFileLog::instance().Log("Fix_CreateHead" + funcid);
@@ -672,4 +690,18 @@ void TradeBusinessDingDian::CloseConnect()
 	{
 		Fix_Close(m_hHandle);
 	}
+}
+
+void TradeBusinessDingDian::GetMacAndDiskID(std::string hardinfo, std::string& mac, std::string& diskid)
+{
+	std::vector<std::string> info;
+	boost::split(info, hardinfo, boost::is_any_of("|")); // 注意需要通过配置文件配置
+	int size = info.size();
+	
+	if (size < 2)
+		return;
+
+	mac = info[0];
+
+	diskid = info[1];
 }

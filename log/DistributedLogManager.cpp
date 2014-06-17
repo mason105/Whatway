@@ -278,7 +278,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 	LogConnect * pConnect = gLogConnectPool::instance().GetConnect();
 	if (pConnect == NULL)
 	{
-		gFileLog::instance().Log(json, "写分布式日志失败");
+		gFileLog::instance().Log(json, 0, "写分布式日志失败");
 		
 	}
 	else
@@ -302,7 +302,7 @@ bool DistributedLogManager::kafka_log(Trade::TradeLog log)
 				else
 				{
 					delete pConnect; // 不归还连接，需要释放
-					gFileLog::instance().Log(json, "写分布式日志失败");
+					gFileLog::instance().Log(json, 0, "写分布式日志失败");
 					break;
 				}				
 			}

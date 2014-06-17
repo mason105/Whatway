@@ -41,7 +41,7 @@ void LogConnect::check_deadline()
 	
 	if (deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now())
 	{
-		gFileLog::instance().Log("连接超时或读写超时", logFileName);
+		gFileLog::instance().Log("连接超时或读写超时", 0, logFileName);
 
 		Close();
 
@@ -99,20 +99,20 @@ bool LogConnect::Connect(std::string ip, int port)
 			std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 			std::string sErrMsg = ec.message();
 			std::string sErrInfo = "连接日志服务器失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-			gFileLog::instance().Log(sErrInfo, logFileName);
+			gFileLog::instance().Log(sErrInfo, 0, logFileName);
 			
 			
 			m_bConnected = false;
 			return m_bConnected;
 		}
 
-		gFileLog::instance().Log("连接日志服务器成功!", logFileName);
+		gFileLog::instance().Log("连接日志服务器成功!", 4, logFileName);
 		m_bConnected = true;
 		return m_bConnected;
 	}
 	catch(std::exception& e)
 	{
-		gFileLog::instance().Log("连接日志服务器异常：" + std::string(e.what()), logFileName);
+		gFileLog::instance().Log("连接日志服务器异常：" + std::string(e.what()), 0, logFileName);
 		m_bConnected = false;
 		return m_bConnected;
 	}
@@ -159,7 +159,7 @@ bool LogConnect::WriteMsgHeader(CustomMessage * pReq)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "写包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo, logFileName);
+		gFileLog::instance().Log(sErrInfo, 0,logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;
@@ -187,7 +187,7 @@ bool LogConnect::WriteMsgContent(CustomMessage * pReq)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "写包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo, logFileName);
+		gFileLog::instance().Log(sErrInfo, 0,logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;
@@ -227,7 +227,7 @@ bool LogConnect::ReadMsgHeader(CustomMessage * pRes)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "读包头失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo, logFileName);
+		gFileLog::instance().Log(sErrInfo, 0, logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;
@@ -261,7 +261,7 @@ bool LogConnect::ReadMsgContent(CustomMessage * pRes)
 		std::string sErrCode = boost::lexical_cast<std::string>(ec.value());
 		std::string sErrMsg = ec.message();
 		std::string sErrInfo = "读包内容失败，错误代码：" + sErrCode + ", 错误消息：" + sErrMsg;
-		gFileLog::instance().Log(sErrInfo, logFileName);
+		gFileLog::instance().Log(sErrInfo, 0, logFileName);
 
 		m_bConnected = false;
 		return m_bConnected;			
@@ -284,11 +284,11 @@ void LogConnect::Close()
 	
 	if (ec)
 	{
-		gFileLog::instance().Log("断开日志服务器异常：" + ec.message(), logFileName);
+		gFileLog::instance().Log("断开日志服务器异常：" + ec.message(), 0,logFileName);
 	}
 
 	
-	gFileLog::instance().Log("断开日志服务器!", logFileName);
+	gFileLog::instance().Log("断开日志服务器!", 4,logFileName);
 }
 
 bool LogConnect::ReConnect()

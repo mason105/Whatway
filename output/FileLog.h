@@ -12,7 +12,7 @@ public:
 	FileLog(void);
 	~FileLog(void);
 
-	void Log(std::string log, std::string file="TradeGateway");
+	void Log(std::string log, int level=0, std::string file="TradeGateway");
 };
 
 typedef boost::detail::thread::singleton<FileLog> gFileLog;

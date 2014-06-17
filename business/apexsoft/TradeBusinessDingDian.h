@@ -28,4 +28,5 @@ public:
 private:
 	char* EncryptPwd(const char* plainText, char* szPwd);
 	long m_hHandle;
+	void GetMacAndDiskID(std::string hardinfo, std::string& mac, std::string& diskid);
 };
