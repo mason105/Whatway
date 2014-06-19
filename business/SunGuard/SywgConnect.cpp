@@ -561,7 +561,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 
 
 	std::string account = reqmap["account"];
-	if (account.empty())
+	if (account.empty() || account.length() < 4)
 	{
 		this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
@@ -594,8 +594,19 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		bRet = true;
 		return bRet;
 	}
-	long lFlag = boost::lexical_cast<long>(flag);
-	request.flag = lFlag;
+	long lFlag = 0;
+	try
+	{
+		lFlag = boost::lexical_cast<long>(flag);
+		request.flag = lFlag;
+	}
+	catch(boost::exception& exp)
+	{
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+		bRet = true;
+		return bRet;
+	}
 
 	std::string note = reqmap["cssweb_hardinfo"];
 	if (note.empty())
@@ -635,7 +646,18 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 	request.head.block_type = 1; // request
 	request.head.cn_id = cn_id;
 	
-	request.head.dest_dpt = boost::lexical_cast<WORD>(branchNo);
+	try
+	{
+		request.head.dest_dpt = boost::lexical_cast<WORD>(branchNo);
+	}
+	catch(boost::exception& exp)
+	{
+		GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
+
+		bRet = true;
+		return bRet;
+	}
+
 	request.head.function_no = 0x111;
 
 	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
@@ -854,18 +876,24 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		response += "last_full_note" + SOH;
 		response += "reserved_auth_info" + SOH;
 
-
+		
 		response += boost::lexical_cast<std::string>(ret.bankbook_number) + SOH;
+
 		int account_status = ret.account_status;
 		response += boost::lexical_cast<std::string>(account_status) + SOH;
+
 		response += boost::lexical_cast<std::string>(ret.name) + SOH;
 		response += boost::lexical_cast<std::string>(ret.id) + SOH;
+
 		int card_version = ret.card_version;
 		response += boost::lexical_cast<std::string>(card_version) + SOH;
+
 		response += boost::lexical_cast<std::string>(ret.customer_flag) + SOH;
 		response += boost::lexical_cast<std::string>(ret.Cust_flag) + SOH;
 		response += boost::lexical_cast<std::string>(ret.Cust_risk_type) + SOH;
+
 		response += boost::lexical_cast<std::string>(ret.depart_number) + SOH;
+
 		response += boost::lexical_cast<std::string>(ret.last_login_date) + SOH;
 		response += boost::lexical_cast<std::string>(ret.last_login_time) + SOH;
 		response += boost::lexical_cast<std::string>(ret.last_full_note) + SOH;
