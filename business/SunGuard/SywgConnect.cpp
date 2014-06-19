@@ -561,7 +561,9 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 
 
 	std::string account = reqmap["account"];
-	if (account.empty() || account.length() < 4)
+	int accountLen = account.length();
+
+	if (account.empty() || accountLen < 4 || accountLen > sizeof(request.account))
 	{
 		this->GenResponse(PARAM_ERROR, gError::instance().GetErrMsg(PARAM_ERROR), response, status, errCode, errMsg);
 
@@ -571,7 +573,7 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 		return bRet;
 	}
 
-	memcpy_s(request.account, sizeof(request.account), reqmap["account"].c_str(), reqmap["account"].length());
+	memcpy_s(request.account, sizeof(request.account), account.c_str(), accountLen);
 	branchNo = account.substr(0, 4);
 
 	std::string account_type = reqmap["account_type"];
