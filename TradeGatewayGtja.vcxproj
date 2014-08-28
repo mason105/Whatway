@@ -333,7 +333,9 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="bin_release\agc.xml" />
-    <Xml Include="bin_release\tradegateway.xml" />
+    <Xml Include="bin_release\tradegateway.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\common\log\日志开发说明.txt" />
