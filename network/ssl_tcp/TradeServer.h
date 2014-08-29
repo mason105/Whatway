@@ -50,6 +50,12 @@ private:
 
 	OCR ocr;
 
+	// 不再使用全局对象
+	// 加解密
+	//CSywg_CRC_DES sywg;
+
+public:
+	void set();
 
 };
 #endif

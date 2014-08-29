@@ -251,6 +251,9 @@
     <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\release">
       <UniqueIdentifier>{253f4c2a-c7fd-4f0f-916b-00639a62a2bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CrashDump">
+      <UniqueIdentifier>{517954a3-3619-4a99-aaac-cbfd856809d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -424,6 +427,9 @@
     <ClInclude Include="business\szkingdom_win\TradeBusiness.h">
       <Filter>核心代码\5.柜台系统\金证windows</Filter>
     </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>CrashDump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -549,6 +555,9 @@
     <ClCompile Include="business\szkingdom_win\TradeBusiness.cpp">
       <Filter>核心代码\5.柜台系统\金证windows</Filter>
     </ClCompile>
+    <ClCompile Include="MiniDump.cpp">
+      <Filter>CrashDump</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\TradeGatewayGtja.ico">
@@ -602,6 +611,9 @@
     </None>
     <None Include="bin\tradeparam.map">
       <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
+    </None>
+    <None Include="bin_release\wer.reg">
+      <Filter>CrashDump</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

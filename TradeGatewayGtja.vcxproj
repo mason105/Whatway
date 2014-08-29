@@ -90,6 +90,8 @@
       <MapFileName>bin_debug\TradeGateway.map</MapFileName>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ProgramDatabaseFile>bin_debug\TradeGateway.pdb</ProgramDatabaseFile>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -174,6 +176,7 @@
     <ClInclude Include="log\mq\LogConnect.h" />
     <ClInclude Include="log\mq\LogConnectPool.h" />
     <ClInclude Include="log\tradelog.pb.h" />
+    <ClInclude Include="MiniDump.h" />
     <ClInclude Include="network\IMessage.h" />
     <ClInclude Include="network\http\http_message.h" />
     <Text Include="network\http\http_server.h.txt">
@@ -260,6 +263,7 @@
     <ClCompile Include="log\mq\LogConnect.cpp" />
     <ClCompile Include="log\mq\LogConnectPool.cpp" />
     <ClCompile Include="log\tradelog.pb.cc" />
+    <ClCompile Include="MiniDump.cpp" />
     <ClCompile Include="network\IMessage.cpp" />
     <Text Include="network\http\http_session.cpp.txt" />
     <Text Include="network\http\trade_server_http.cpp.txt">
@@ -304,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\tradeparam.map" />
+    <None Include="bin_release\wer.reg" />
     <None Include="innosetup\TradeGateway.iss" />
     <None Include="log\tradelog.bat" />
     <None Include="log\tradelog.proto" />

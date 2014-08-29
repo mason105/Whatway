@@ -9,6 +9,7 @@
 #endif
 
 #include "resource.h"		// 主符号
+#include "MiniDump.h"
 
 
 // CTradeGatewayGtjaApp:
@@ -17,11 +18,17 @@
 
 class CTradeGatewayGtjaApp : public CWinApp
 {
+private:
+	CMiniDump crashDump;
+
+private:
+
+
 public:
 	CTradeGatewayGtjaApp();
 
 // 重写
-	public:
+	
 	virtual BOOL InitInstance();
 
 // 实现
