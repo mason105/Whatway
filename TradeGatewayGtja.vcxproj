@@ -223,6 +223,7 @@
     <ClInclude Include="TradeGatewayGtjaDlg.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="errcode.h" />
+    <Text Include="文档\开发计划.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="business\apexsoft\DingDian.cpp" />
@@ -303,7 +304,6 @@
   <ItemGroup>
     <None Include="bin\tradeparam.map" />
     <None Include="bin_release\wer.reg" />
-    <None Include="innosetup\TradeGateway.iss" />
     <None Include="log\tradelog.bat" />
     <None Include="log\tradelog.proto" />
     <None Include="network\ssl\pkgheader.proto" />
@@ -345,7 +345,6 @@
     <Text Include="lib\ProtoBuf\ProtoBuf.txt" />
     <Text Include="network\http\flash交易密码处理规则.txt" />
     <Text Include="sywg代码备份.txt" />
-    <Text Include="开发计划.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

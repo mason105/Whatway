@@ -65,9 +65,6 @@
     <Filter Include="日志\文件日志">
       <UniqueIdentifier>{e5e5bfd0-3e24-4d16-a2a0-cad712087b73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="安装包innosetup">
-      <UniqueIdentifier>{5ecd04b3-7bea-4b62-bdb9-a71bb496d4a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="线程池ThreadPool">
       <UniqueIdentifier>{9dbc99d7-d101-450a-82e5-659947d5c14f}</UniqueIdentifier>
     </Filter>
@@ -88,12 +85,6 @@
     </Filter>
     <Filter Include="加解密">
       <UniqueIdentifier>{a922be35-7208-4d6e-a48d-d85b7d0e7665}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="开发计划">
-      <UniqueIdentifier>{31c2d109-6d29-48d5-a757-e02285a8f2bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\Visual Leak Detector">
-      <UniqueIdentifier>{88e97db2-e771-4cc8-b3d1-b68763d3560c}</UniqueIdentifier>
     </Filter>
     <Filter Include="CrashDump">
       <UniqueIdentifier>{517954a3-3619-4a99-aaac-cbfd856809d0}</UniqueIdentifier>
@@ -235,6 +226,9 @@
     </Filter>
     <Filter Include="公共类型">
       <UniqueIdentifier>{abe94155-997f-4241-b0f0-81f35a48a81b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="文档">
+      <UniqueIdentifier>{01414a86-b515-4f95-82d9-d074a90dfd09}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -552,9 +546,6 @@
     <None Include="bin\serverkey.pem">
       <Filter>网络层\网络服务\SSL\SSL证书</Filter>
     </None>
-    <None Include="innosetup\TradeGateway.iss">
-      <Filter>安装包innosetup</Filter>
-    </None>
     <None Include="log\tradelog.bat">
       <Filter>日志\日志消息</Filter>
     </None>
@@ -640,9 +631,6 @@
     <Text Include="network\http\flash交易密码处理规则.txt">
       <Filter>业务层\需要删除\HTTP</Filter>
     </Text>
-    <Text Include="开发计划.txt">
-      <Filter>开发计划</Filter>
-    </Text>
     <Text Include="network\tcp\tcp_server_old.h.txt">
       <Filter>网络层\网络服务\需要删除\TCP old</Filter>
     </Text>
@@ -708,6 +696,9 @@
     </Text>
     <Text Include="bin_release\ChangeLog.txt">
       <Filter>配置文件\release</Filter>
+    </Text>
+    <Text Include="文档\开发计划.txt">
+      <Filter>文档</Filter>
     </Text>
   </ItemGroup>
 </Project>
