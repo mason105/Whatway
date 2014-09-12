@@ -314,6 +314,12 @@
     <None Include="bin\clientkey.pem" />
     <None Include="bin\server.crt" />
     <None Include="bin\serverkey.pem" />
+    <None Include="文档\系统设计文档\业务时序图.vsdx" />
+    <None Include="文档\系统设计文档\恒生T2异步模式.vsdx" />
+    <None Include="文档\系统设计文档\日志功能.vsdx" />
+    <None Include="文档\系统设计文档\系统架构.vsdx" />
+    <None Include="文档\系统设计文档\软件架构.vsdx" />
+    <None Include="文档\系统设计文档\连接池.vsdx" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="bin\OutputDomain.xml" />

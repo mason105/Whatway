@@ -564,6 +564,24 @@
     <None Include="bin_release\wer.reg">
       <Filter>CrashDump</Filter>
     </None>
+    <None Include="文档\系统设计文档\恒生T2异步模式.vsdx">
+      <Filter>文档</Filter>
+    </None>
+    <None Include="文档\系统设计文档\连接池.vsdx">
+      <Filter>文档</Filter>
+    </None>
+    <None Include="文档\系统设计文档\日志功能.vsdx">
+      <Filter>文档</Filter>
+    </None>
+    <None Include="文档\系统设计文档\软件架构.vsdx">
+      <Filter>文档</Filter>
+    </None>
+    <None Include="文档\系统设计文档\系统架构.vsdx">
+      <Filter>文档</Filter>
+    </None>
+    <None Include="文档\系统设计文档\业务时序图.vsdx">
+      <Filter>文档</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="bin_release\tradegateway.xml">
