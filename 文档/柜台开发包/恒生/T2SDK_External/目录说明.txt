@@ -1,0 +1,12 @@
+c# 			存放的是T2sdk对应的C#开发包
+Include 		开发需要使用的头文件
+linux.i386		linux 32位系统的开发包
+T2SDK_Asy_send		异步发送的程序实例
+T2SDK_Asy_send_BizMsg	使用IBizMsg接口异步发送的程序实例
+T2SDK_C#		使用C#开发包的程序实例
+T2SDK_Publisher		使用消息中心发布接口的实例
+T2SDK_Server		使用t2sdk作为服务端的实例
+T2SDK_Subscriber	使用消息中心订阅接口的实例
+T2SDK_Syn_send		同步发送的程序实例
+T2SDK_Syn_send_BizMsg	使用IBizMsg接口同步发送的程序实例
+win32			windows 32位系统的开发包

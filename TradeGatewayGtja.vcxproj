@@ -91,7 +91,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ProgramDatabaseFile>bin_debug\TradeGateway.pdb</ProgramDatabaseFile>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <EnableUAC>false</EnableUAC>
+      <EnableUAC>true</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,21 +141,23 @@
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h" />
     <ClInclude Include="business\IBusiness.h" />
     <ClInclude Include="business\SunGuard\AGC.h" />
+    <ClInclude Include="business\SunGuard\agc_encrypt.h" />
     <ClInclude Include="business\SunGuard\sywg.h" />
     <ClInclude Include="business\SunGuard\SywgConnect.h" />
-    <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h" />
+    <Text Include="business\SunGuard\Sywg_CRC_DES.h.bak">
+      <FileType>CppHeader</FileType>
+    </Text>
     <ClInclude Include="business\szkingdom_win\Encrypt.h" />
     <ClInclude Include="business\szkingdom_win\TradeBusiness.h" />
     <ClInclude Include="business\xinyi\TCPClientSync.h" />
     <ClInclude Include="cache\CacheData.h" />
-    <ClInclude Include="captcha\CaptchaManager.h" />
-    <ClInclude Include="captcha\VerificationCode.h" />
     <ClInclude Include="config\ConfigManager.h" />
     <ClInclude Include="ConnectPool\Branch.h" />
     <ClInclude Include="ConnectPool\BusinessSystem.h" />
     <ClInclude Include="ConnectPool\BusinessType.h" />
+    <ClInclude Include="IConnect.h" />
     <Text Include="bin_release\ChangeLog.txt" />
-    <Text Include="ConnectPool\Connect.h.txt">
+    <Text Include="ConnectPool\T2Connect.h">
       <FileType>CppHeader</FileType>
     </Text>
     <ClInclude Include="ConnectPool\ConnectManager.h" />
@@ -164,7 +166,6 @@
     </Text>
     <ClInclude Include="ConnectPool\Counter.h" />
     <ClInclude Include="encrypt\MyBotan.h" />
-    <ClInclude Include="lib\OpenCV\opencv_h.h" />
     <ClInclude Include="lib\XML\pugiconfig.hpp" />
     <ClInclude Include="lib\XML\pugixml.hpp" />
     <ClInclude Include="lib\XML\rapidxml.hpp" />
@@ -218,7 +219,6 @@
     <Text Include="network\tcp\trade_server_tcp_old.h.txt">
       <FileType>CppHeader</FileType>
     </Text>
-    <ClInclude Include="ocr\OCR.h" />
     <ClInclude Include="output\FileLog.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -234,14 +234,16 @@
     <ClCompile Include="business\hundsun_t2\TradeBusinessT2.cpp" />
     <ClCompile Include="business\IBusiness.cpp" />
     <ClCompile Include="business\SunGuard\AGC.cpp" />
+    <ClCompile Include="business\SunGuard\Crc.cpp" />
+    <ClCompile Include="business\SunGuard\Des.cpp" />
     <ClCompile Include="business\SunGuard\SywgConnect.cpp" />
-    <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp" />
+    <Text Include="business\SunGuard\Sywg_CRC_DES.cpp.bak">
+      <FileType>CppCode</FileType>
+    </Text>
     <ClCompile Include="business\szkingdom_win\Encrypt.cpp" />
     <ClCompile Include="business\szkingdom_win\TradeBusiness.cpp" />
     <ClCompile Include="business\xinyi\TCPClientSync.cpp" />
     <ClCompile Include="cache\CacheData.cpp" />
-    <ClCompile Include="captcha\captchamanager.cpp" />
-    <ClCompile Include="captcha\VerificationCode.cpp" />
     <ClCompile Include="config\ConfigManager.cpp" />
     <ClCompile Include="ConnectPool\Branch.cpp" />
     <ClCompile Include="ConnectPool\BusinessSystem.cpp" />
@@ -291,7 +293,6 @@
     <Text Include="network\tcp\trade_server_tcp_old.cpp.txt">
       <FileType>CppCode</FileType>
     </Text>
-    <ClCompile Include="ocr\OCR.cpp" />
     <ClCompile Include="output\FileLog.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -309,13 +310,10 @@
   <ItemGroup>
     <None Include="bin\tradeparam.map" />
     <None Include="bin_release\wer.reg" />
-    <None Include="innosetup\TradeGateway.iss" />
     <None Include="log\tradelog.bat" />
     <None Include="log\tradelog.proto" />
     <None Include="network\ssl\pkgheader.proto" />
     <None Include="network\ssl\proto2cpp.bat" />
-    <None Include="ocr\expire.traineddata" />
-    <None Include="ocr\id.traineddata" />
     <None Include="res\TradeGatewayGtja.rc2" />
     <None Include="bin\ca.crt" />
     <None Include="bin\client.crt" />
@@ -349,13 +347,10 @@
     <Text Include="lib\Botan\botan.txt" />
     <Text Include="lib\CrashRpt\CrashRpt.txt" />
     <Text Include="lib\ICU\icu.txt" />
-    <Text Include="lib\ImageMagick\ImageMagick.txt" />
-    <Text Include="lib\ocilib\OCILib.txt" />
     <Text Include="lib\OpenSSL\OpenSSL.txt" />
     <Text Include="lib\ProtoBuf\ProtoBuf.txt" />
     <Text Include="network\http\flash交易密码处理规则.txt" />
     <Text Include="sywg代码备份.txt" />
-    <Text Include="开发计划.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
