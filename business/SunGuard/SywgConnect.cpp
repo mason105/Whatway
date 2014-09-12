@@ -13,9 +13,10 @@
 #include "SywgConnect.h"
 
 
-#include "Sywg_CRC_DES.h"
+
 
 #include "AGC.h"
+#include "agc_encrypt.h"
 
 #include "./output/FileLog.h"
 #include "errcode.h"
@@ -260,7 +261,7 @@ bool CSywgConnect::InitConnect()
 	//request.head.reserved2 = 0;
 	
 
-	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin); // 生成CRC检验码
+	request.head.crc = CalCRC(&request.head.block_type, request.head.block_size - nCRCBegin); // 生成CRC检验码
 
 	
 	nPacketSize = ComputeNetPackSize(request.head.block_size);
@@ -347,10 +348,10 @@ bool CSywgConnect::InitConnect()
 	cn_id = ret.head.cn_id;
 	TRACE("====================初始化连接， 返回连接号%d\n", cn_id);
 
-	int nRet = gSywg.desinit(0);
-	nRet = gSywg.dessetkey("ExpressT");
-	gSywg.dedes((char*)ret.des_key);
-	nRet = gSywg.desdone();
+	int nRet = desinit(0);
+	nRet = dessetkey("ExpressT");
+	dedes((char*)ret.des_key);
+	nRet = desdone();
 	if (nRet != 0)
 	{
 		bRet = FALSE;
@@ -415,7 +416,7 @@ bool CSywgConnect::GetErrorMsg(int nReturnStatus, std::string& sErrMsg)
 	request.head.cn_id = cn_id;
 	request.head.function_no = 0x901;
 	request.head.block_size = sizeof(struct SWI_ErrorMsgRequest);
-	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
+	request.head.crc = CalCRC(&request.head.block_type, request.head.block_size - nCRCBegin);
 
 
 	nPacketSize = ComputeNetPackSize(request.head.block_size);
@@ -660,12 +661,12 @@ bool CSywgConnect::Login(std::string& response, int& status, std::string& errCod
 
 	request.head.function_no = 0x111;
 
-	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
+	request.head.crc = CalCRC(&request.head.block_type, request.head.block_size - nCRCBegin);
 	
-	int nRet = gSywg.desinit(0);
-	nRet = gSywg.dessetkey((char*)des_key);
-	gSywg.endes(request.pwd);
-	nRet = gSywg.desdone();
+	int nRet = desinit(0);
+	nRet = dessetkey((char*)des_key);
+	endes(request.pwd);
+	nRet = desdone();
 	if (nRet != 0)
 	{
 		GenResponse(BUSI_CRYPT_ERROR, gError::instance().GetErrMsg(BUSI_CRYPT_ERROR), response, status, errCode, errMsg);
@@ -1219,7 +1220,7 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 
 	memcpy(request, &headRequest, sizeof(SWI_BlockHead));
 
-	headRequest.crc = gSywg.CalCrc(request + nCRCBegin, headRequest.block_size - nCRCBegin);
+	headRequest.crc = CalCRC(request + nCRCBegin, headRequest.block_size - nCRCBegin);
 
 	memcpy(request, &headRequest, sizeof(SWI_BlockHead));
 
@@ -1233,13 +1234,13 @@ bool CSywgConnect::Send(std::string& response, int& status, std::string& errCode
 		
 		if (field.bEncrypt)
 		{
-			int nRet = gSywg.desinit(0);
-			nRet = gSywg.dessetkey((char*)des_key); // 通过初始化返回
+			int nRet = desinit(0);
+			nRet = dessetkey((char*)des_key); // 通过初始化返回
 
-			gSywg.endes(request + pos); //security_pwd
+			endes(request + pos); //security_pwd
 			pos += field.size;
 
-			nRet = gSywg.desdone();
+			nRet = desdone();
 			if (nRet != 0)
 			{
 				
@@ -2109,7 +2110,7 @@ bool CSywgConnect::f4603(std::string& response, int& status, std::string& errCod
 	request.head.dest_dpt = boost::lexical_cast<WORD>(branchNo);
 	request.head.function_no = 0x4603;
 
-	request.head.crc = gSywg.CalCrc(&request.head.block_type, request.head.block_size - nCRCBegin);
+	request.head.crc = CalCRC(&request.head.block_type, request.head.block_size - nCRCBegin);
 	
 	/*
 	int nRet = gSywg.desinit(0);

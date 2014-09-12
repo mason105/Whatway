@@ -8,7 +8,6 @@
 //#include "network/TcpSession.h"
 
 #include "common.h"
-#include "ocr/ocr.h"
 
 
 class TradeServer
@@ -48,11 +47,7 @@ private:
 	std::string GetCounterType(int counterType);
 	int m_MsgType;
 
-	OCR ocr;
 
-	// 不再使用全局对象
-	// 加解密
-	//CSywg_CRC_DES sywg;
 
 public:
 	void set();

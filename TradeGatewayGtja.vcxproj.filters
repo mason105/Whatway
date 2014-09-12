@@ -10,9 +10,6 @@
     <Filter Include="缓存">
       <UniqueIdentifier>{2a9f97cc-49c1-41ba-8f89-bd50d3496ab7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="验证码imagemagick">
-      <UniqueIdentifier>{95aae920-3795-45ee-9960-b99ca9fa19b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="调试输出">
       <UniqueIdentifier>{a5402eee-b975-45b8-8321-c78529c497be}</UniqueIdentifier>
     </Filter>
@@ -41,12 +38,6 @@
     <Filter Include="第三方库\OpenSSL">
       <UniqueIdentifier>{c4ba9902-7343-4b6e-befd-fa2f209fb4dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="第三方库\OCILib">
-      <UniqueIdentifier>{10a42459-df59-4377-8a0d-53bd04d13a90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\ImageMagick">
-      <UniqueIdentifier>{5f328388-9d61-4c73-ad3b-5aaee14b063e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="第三方库\CrashRpt">
       <UniqueIdentifier>{937f0f18-28ec-4457-9566-996aae0485f2}</UniqueIdentifier>
     </Filter>
@@ -67,9 +58,6 @@
     </Filter>
     <Filter Include="配置文件\release">
       <UniqueIdentifier>{c7023f52-cff7-4413-94a4-996cac8ab29d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="第三方库\OpenCV">
-      <UniqueIdentifier>{e5fa3da1-ec5b-41b8-9e32-acb10b3906f5}</UniqueIdentifier>
     </Filter>
     <Filter Include="日志\日志消息">
       <UniqueIdentifier>{1f20a1ab-135a-4eec-894f-b78fb0f37373}</UniqueIdentifier>
@@ -92,9 +80,6 @@
     <Filter Include="线程安全Queue">
       <UniqueIdentifier>{a50082b9-a40e-4ebe-933f-029e7461ed5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="验证码imagemagick\需要重构的类">
-      <UniqueIdentifier>{cffd5a08-761a-49ac-a801-7b62491c460c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="日志\过滤敏感字段">
       <UniqueIdentifier>{759ed1ed-94bb-49e3-a82f-ecff67f5b2f3}</UniqueIdentifier>
     </Filter>
@@ -104,155 +89,152 @@
     <Filter Include="加解密">
       <UniqueIdentifier>{a922be35-7208-4d6e-a48d-d85b7d0e7665}</UniqueIdentifier>
     </Filter>
-    <Filter Include="身份证识别OCR">
-      <UniqueIdentifier>{238570eb-cbf0-4121-8e88-e6052f27a99b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="身份证识别OCR\样本库">
-      <UniqueIdentifier>{df85ab64-e364-47e9-a55f-37a280924ea3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码">
-      <UniqueIdentifier>{f10e9538-27e1-4db3-af81-d86439fbc667}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\柜台连接池">
-      <UniqueIdentifier>{7136fcfd-ff1c-4f68-a54b-5c73a557861b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层">
-      <UniqueIdentifier>{867ac25b-95e3-480c-b8c9-ad6188fef087}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\Tcp">
-      <UniqueIdentifier>{9cd5498a-f7e0-4ccd-b65e-1270034a5886}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\SSL">
-      <UniqueIdentifier>{00468bfb-8e41-44d5-b723-7396293a92c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层">
-      <UniqueIdentifier>{72295626-05d9-4950-bd20-2a53a3a60e5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\tcp &amp; ssl">
-      <UniqueIdentifier>{c48a59b5-8ac4-4b9e-9489-c92b03504e23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统">
-      <UniqueIdentifier>{18b11df6-e161-47db-8ec1-72c9fba73dea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\恒生T2">
-      <UniqueIdentifier>{7c86cff7-a507-40ec-b078-f55c74d4c493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\顶点">
-      <UniqueIdentifier>{1bd17284-b664-4c6d-b16b-646b9c676689}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\恒生COM">
-      <UniqueIdentifier>{1d9588fa-f777-42e1-9431-c01714ba1185}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\新意">
-      <UniqueIdentifier>{0c5d470e-69bf-475a-8d45-bffde1689acb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX">
-      <UniqueIdentifier>{1ef065c2-a8da-43d4-9e49-02c24ec2b7a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\会话管理">
-      <UniqueIdentifier>{eff467c9-996d-4ffd-9678-f81404cb33cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\顶点\顶点配置文件">
-      <UniqueIdentifier>{9b70e119-f458-4402-9376-47b2d0c993a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件">
-      <UniqueIdentifier>{f2ca4b09-368b-488e-b0f1-ff7ee186ff9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\需要删除">
-      <UniqueIdentifier>{8e34f7e6-5421-4f99-8440-6e53bb5b5b15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\需要删除\http old">
-      <UniqueIdentifier>{79c6674e-cf73-4fa5-ab26-04580abed794}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\需要删除\ssl old">
-      <UniqueIdentifier>{e5ee458d-bb4a-404b-b54e-663ca82e3e55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\2.会话层\需要删除\tcp old">
-      <UniqueIdentifier>{d8034055-a065-4ce8-af1c-b448398e987b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\需要删除">
-      <UniqueIdentifier>{37bca63f-52b0-498d-bc40-234189cf6abe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\需要删除\ssl old">
-      <UniqueIdentifier>{8f512f90-67d9-4cd0-93f9-61e5108ac270}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\需要删除\HTTP">
-      <UniqueIdentifier>{6f796214-1c22-4b2d-98f2-2ee0ce1ca3a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\4.业务层\需要删除\Tcp old">
-      <UniqueIdentifier>{e213d09b-23d7-43e8-8788-facd06f1068d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\柜台连接池\代码作废">
-      <UniqueIdentifier>{9dc1211c-4960-473b-9d34-f15a8d1fd8b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="开发计划">
       <UniqueIdentifier>{31c2d109-6d29-48d5-a757-e02285a8f2bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\金证linux">
-      <UniqueIdentifier>{4496f4b7-e8d0-4508-ae70-141e73cd7dab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\同花顺认证">
-      <UniqueIdentifier>{92cf354c-948d-4bfa-9be0-6a89aabda041}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\金证windows">
-      <UniqueIdentifier>{a07689f2-f438-45a4-8f73-4f0abd1f1c2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\中信验签">
-      <UniqueIdentifier>{74cdcb46-80be-4928-97ad-bb83aa645d59}</UniqueIdentifier>
     </Filter>
     <Filter Include="第三方库\Visual Leak Detector">
       <UniqueIdentifier>{88e97db2-e771-4cc8-b3d1-b68763d3560c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="核心代码\1.网络服务">
-      <UniqueIdentifier>{1bf9b355-b3ab-48cf-975e-e5a85b6a2a77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\SSL">
-      <UniqueIdentifier>{9269f51b-2f40-42b7-add0-37f29c08727a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\SSL\SSL证书">
-      <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\TCP">
-      <UniqueIdentifier>{41fc8b71-479f-4a16-beab-029675894ec0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\需要删除">
-      <UniqueIdentifier>{2b75c881-96da-4c9b-b637-6864736b989f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\需要删除\HTTP old">
-      <UniqueIdentifier>{32a22d36-dbda-46e8-960b-639a7539612d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\需要删除\SSL old">
-      <UniqueIdentifier>{c560affd-45df-43d7-aba3-eceddcfe5b17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\1.网络服务\需要删除\TCP old">
-      <UniqueIdentifier>{d66611b8-3af3-41ef-aeb6-edbd7e4ba920}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\0.网络消息">
-      <UniqueIdentifier>{0f35af1c-396e-43f7-a3be-5a6dfd2cbe44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\0.网络消息\HTTP">
-      <UniqueIdentifier>{e8e7c469-29a5-4132-8ab6-973ffa1603c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\0.网络消息\Tcp Old">
-      <UniqueIdentifier>{c0b69dde-ff86-4abd-aed0-cf2c45510637}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\0.网络消息\Tcp  &amp; SSL">
-      <UniqueIdentifier>{8ac242f4-61f4-483b-8368-541a5d525685}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\0.网络消息\SSL old">
-      <UniqueIdentifier>{060612fd-4e12-4651-809d-43c7e0069baa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\0.网络消息\SSL old\protobuf">
-      <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\debug">
-      <UniqueIdentifier>{4eb5b1df-b3ac-43a1-812e-813892a92142}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\release">
-      <UniqueIdentifier>{253f4c2a-c7fd-4f0f-916b-00639a62a2bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CrashDump">
       <UniqueIdentifier>{517954a3-3619-4a99-aaac-cbfd856809d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层">
+      <UniqueIdentifier>{72295626-05d9-4950-bd20-2a53a3a60e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\需要删除">
+      <UniqueIdentifier>{37bca63f-52b0-498d-bc40-234189cf6abe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\需要删除\ssl old">
+      <UniqueIdentifier>{8f512f90-67d9-4cd0-93f9-61e5108ac270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\需要删除\HTTP">
+      <UniqueIdentifier>{6f796214-1c22-4b2d-98f2-2ee0ce1ca3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\需要删除\Tcp old">
+      <UniqueIdentifier>{e213d09b-23d7-43e8-8788-facd06f1068d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台连接池">
+      <UniqueIdentifier>{7136fcfd-ff1c-4f68-a54b-5c73a557861b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台连接池\代码作废">
+      <UniqueIdentifier>{9dc1211c-4960-473b-9d34-f15a8d1fd8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="第三方库\Zlib">
+      <UniqueIdentifier>{ede17966-2a39-4557-8423-3f2ee643f40c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层">
+      <UniqueIdentifier>{f10e9538-27e1-4db3-af81-d86439fbc667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话管理">
+      <UniqueIdentifier>{eff467c9-996d-4ffd-9678-f81404cb33cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络消息">
+      <UniqueIdentifier>{0f35af1c-396e-43f7-a3be-5a6dfd2cbe44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络消息\HTTP">
+      <UniqueIdentifier>{e8e7c469-29a5-4132-8ab6-973ffa1603c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络消息\Tcp Old">
+      <UniqueIdentifier>{c0b69dde-ff86-4abd-aed0-cf2c45510637}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络消息\Tcp  &amp; SSL">
+      <UniqueIdentifier>{8ac242f4-61f4-483b-8368-541a5d525685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络消息\SSL old">
+      <UniqueIdentifier>{060612fd-4e12-4651-809d-43c7e0069baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络消息\SSL old\protobuf">
+      <UniqueIdentifier>{dc0f81dd-291e-44f8-9a46-44c19b051098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务">
+      <UniqueIdentifier>{1bf9b355-b3ab-48cf-975e-e5a85b6a2a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\SSL">
+      <UniqueIdentifier>{9269f51b-2f40-42b7-add0-37f29c08727a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\SSL\SSL证书">
+      <UniqueIdentifier>{bf2ce67b-397e-4284-b861-cd67f3992eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\TCP">
+      <UniqueIdentifier>{41fc8b71-479f-4a16-beab-029675894ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\需要删除">
+      <UniqueIdentifier>{2b75c881-96da-4c9b-b637-6864736b989f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\需要删除\HTTP old">
+      <UniqueIdentifier>{32a22d36-dbda-46e8-960b-639a7539612d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\需要删除\SSL old">
+      <UniqueIdentifier>{c560affd-45df-43d7-aba3-eceddcfe5b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\网络服务\需要删除\TCP old">
+      <UniqueIdentifier>{d66611b8-3af3-41ef-aeb6-edbd7e4ba920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层">
+      <UniqueIdentifier>{867ac25b-95e3-480c-b8c9-ad6188fef087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层\Tcp">
+      <UniqueIdentifier>{9cd5498a-f7e0-4ccd-b65e-1270034a5886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层\SSL">
+      <UniqueIdentifier>{00468bfb-8e41-44d5-b723-7396293a92c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层\需要删除">
+      <UniqueIdentifier>{8e34f7e6-5421-4f99-8440-6e53bb5b5b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层\需要删除\http old">
+      <UniqueIdentifier>{79c6674e-cf73-4fa5-ab26-04580abed794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层\需要删除\ssl old">
+      <UniqueIdentifier>{e5ee458d-bb4a-404b-b54e-663ca82e3e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="网络层\会话层\需要删除\tcp old">
+      <UniqueIdentifier>{d8034055-a065-4ce8-af1c-b448398e987b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统">
+      <UniqueIdentifier>{18b11df6-e161-47db-8ec1-72c9fba73dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\恒生T2">
+      <UniqueIdentifier>{7c86cff7-a507-40ec-b078-f55c74d4c493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\顶点">
+      <UniqueIdentifier>{1bd17284-b664-4c6d-b16b-646b9c676689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\顶点\顶点配置文件">
+      <UniqueIdentifier>{9b70e119-f458-4402-9376-47b2d0c993a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\恒生COM">
+      <UniqueIdentifier>{1d9588fa-f777-42e1-9431-c01714ba1185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\新意">
+      <UniqueIdentifier>{0c5d470e-69bf-475a-8d45-bffde1689acb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\金仕达AGC/WGX">
+      <UniqueIdentifier>{1ef065c2-a8da-43d4-9e49-02c24ec2b7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\金仕达AGC/WGX\AGC配置文件">
+      <UniqueIdentifier>{f2ca4b09-368b-488e-b0f1-ff7ee186ff9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\金仕达AGC/WGX\AGC配置文件\debug">
+      <UniqueIdentifier>{4eb5b1df-b3ac-43a1-812e-813892a92142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\金仕达AGC/WGX\AGC配置文件\release">
+      <UniqueIdentifier>{253f4c2a-c7fd-4f0f-916b-00639a62a2bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\金证linux">
+      <UniqueIdentifier>{4496f4b7-e8d0-4508-ae70-141e73cd7dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\同花顺认证">
+      <UniqueIdentifier>{92cf354c-948d-4bfa-9be0-6a89aabda041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\金证windows">
+      <UniqueIdentifier>{a07689f2-f438-45a4-8f73-4f0abd1f1c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="业务层\柜台系统\中信验签">
+      <UniqueIdentifier>{74cdcb46-80be-4928-97ad-bb83aa645d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="公共类型">
+      <UniqueIdentifier>{abe94155-997f-4241-b0f0-81f35a48a81b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -292,9 +274,6 @@
     <ClInclude Include="cache\CacheData.h">
       <Filter>缓存</Filter>
     </ClInclude>
-    <ClInclude Include="captcha\CaptchaManager.h">
-      <Filter>验证码imagemagick</Filter>
-    </ClInclude>
     <ClInclude Include="encrypt\MyBotan.h">
       <Filter>加解密</Filter>
     </ClInclude>
@@ -302,37 +281,34 @@
       <Filter>调试输出</Filter>
     </ClInclude>
     <ClInclude Include="business\hundsun_t2\TradeBusinessT2.h">
-      <Filter>核心代码\5.柜台系统\恒生T2</Filter>
+      <Filter>业务层\柜台系统\恒生T2</Filter>
     </ClInclude>
     <ClInclude Include="business\apexsoft\TradeBusinessDingDian.h">
-      <Filter>核心代码\5.柜台系统\顶点</Filter>
+      <Filter>业务层\柜台系统\顶点</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\BusinessSystem.h">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\BusinessType.h">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\ConnectManager.h">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\Counter.h">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClInclude>
     <ClInclude Include="config\ConfigManager.h">
       <Filter>配置文件</Filter>
     </ClInclude>
     <ClInclude Include="business\IBusiness.h">
-      <Filter>核心代码\5.柜台系统</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\OpenCV\opencv_h.h">
-      <Filter>第三方库\OpenCV</Filter>
+      <Filter>业务层\柜台系统</Filter>
     </ClInclude>
     <ClInclude Include="business\SunGuard\sywg.h">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
     </ClInclude>
     <ClInclude Include="business\SunGuard\SywgConnect.h">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\ThreadSafeQueue\job_queue.h">
       <Filter>线程安全Queue</Filter>
@@ -341,28 +317,19 @@
       <Filter>线程池ThreadPool</Filter>
     </ClInclude>
     <ClInclude Include="ConnectPool\Branch.h">
-      <Filter>核心代码\柜台连接池</Filter>
-    </ClInclude>
-    <ClInclude Include="ocr\OCR.h">
-      <Filter>身份证识别OCR</Filter>
-    </ClInclude>
-    <ClInclude Include="captcha\VerificationCode.h">
-      <Filter>验证码imagemagick\需要重构的类</Filter>
-    </ClInclude>
-    <ClInclude Include="business\SunGuard\Sywg_CRC_DES.h">
-      <Filter>加解密</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClInclude>
     <ClInclude Include="network\http\http_message.h">
-      <Filter>核心代码\0.网络消息\HTTP</Filter>
+      <Filter>网络层\网络消息\HTTP</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\ssl_message.h">
-      <Filter>核心代码\0.网络消息\SSL old</Filter>
+      <Filter>网络层\网络消息\SSL old</Filter>
     </ClInclude>
     <ClInclude Include="network\tcp\tcp_message_old.h">
-      <Filter>核心代码\0.网络消息\Tcp Old</Filter>
+      <Filter>网络层\网络消息\Tcp Old</Filter>
     </ClInclude>
     <ClInclude Include="network\IMessage.h">
-      <Filter>核心代码\0.网络消息</Filter>
+      <Filter>网络层\网络消息</Filter>
     </ClInclude>
     <ClInclude Include="log\FileLogManager.h">
       <Filter>日志\文件日志</Filter>
@@ -377,58 +344,61 @@
       <Filter>日志\分布式日志</Filter>
     </ClInclude>
     <ClInclude Include="business\xinyi\TCPClientSync.h">
-      <Filter>核心代码\5.柜台系统\新意</Filter>
+      <Filter>业务层\柜台系统\新意</Filter>
     </ClInclude>
     <ClInclude Include="log\tradelog.pb.h">
       <Filter>日志\日志消息</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl\pkgheader.pb.h">
-      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
+      <Filter>网络层\网络消息\SSL old\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\CustomMessage.h">
-      <Filter>核心代码\0.网络消息\Tcp  &amp; SSL</Filter>
+      <Filter>网络层\网络消息\Tcp  &amp; SSL</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\MsgHeader.h">
-      <Filter>核心代码\0.网络消息\Tcp  &amp; SSL</Filter>
+      <Filter>网络层\网络消息\Tcp  &amp; SSL</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\SSLSession.h">
-      <Filter>核心代码\2.会话层\SSL</Filter>
+      <Filter>网络层\会话层\SSL</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\TcpSession.h">
-      <Filter>核心代码\2.会话层\Tcp</Filter>
+      <Filter>网络层\会话层\Tcp</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\SSLServer.h">
-      <Filter>核心代码\1.网络服务\SSL</Filter>
+      <Filter>网络层\网络服务\SSL</Filter>
     </ClInclude>
     <ClInclude Include="network\ssl_tcp\TcpServer.h">
-      <Filter>核心代码\1.网络服务\TCP</Filter>
-    </ClInclude>
-    <ClInclude Include="network\ssl_tcp\TradeServer.h">
-      <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
+      <Filter>网络层\网络服务\TCP</Filter>
     </ClInclude>
     <ClInclude Include="business\apexsoft\DingDian.h">
-      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
-    </ClInclude>
-    <ClInclude Include="business\SunGuard\AGC.h">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
+      <Filter>业务层\柜台系统\顶点\顶点配置文件</Filter>
     </ClInclude>
     <ClInclude Include="network\io_service_pool.h">
-      <Filter>核心代码</Filter>
-    </ClInclude>
-    <ClInclude Include="errcode.h">
-      <Filter>核心代码</Filter>
-    </ClInclude>
-    <ClInclude Include="common.h">
-      <Filter>核心代码</Filter>
-    </ClInclude>
-    <ClInclude Include="business\szkingdom_win\Encrypt.h">
-      <Filter>加解密</Filter>
+      <Filter>网络层</Filter>
     </ClInclude>
     <ClInclude Include="business\szkingdom_win\TradeBusiness.h">
-      <Filter>核心代码\5.柜台系统\金证windows</Filter>
+      <Filter>业务层\柜台系统\金证windows</Filter>
     </ClInclude>
     <ClInclude Include="MiniDump.h">
       <Filter>CrashDump</Filter>
+    </ClInclude>
+    <ClInclude Include="network\ssl_tcp\TradeServer.h">
+      <Filter>业务层</Filter>
+    </ClInclude>
+    <ClInclude Include="business\szkingdom_win\Encrypt.h">
+      <Filter>业务层\柜台系统\金证windows</Filter>
+    </ClInclude>
+    <ClInclude Include="business\SunGuard\AGC.h">
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
+    </ClInclude>
+    <ClInclude Include="agc_encrypt.h">
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
+    </ClInclude>
+    <ClInclude Include="errcode.h">
+      <Filter>公共类型</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>公共类型</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,9 +417,6 @@
     <ClCompile Include="cache\CacheData.cpp">
       <Filter>缓存</Filter>
     </ClCompile>
-    <ClCompile Include="captcha\captchamanager.cpp">
-      <Filter>验证码imagemagick</Filter>
-    </ClCompile>
     <ClCompile Include="encrypt\MyBotan.cpp">
       <Filter>加解密</Filter>
     </ClCompile>
@@ -460,46 +427,37 @@
       <Filter>调试输出</Filter>
     </ClCompile>
     <ClCompile Include="business\hundsun_t2\TradeBusinessT2.cpp">
-      <Filter>核心代码\5.柜台系统\恒生T2</Filter>
+      <Filter>业务层\柜台系统\恒生T2</Filter>
     </ClCompile>
     <ClCompile Include="business\apexsoft\TradeBusinessDingDian.cpp">
-      <Filter>核心代码\5.柜台系统\顶点</Filter>
+      <Filter>业务层\柜台系统\顶点</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\BusinessSystem.cpp">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\BusinessType.cpp">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\ConnectManager.cpp">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\Counter.cpp">
-      <Filter>核心代码\柜台连接池</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClCompile>
     <ClCompile Include="config\ConfigManager.cpp">
       <Filter>配置文件</Filter>
     </ClCompile>
     <ClCompile Include="business\IBusiness.cpp">
-      <Filter>核心代码\5.柜台系统</Filter>
+      <Filter>业务层\柜台系统</Filter>
     </ClCompile>
     <ClCompile Include="business\SunGuard\SywgConnect.cpp">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
     </ClCompile>
     <ClCompile Include="ConnectPool\Branch.cpp">
-      <Filter>核心代码\柜台连接池</Filter>
-    </ClCompile>
-    <ClCompile Include="ocr\OCR.cpp">
-      <Filter>身份证识别OCR</Filter>
-    </ClCompile>
-    <ClCompile Include="captcha\VerificationCode.cpp">
-      <Filter>验证码imagemagick\需要重构的类</Filter>
-    </ClCompile>
-    <ClCompile Include="business\SunGuard\Sywg_CRC_DES.cpp">
-      <Filter>加解密</Filter>
+      <Filter>业务层\柜台连接池</Filter>
     </ClCompile>
     <ClCompile Include="network\IMessage.cpp">
-      <Filter>核心代码\0.网络消息</Filter>
+      <Filter>网络层\网络消息</Filter>
     </ClCompile>
     <ClCompile Include="log\FileLogManager.cpp">
       <Filter>日志\文件日志</Filter>
@@ -514,49 +472,55 @@
       <Filter>日志\分布式日志</Filter>
     </ClCompile>
     <ClCompile Include="business\xinyi\TCPClientSync.cpp">
-      <Filter>核心代码\5.柜台系统\新意</Filter>
+      <Filter>业务层\柜台系统\新意</Filter>
     </ClCompile>
     <ClCompile Include="log\tradelog.pb.cc">
       <Filter>日志\日志消息</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl\pkgheader.pb.cc">
-      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
+      <Filter>网络层\网络消息\SSL old\protobuf</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\CustomMessage.cpp">
-      <Filter>核心代码\0.网络消息\Tcp  &amp; SSL</Filter>
+      <Filter>网络层\网络消息\Tcp  &amp; SSL</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\SSLSession.cpp">
-      <Filter>核心代码\2.会话层\SSL</Filter>
+      <Filter>网络层\会话层\SSL</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\TcpSession.cpp">
-      <Filter>核心代码\2.会话层\Tcp</Filter>
+      <Filter>网络层\会话层\Tcp</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\SSLServer.cpp">
-      <Filter>核心代码\1.网络服务\SSL</Filter>
+      <Filter>网络层\网络服务\SSL</Filter>
     </ClCompile>
     <ClCompile Include="business\apexsoft\DingDian.cpp">
-      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
-    </ClCompile>
-    <ClCompile Include="business\SunGuard\AGC.cpp">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件</Filter>
+      <Filter>业务层\柜台系统\顶点\顶点配置文件</Filter>
     </ClCompile>
     <ClCompile Include="network\ssl_tcp\TcpServer.cpp">
-      <Filter>核心代码\1.网络服务\TCP</Filter>
-    </ClCompile>
-    <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
-      <Filter>核心代码\4.业务层\tcp &amp; ssl</Filter>
+      <Filter>网络层\网络服务\TCP</Filter>
     </ClCompile>
     <ClCompile Include="import_lib.cpp">
       <Filter>第三方库</Filter>
     </ClCompile>
-    <ClCompile Include="business\szkingdom_win\Encrypt.cpp">
-      <Filter>加解密</Filter>
-    </ClCompile>
     <ClCompile Include="business\szkingdom_win\TradeBusiness.cpp">
-      <Filter>核心代码\5.柜台系统\金证windows</Filter>
+      <Filter>业务层\柜台系统\金证windows</Filter>
     </ClCompile>
     <ClCompile Include="MiniDump.cpp">
       <Filter>CrashDump</Filter>
+    </ClCompile>
+    <ClCompile Include="network\ssl_tcp\TradeServer.cpp">
+      <Filter>业务层</Filter>
+    </ClCompile>
+    <ClCompile Include="business\szkingdom_win\Encrypt.cpp">
+      <Filter>业务层\柜台系统\金证windows</Filter>
+    </ClCompile>
+    <ClCompile Include="business\SunGuard\AGC.cpp">
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
+    </ClCompile>
+    <ClCompile Include="business\SunGuard\Des.cpp">
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
+    </ClCompile>
+    <ClCompile Include="business\SunGuard\Crc.cpp">
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -574,28 +538,22 @@
       <Filter>主框架\资源文件</Filter>
     </None>
     <None Include="bin\ca.crt">
-      <Filter>核心代码\1.网络服务\SSL\SSL证书</Filter>
+      <Filter>网络层\网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\client.crt">
-      <Filter>核心代码\1.网络服务\SSL\SSL证书</Filter>
+      <Filter>网络层\网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\clientkey.pem">
-      <Filter>核心代码\1.网络服务\SSL\SSL证书</Filter>
+      <Filter>网络层\网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\server.crt">
-      <Filter>核心代码\1.网络服务\SSL\SSL证书</Filter>
+      <Filter>网络层\网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="bin\serverkey.pem">
-      <Filter>核心代码\1.网络服务\SSL\SSL证书</Filter>
+      <Filter>网络层\网络服务\SSL\SSL证书</Filter>
     </None>
     <None Include="innosetup\TradeGateway.iss">
       <Filter>安装包innosetup</Filter>
-    </None>
-    <None Include="ocr\id.traineddata">
-      <Filter>身份证识别OCR\样本库</Filter>
-    </None>
-    <None Include="ocr\expire.traineddata">
-      <Filter>身份证识别OCR\样本库</Filter>
     </None>
     <None Include="log\tradelog.bat">
       <Filter>日志\日志消息</Filter>
@@ -604,13 +562,13 @@
       <Filter>日志\日志消息</Filter>
     </None>
     <None Include="network\ssl\pkgheader.proto">
-      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
+      <Filter>网络层\网络消息\SSL old\protobuf</Filter>
     </None>
     <None Include="network\ssl\proto2cpp.bat">
-      <Filter>核心代码\0.网络消息\SSL old\protobuf</Filter>
+      <Filter>网络层\网络消息\SSL old\protobuf</Filter>
     </None>
     <None Include="bin\tradeparam.map">
-      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
+      <Filter>业务层\柜台系统\顶点\顶点配置文件</Filter>
     </None>
     <None Include="bin_release\wer.reg">
       <Filter>CrashDump</Filter>
@@ -642,13 +600,13 @@
       <Filter>日志\过滤敏感字段</Filter>
     </Xml>
     <Xml Include="bin\OutputDomain.xml">
-      <Filter>核心代码\5.柜台系统\顶点\顶点配置文件</Filter>
+      <Filter>业务层\柜台系统\顶点\顶点配置文件</Filter>
     </Xml>
     <Xml Include="bin_debug\agc.xml">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\debug</Filter>
+      <Filter>业务层\柜台系统\金仕达AGC/WGX\AGC配置文件\debug</Filter>
     </Xml>
     <Xml Include="bin_release\agc.xml">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX\AGC配置文件\release</Filter>
+      <Filter>业务层\柜台系统\金仕达AGC/WGX\AGC配置文件\release</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>
@@ -664,12 +622,6 @@
     <Text Include="lib\Boost\Boost.txt">
       <Filter>第三方库\Boost</Filter>
     </Text>
-    <Text Include="lib\ImageMagick\ImageMagick.txt">
-      <Filter>第三方库\ImageMagick</Filter>
-    </Text>
-    <Text Include="lib\ocilib\OCILib.txt">
-      <Filter>第三方库\OCILib</Filter>
-    </Text>
     <Text Include="lib\OpenSSL\OpenSSL.txt">
       <Filter>第三方库\OpenSSL</Filter>
     </Text>
@@ -677,82 +629,82 @@
       <Filter>第三方库\ProtoBuf</Filter>
     </Text>
     <Text Include="business\szkingdom\业务加解密.txt">
-      <Filter>核心代码\5.柜台系统\金证windows</Filter>
+      <Filter>业务层\柜台系统\金证windows</Filter>
     </Text>
     <Text Include="..\..\common\log\日志开发说明.txt">
       <Filter>日志</Filter>
     </Text>
     <Text Include="sywg代码备份.txt">
-      <Filter>核心代码\5.柜台系统\金仕达AGC/WGX</Filter>
+      <Filter>业务层\柜台系统\金仕达AGC/WGX</Filter>
     </Text>
     <Text Include="network\http\flash交易密码处理规则.txt">
-      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
+      <Filter>业务层\需要删除\HTTP</Filter>
     </Text>
     <Text Include="开发计划.txt">
       <Filter>开发计划</Filter>
     </Text>
     <Text Include="network\tcp\tcp_server_old.h.txt">
-      <Filter>核心代码\1.网络服务\需要删除\TCP old</Filter>
+      <Filter>网络层\网络服务\需要删除\TCP old</Filter>
     </Text>
     <Text Include="network\http\http_server.h.txt">
-      <Filter>核心代码\1.网络服务\需要删除\HTTP old</Filter>
+      <Filter>网络层\网络服务\需要删除\HTTP old</Filter>
     </Text>
     <Text Include="network\ssl\ssl_server.h.txt">
-      <Filter>核心代码\1.网络服务\需要删除\SSL old</Filter>
+      <Filter>网络层\网络服务\需要删除\SSL old</Filter>
     </Text>
     <Text Include="network\tcp\trade_server_tcp_old.h.txt">
-      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
+      <Filter>业务层\需要删除\Tcp old</Filter>
     </Text>
     <Text Include="network\tcp\trade_server_tcp_old.cpp.txt">
-      <Filter>核心代码\4.业务层\需要删除\Tcp old</Filter>
+      <Filter>业务层\需要删除\Tcp old</Filter>
     </Text>
     <Text Include="network\ssl\trade_server_ssl.cpp.txt">
-      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
+      <Filter>业务层\需要删除\ssl old</Filter>
     </Text>
     <Text Include="network\ssl\trade_server_ssl.h.txt">
-      <Filter>核心代码\4.业务层\需要删除\ssl old</Filter>
+      <Filter>业务层\需要删除\ssl old</Filter>
     </Text>
     <Text Include="network\http\trade_server_http.h.txt">
-      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
+      <Filter>业务层\需要删除\HTTP</Filter>
     </Text>
     <Text Include="network\http\trade_server_http.cpp.txt">
-      <Filter>核心代码\4.业务层\需要删除\HTTP</Filter>
+      <Filter>业务层\需要删除\HTTP</Filter>
     </Text>
     <Text Include="network\tcp\tcp_session_old.h.txt">
-      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
+      <Filter>网络层\会话层\需要删除\tcp old</Filter>
     </Text>
     <Text Include="network\tcp\tcp_session_old.cpp.txt">
-      <Filter>核心代码\2.会话层\需要删除\tcp old</Filter>
+      <Filter>网络层\会话层\需要删除\tcp old</Filter>
     </Text>
     <Text Include="network\ssl\ssl_session.cpp.txt">
-      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
+      <Filter>网络层\会话层\需要删除\ssl old</Filter>
     </Text>
     <Text Include="network\ssl\ssl_session.h.txt">
-      <Filter>核心代码\2.会话层\需要删除\ssl old</Filter>
+      <Filter>网络层\会话层\需要删除\ssl old</Filter>
     </Text>
     <Text Include="network\http\http_session.cpp.txt">
-      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
+      <Filter>网络层\会话层\需要删除\http old</Filter>
     </Text>
     <Text Include="network\http\http_session.h.txt">
-      <Filter>核心代码\2.会话层\需要删除\http old</Filter>
+      <Filter>网络层\会话层\需要删除\http old</Filter>
     </Text>
     <Text Include="network\ISession.h.txt">
-      <Filter>核心代码\2.会话层</Filter>
+      <Filter>网络层\会话层</Filter>
     </Text>
     <Text Include="network\ISession.cpp.txt">
-      <Filter>核心代码\2.会话层</Filter>
+      <Filter>网络层\会话层</Filter>
     </Text>
     <Text Include="ConnectPool\Connect.cpp.txt">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
+      <Filter>业务层\柜台连接池\代码作废</Filter>
     </Text>
     <Text Include="ConnectPool\Connect.h.txt">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
+      <Filter>业务层\柜台连接池\代码作废</Filter>
     </Text>
     <Text Include="ConnectPool\ConnectPool.cpp.txt">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
+      <Filter>业务层\柜台连接池\代码作废</Filter>
     </Text>
     <Text Include="ConnectPool\ConnectPool.h.txt">
-      <Filter>核心代码\柜台连接池\代码作废</Filter>
+      <Filter>业务层\柜台连接池\代码作废</Filter>
     </Text>
     <Text Include="bin_release\ChangeLog.txt">
       <Filter>配置文件\release</Filter>

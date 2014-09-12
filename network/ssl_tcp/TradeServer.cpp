@@ -177,17 +177,7 @@ bool TradeServer::ProcessRequest(IMessage* req)
 		quote::PkgHeader pbHeader;
 		
 		pbHeader.ParseFromArray(req->GetMsgHeader().data(), req->GetMsgHeaderSize());
-		if (pbHeader.msgtype() == quote::PkgHeader::REQ_OCR)
-		{
-			IMessage * resp = ocr.Recognition(req);
-
-			// ÊÍ·ÅÇëÇó
-			req->destroy();
-
-			sendq_.push(resp);
-
-			return true;
-		}
+		
 
 	}
 	if (m_MsgType == MSG_TYPE_TCP_NEW)
