@@ -24,7 +24,7 @@
 #include "./encrypt/mybotan.h"
 
 
-#include "./captcha/captchamanager.h"
+
 
 
 #include "./output/FileLog.h"

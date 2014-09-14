@@ -32,6 +32,16 @@ struct IKnown
 
 #include <string.h>
 
+#ifdef _WIN32
+typedef unsigned int		uint32;
+#else
+#include <sys/types.h>
+#if defined(__linux__)
+#include <stdint.h>
+#endif
+typedef uint32_t			uint32;
+#endif
+
 ///ESB组名长度，名字为可见字符，不能包含实例分隔符、空格、分号;
 #define IDENTITY_NAME_LENGTH	32
 ///实例编号最大占位长度
@@ -48,7 +58,13 @@ struct IKnown
 #define SVR_NAME_LENGTH	256
 //	进程实例名最大长度.定义时使用char sName[PLUGINID_NAME_LENGTH+1]
 #define SVRINSTANCE_NAME_LENGTH	(SVR_NAME_LENGTH+ID_LENGTH+1)
+//业务消息类型
 
+
+//请求
+#define REQUEST_PACKET 0 
+//应答
+#define ANSWER_PACKET  1 
 //20110302 xuxp 增加路由信息的结构体定义
 typedef struct tagRouteInfo
 {
@@ -489,6 +505,481 @@ public:
     virtual int FUNCTION_CALL_MODE SetInt(const char *szSection, const char *szEntry, int iValue) = 0;
 };
 
+
+typedef struct tagBizRouteInfo
+{
+	char ospfName[ID_STR_LEN+1];//路由目标节点中间件名字
+	char nbrName[ID_STR_LEN+1];//中间件节点的邻居名字
+	char svrName[SVRINSTANCE_NAME_LENGTH+1];//中间件的进程名字
+	char pluginID[PLUGIN_NAME_LENGTH+1];//中间件插件名
+	int connectID;//连接号
+	int memberNO;//成员编号
+	
+	tagBizRouteInfo()
+	{
+		memset(this,0,sizeof(tagBizRouteInfo));
+	}
+}BIZROUTE_INFO;
+
+
+struct IBizMessage : IKnown
+{
+	//设置功能号
+	virtual void FUNCTION_CALL_MODE SetFunction(const int nFUnctionNo) = 0;
+	//获取功能号
+	virtual int FUNCTION_CALL_MODE GetFunction() = 0;
+
+	//设置包类型
+	virtual void FUNCTION_CALL_MODE SetPacketType(const int nPacketType) = 0;
+	//获取包类型
+	virtual int FUNCTION_CALL_MODE GetPacketType() = 0;
+
+	//设置营业部号
+	virtual void FUNCTION_CALL_MODE SetBranchNo(const int nBranchNo) = 0;
+	//获取营业部号
+	virtual int FUNCTION_CALL_MODE GetBranchNo() = 0;
+
+	//设置系统号
+	virtual void FUNCTION_CALL_MODE SetSystemNo(const int nSystemNo) = 0;
+	//获取系统号
+	virtual int FUNCTION_CALL_MODE GetSystemNo() = 0;
+
+	//设置子系统号
+	virtual void FUNCTION_CALL_MODE SetSubSystemNo(const int nSubSystemNo) = 0;
+	//获取子系统号
+	virtual int FUNCTION_CALL_MODE GetSubSystemNo() = 0;
+
+	//设置发送者编号
+	virtual void FUNCTION_CALL_MODE SetSenderId(const int nSenderId) = 0;
+	//获取发送者编号
+	virtual int FUNCTION_CALL_MODE GetSenderId() = 0;
+
+	//设置包序号
+	virtual void FUNCTION_CALL_MODE SetPacketId(const int nPacketId) = 0;
+	//获取包序号
+	virtual int FUNCTION_CALL_MODE GetPacketId() = 0;
+
+	//设置目的地路由
+	virtual void FUNCTION_CALL_MODE SetTargetInfo(const BIZROUTE_INFO targetInfo) = 0;
+	//获取目的地路由
+	virtual void FUNCTION_CALL_MODE GetTargetInfo(BIZROUTE_INFO& targetInfo) = 0;
+	
+	//设置发送者路由
+	virtual void FUNCTION_CALL_MODE SetSendInfo(const BIZROUTE_INFO sendInfo) = 0;
+	//获取发送者路由
+	virtual void FUNCTION_CALL_MODE GetSendInfo(BIZROUTE_INFO& sendInfo) = 0;
+
+	//设置错误号
+	virtual void FUNCTION_CALL_MODE SetErrorNo(const int nErrorNo) = 0;
+	//获取错误号
+	virtual int FUNCTION_CALL_MODE GetErrorNo() = 0;
+	
+	//设置错误信息
+	virtual void FUNCTION_CALL_MODE SetErrorInfo(const char* strErrorInfo) = 0;
+	//获取错误信息
+	virtual const char* FUNCTION_CALL_MODE GetErrorInfo() = 0;
+	
+	//设置返回码
+	virtual void FUNCTION_CALL_MODE SetReturnCode(const int nReturnCode) = 0;
+	//获取返回码
+	virtual int FUNCTION_CALL_MODE GetReturnCode() = 0;
+
+	//设置业务内容
+	virtual void FUNCTION_CALL_MODE SetContent(void* lpContent,int iLen) = 0;
+	//获取业务内容
+	virtual const void* FUNCTION_CALL_MODE GetContent(int& iLen) = 0;
+
+	//以下接口用于消息中心1.0的订阅
+	//设置订阅类型
+	virtual void FUNCTION_CALL_MODE SetIssueType(const int nIssueType) = 0;
+	//获取订阅类型
+	virtual int FUNCTION_CALL_MODE GetIssueType() = 0;
+
+	//设置序号
+	virtual void FUNCTION_CALL_MODE SetSequeceNo(const int nSequeceNo) = 0;
+	//获取序号
+	virtual int FUNCTION_CALL_MODE GetSequeceNo() = 0;
+
+	//设置关键字段信息
+	virtual void FUNCTION_CALL_MODE SetKeyInfo(void* lpKeyData,int iLen) = 0;
+	//获取关键字段信息
+	virtual const void* FUNCTION_CALL_MODE GetKeyInfo(int& iLen) = 0;
+
+	//设置附加数据，订阅推送时原样返回
+	virtual void FUNCTION_CALL_MODE SetAppData(const void* lpAppdata,int nAppLen) = 0;
+	//获取附加数据，订阅推送时原样返回
+	virtual const void* FUNCTION_CALL_MODE GetAppData(int& nAppLen) = 0;
+
+	//请求转应答
+	virtual int	FUNCTION_CALL_MODE ChangeReq2AnsMessage() = 0;
+
+	//获取二进制
+	virtual void* FUNCTION_CALL_MODE GetBuff(int& nBuffLen) = 0;
+	//解析二进制
+	virtual int	FUNCTION_CALL_MODE SetBuff(const void* lpBuff,int nBuffLen) = 0;
+};
+
+#define IDENTITY_NAME_LENGTH    32  /**< 客户端名字长度 */
+#define MAX_MACADDRESS_LEN	    18  /**< MAC 地址长度 */
+#define MAX_RAND_LEN	        4   /**< 随机数长度 */
+
+/** 客户标识长度 */
+#define MAX_BIZNAME_LEN \
+	IDENTITY_NAME_LENGTH+1+MAX_MACADDRESS_LEN+1+MAX_RAND_LEN+2
+
+#define INIT_RECVQ_LEN 256          /**< 接收队列初始长度 */
+#define STEP_RECVQ_LEN 512          /**< 接收队列扩展步长 */
+#define SIMPLIFIED_CHINESE      0   /**< 错误信息语言:简体中文 */
+#define ENGLISH                 1   /**< 错误信息语言:英文 */
+#define MAX_FILTERFIELD_LEN 63      /**< 过滤字段长度 */
+
+/** 主题可靠等级 */
+enum ReliableLevel
+{
+    LEVEL_DOBEST            = 0,    /**< 尽力而为 */
+    LEVEL_DOBEST_BYSEQ      = 1,    /**< 尽力有序 */
+    LEVEL_MEM               = 2,    /**< 内存 */
+    LEVEL_FILE              = 3,    /**< 文件 */
+    LEVEL_SYSTEM            = 4     /**< 系统 */
+};
+
+/** 
+ * 过滤器接口
+ */
+class CFilterInterface:public IKnown
+{
+public:
+   /**
+    * 根据下标获取过滤条件的名字
+    * @param index 对应的过滤条件下标
+    * @return 返回对应的下标过滤条件的名字，否则返回NULL.
+    */
+    virtual char* FUNCTION_CALL_MODE GetFilterNameByIndex(int index) = 0;
+
+   /**
+    * 根据下标获取过滤条件的值
+    * @param index 对应的过滤条件下标
+    * @return 返回对应的下标过滤条件的值，否则返回NULL.
+    */
+    virtual char* FUNCTION_CALL_MODE GetFilterValueByIndex(int index)= 0;
+
+   /**
+    * 根据过滤条件的名字获取过滤条件的值
+    * @param fileName 对应的过滤条件名字
+    * @return 返回对应的过滤条件名字的条件值，否则返回NULL.
+    */
+    virtual char* FUNCTION_CALL_MODE GetFilterValue(char*  fileName)= 0;
+
+   /**
+    * 获取过滤条件的个数
+    * @return 返回对应过滤条件的个数，没有返回0
+    */
+    virtual int   FUNCTION_CALL_MODE GetCount() = 0;
+
+   /**
+    * 设置过滤条件，根据过滤条件名字和值
+    * @param filterName 对应的过滤条件名字
+    * @param filterValue 对应的过滤条件名字的值
+    */
+    virtual void FUNCTION_CALL_MODE  SetFilter(char* filterName,char* filterValue) =0;
+};
+
+/**
+ * 订阅参数类接口
+ */
+class CSubscribeParamInterface:public IKnown
+{
+public:
+
+   /**
+    * 设置主题名字
+    * @param szName 对应的主题名字
+    */
+    virtual void FUNCTION_CALL_MODE  SetTopicName(char* szName) =0;
+
+   /**
+    * 设置附加数据
+    * @param lpData 附加数据的首地址
+    * @param iLen 附加数据的长度
+    */
+    virtual void FUNCTION_CALL_MODE  SetAppData(void* lpData,int iLen)=0;
+    
+   /**
+    * 添加过滤条件
+    * @param filterName 过滤条件的名字
+    * @param filterValue 过滤条件的值
+    */
+    virtual void FUNCTION_CALL_MODE  SetFilter(char* filterName,char* filterValue)=0;
+
+   /**
+    * 添加返回字段
+    * @param filedName 需要添加的返回字段
+    */
+    virtual void FUNCTION_CALL_MODE  SetReturnFiled(char* filedName)=0;
+
+   /**
+    * 设置是否补缺标志
+    * @param bFromNow true表示需要之前的数据，也就是补缺，false表示不需要补缺
+    */
+    virtual void FUNCTION_CALL_MODE  SetFromNow(bool bFromNow)=0;
+
+   /**
+    * 设置覆盖订阅标志
+    * @param bReplace true表示覆盖订阅，取消之前的所有订阅，只保留当前的订阅，false表示追加订阅
+    */
+    virtual void FUNCTION_CALL_MODE  SetReplace(bool bReplace)=0;
+
+   /**
+    * 设置发送间隔
+    * @param nSendInterval 单位是秒
+    */
+    virtual void FUNCTION_CALL_MODE  SetSendInterval(int nSendInterval)=0;
+
+   /**
+    * 获取主题名字
+    * @return 返回主题名字信息
+    */
+    virtual char* FUNCTION_CALL_MODE  GetTopicName() =0;
+
+   /**
+    * 获取附加数据
+    * @param iLen 出参，表示附加数据的长度
+    * @return 返回附加数据首地址，没有返回NULL
+    */
+    virtual void* FUNCTION_CALL_MODE  GetAppData(int *iLen) =0;
+
+   /**
+    * 获取对应的过滤字段的名字
+    * @param index 对应的过滤条件下标
+    * @return 返回对应的下标过滤条件的名字，否则返回NULL.
+    */
+    virtual char* FUNCTION_CALL_MODE  GetFilterNameByIndex(int index) = 0;
+
+   /**
+    * 根据下标获取过滤条件的值
+    * @param index 对应的过滤条件下标
+    * @return 返回对应的下标过滤条件的值，否则返回NULL.
+    */
+    virtual char* FUNCTION_CALL_MODE  GetFilterValueByIndex(int index)= 0;
+
+   /**
+    * 根据过滤条件的名字获取过滤条件的值
+    * @param fileName 对应的过滤条件名字
+    * @return 返回对应的过滤条件名字的条件值，否则返回NULL.
+    */
+    virtual char* FUNCTION_CALL_MODE  GetFilterValue(char*  fileName)= 0;
+
+   /**
+    * 获取过滤条件的个数
+    * @return 返回对应过滤条件的个数，没有返回0
+    */
+    virtual int   FUNCTION_CALL_MODE  GetFilterCount() = 0;
+
+   /**
+    * 获取返回字段
+    * @return 返回对应的返回字段信息
+    */
+    virtual char* FUNCTION_CALL_MODE  GetReturnFiled()=0;
+
+   /**
+    * 获取是否补缺的标志
+    * @return 返回对应的补缺标志
+    */
+    virtual bool  FUNCTION_CALL_MODE  GetFromNow()=0 ;
+
+   /**
+    * 获取是否覆盖订阅的标志
+    * @return 返回对应的覆盖订阅标志
+    */
+    virtual bool  FUNCTION_CALL_MODE  GetReplace() =0;
+
+   /**
+    * 获取对应的发送频率
+    * @return 返回对应的发送间隔
+    */
+    virtual int   FUNCTION_CALL_MODE  GetSendInterval()=0;
+};
+
+class CSubscribeInterface;
+
+/**
+ * @brief 订阅回调接口返回的数据定义，除了订阅需要的业务体之外，还需要返回的数据
+ */
+typedef struct tagSubscribeRecvData
+{
+	char* lpFilterData;     /**< 过滤字段的数据头指针，用解包器解包 */
+	int iFilterDataLen;     /**< 过滤字段的数据长度 */
+	char* lpAppData;        /**< 附加数据的数据头指针 */
+	int iAppDataLen;        /**< 附加数据的长度 */
+	char szTopicName[260];  /**< 主题名字 */
+	
+   /**
+    * tagSubscribeRecvData 构造函数
+    */
+	tagSubscribeRecvData()
+	{
+		memset(this,0,sizeof(tagSubscribeRecvData));
+	}
+}SUBSCRIBE_RECVDATA, *LPSUBSCRIBE_RECVDATA;
+
+/**
+ * 订阅回调接口，上层应用通过这个接口，接收主推过来的消息
+ */
+class CSubCallbackInterface: public IKnown
+{
+public:
+
+   /**
+    * 收到发布消息的回调
+    * @param lpSub 回调的订阅指针
+    * @param subscribeIndex 消息对应的订阅标识，这个标识来自于SubscribeTopic函数的返回
+    * @param lpData 返回消息的二进制指针，一般是消息的业务体打包内容
+    * @param nLength 二进制数据的长度
+	* @param lpRecvData 主推消息的其他字段返回，主要包含了附加数据，过滤信息，主题名字，详细参看前面结构体定义
+    * @return 无
+    */
+    virtual void FUNCTION_CALL_MODE OnReceived(CSubscribeInterface *lpSub,int subscribeIndex, const void *lpData, int nLength,LPSUBSCRIBE_RECVDATA lpRecvData) = 0;
+
+   /**
+    * 收到剔除订阅项的消息回调，一般在拥有踢人策略的主题下会回调这个接口,这个回调里面不需要取消订阅，底层已经取消这个订阅，只是一个通知接口
+    * @param lpSub 回调的订阅指针
+    * @param subscribeIndex 消息对应的订阅标识，这个标识来自于SubscribeTopic函数的返回
+    * @param TickMsgInfo 踢人的错误信息，主要是包含具体重复的订阅项位置信息
+    * @return 无
+    */
+    virtual void FUNCTION_CALL_MODE OnRecvTickMsg(CSubscribeInterface *lpSub,int subscribeIndex,const char* TickMsgInfo) = 0;
+};
+
+
+/**
+ * 订阅接口的定义
+ */
+class CSubscribeInterface: public IKnown
+{
+public:
+
+   /**
+    * 订阅主题
+    * @param lpSubscribeParamInter 上面定义的订阅参数结构
+    * @param uiTimeout 超时时间
+    * @param lppBizUnPack 业务校验时，失败返回的业务错误信息，如果订阅成功没有返回，输出参数，需要外面调用Release释放
+                          如果接受业务校验的错误信息，写法如下：
+                          IF2UnPacker* lpBizUnPack =NULL;
+                          SubscribeTopic(...,&lpBizUnPack);
+                          最后根据返回值，如果是失败的就判断 lpBizUnPack 是不是NULL.
+                          最后错误信息获取完之后,释放
+                          lpBizUnPack->Release();
+    * @param lpBizPack 业务校验需要增加的业务字段以及值，没有就根据过滤属性作为业务校验字段
+    * @return 返回值大于0，表示当前订阅成功的订阅标识，外面要记住这个标识和订阅项之间的映射关系，这个标识需要用于取消订阅和接收消息的回调里面.
+	*		  返回其他值，根据错误号获取错误信息.
+    */
+    virtual int FUNCTION_CALL_MODE SubscribeTopic(CSubscribeParamInterface* lpSubscribeParamInter ,unsigned int uiTimeout,IF2UnPacker** lppBizUnPack=NULL,IF2Packer* lpBizPack=NULL) = 0;
+
+   /**
+    * 取消订阅主题
+    * @param subscribeIndex 消息对应的订阅标识，这个标识来自于SubscribeTopic函数的返回
+    * @return 返回0表示取消订阅成功，返回其他值，根据错误号获取错误信息.
+    */
+    virtual int FUNCTION_CALL_MODE CancelSubscribeTopic(int subscribeIndex) = 0;
+
+
+	/**
+    * 取消订阅主题
+    * @param topicName 主题名字
+    * @param lpFilterInterface 对应的过滤条件
+    * @return 返回0表示取消订阅成功，返回其他值，根据错误号获取错误信息.
+    */
+    virtual int FUNCTION_CALL_MODE CancelSubscribeTopicEx(char* topicName,CFilterInterface* lpFilterInterface) = 0;
+
+
+
+   /**
+    * 获取当前订阅接口已经订阅的所有主题以及过滤条件信息
+    * @param lpPack 外面传入的打包器
+    * @note packer报文字段
+        - SubcribeIndex
+        - IsBornTopic
+        - TopicName
+        - TopicNo
+        - FilterRaw
+        - Appdata
+        - SendInterval
+        - ReturnFileds
+        - isReplace
+        - isFromNow
+        - Stutas
+        - QueueCount
+    */
+    virtual void FUNCTION_CALL_MODE GetSubcribeTopic(IF2Packer* lpPack)=0;
+
+   /**
+    * 取服务器地址
+    * @param lpPort 输出的服务器端口，可以为NULL
+    * @return 返回服务器地址
+    */
+    virtual const char * FUNCTION_CALL_MODE GetServerAddress(int *lpPort) = 0;
+};
+
+/**
+ * 发布接口
+ */
+class CPublishInterface: public IKnown
+{
+public:
+
+   /**
+    * 业务打包格式的内容发布接口
+    * @param topicName 主题名字，不知道名字就传NULL
+    * @param lpUnPacker 具体的内容
+    * @param iTimeOut 超时时间
+    * @param lppBizUnPack 业务校验时，失败返回的业务错误信息，如果发布成功没有返回，输出参数，需要外面调用Release释放
+                            如果接受业务校验的错误信息，写法如下：
+                            IF2UnPacker* lpBizUnPack =NULL;
+                            PubMsgByPacker(...,&lpBizUnPack);
+                            最后根据返回值，如果是失败的就判断 lpBizUnPack 是不是NULL.
+                            最后错误信息获取完之后,释放
+                            lpBizUnPack->Release();
+    * @param bAddTimeStamp 是否添加时间戳，配合单笔性能查找
+    * @return 返回0表示成功，返回其他值，根据错误号获取错误信息.
+    */
+    virtual int FUNCTION_CALL_MODE PubMsgByPacker(char* topicName ,IF2UnPacker* lpUnPacker,int iTimeOut=-1,
+        IF2UnPacker** lppBizUnPack=NULL,bool bAddTimeStamp=false) = 0;
+    
+   /**
+    * 非业务打包格式的内容发布接口，一般二进制格式报文发布
+    * @param topicName 主题名字，不知道名字就传NULL
+    * @param lpFilterInterface 过滤条件，需要上层自己指定，否则默认没有过滤条件
+    * @param lpData 具体的内容
+    * @param nLength 内容长度
+    * @param iTimeOut 超时时间
+    * @param lppBizUnPack 业务校验时，失败返回的业务错误信息，如果发布成功没有返回，输出参数，需要外面调用Release释放
+                            如果接受业务校验的错误信息，写法如下：
+                            IF2UnPacker* lpBizUnPack =NULL;
+                            PubMsgByPacker(...,&lpBizUnPack);
+                            最后根据返回值，如果是失败的就判断 lpBizUnPack 是不是NULL.
+                            最后错误信息获取完之后,释放
+                            lpBizUnPack->Release();
+    * @param bAddTimeStamp 是否添加时间戳，配合单笔性能查找
+    * @return 返回0表示成功，返回其他值，根据错误号获取错误信息.
+    */
+    virtual int FUNCTION_CALL_MODE PubMsg(char* topicName, CFilterInterface* lpFilterInterface, const void *lpData, int nLength,int iTimeOut=-1,
+        IF2UnPacker** lppBizUnPack=NULL,bool bAddTimeStamp=false) = 0;
+
+   /**
+    * 返回当前主题的发布序号
+    * @param topicName 主题名字
+    * @return 返回0表示没有对应的主题，返回其他值表示成功
+    */
+    virtual uint32 FUNCTION_CALL_MODE GetMsgNoByTopicName(char* topicName)=0;
+
+   /**
+    * 取服务器地址
+    * @param lpPort 输出的服务器端口，可以为NULL
+    * @return 返回服务器地址
+    */
+    virtual const char * FUNCTION_CALL_MODE GetServerAddress(int *lpPort) = 0;
+};
+
 class CConnectionInterface;
 
 ///连接对象 CConnectionInterface 需要的回调对象接口定义
@@ -573,6 +1064,15 @@ public:
     * 如果nResult等于3，表示业务包解包失败。lpUnpackerOrStr指向NULL。
     */
     virtual void FUNCTION_CALL_MODE OnReceivedBizEx(CConnectionInterface *lpConnection, int hSend, LPRET_DATA lpRetData, const void *lpUnpackerOrStr, int nResult) = 0;
+	//20130624 xuxp 回调增加BizMessage接口
+		/**
+		* 收到发送时指定了ReplyCallback选项的请求的应答或者是没有对应请求的数据
+		* @param lpConnection 发生该事件的连接对象
+		* @param hSend        发送句柄
+		* @param lpMsg        业务消息指针
+		*/
+	virtual void FUNCTION_CALL_MODE OnReceivedBizMsg(CConnectionInterface *lpConnection, int hSend, IBizMessage* lpMsg) = 0;
+
 
 
 };
@@ -740,6 +1240,123 @@ public:
     * 如果应用不需要任何回调方法，则可向该方法传递NULL，而不必自定义回调类和对象
 	*/
 	virtual int FUNCTION_CALL_MODE CreateEx(CCallbackInterface *lpCallback) = 0;
+	
+	
+	//20120111 dongpf 新增GetRealAddress函数，来获取服务端上自己的ip地址和端口
+	/**
+	* 获取ip地址和端口
+	* @return 获取ip地址和端口，格式：ip地址+端口
+	*/
+	virtual const char* FUNCTION_CALL_MODE GetRealAddress() = 0;
+	
+	
+	virtual int FUNCTION_CALL_MODE Reserved8() = 0;
+	virtual int FUNCTION_CALL_MODE Reserved9() = 0;
+	
+	//20130527 xuxp 新增GetSelfAddress函数，来获取自己本地的IP和端口
+	/**
+	* 获取ip地址和端口
+	* @return 获取ip地址和端口，格式：ip地址+端口
+	*/
+	virtual const char* FUNCTION_CALL_MODE GetSelfAddress() = 0;
+
+	//20130529 xuxp 新增GetSelfMac函数，来获取自己本地使用的网卡MAC
+	/**
+	* 获取MAC地址
+	* @return MAC的地址字符串格式，类似“D067E5556D83”,中间没有分隔符
+	*/
+	virtual const char* FUNCTION_CALL_MODE GetSelfMac() = 0;
+	
+	//20130609 xuxp 新增订阅发布接口
+	///////////////////////////////////下面增加订阅发布的接口///////////////////////////////////////
+
+	/**
+    * 创建一个订阅者
+    * @param lpCallback 回调接口
+    * @param SubScribeName 订阅者名字，多订阅者的名字必须不一样，不可以相同.最大长度32个字节
+    * @param iTimeOut 超时时间
+    * @param iInitRecvQLen 初始化接收队列的长度
+    * @param iStepRecvQLen 接受队列的扩展步长
+    * @return 返回订阅接口实例，一个会话接口对应一个回调.
+    */
+    virtual CSubscribeInterface* FUNCTION_CALL_MODE NewSubscriber(CSubCallbackInterface *lpCallback,char* SubScribeName,int iTimeOut,
+        int iInitRecvQLen=INIT_RECVQ_LEN,int iStepRecvQLen=STEP_RECVQ_LEN) = 0;
+    
+   /**
+    * 获取发布者
+    * @param msgCount 本地缓存消息的个数
+	* @param iTimeOut 第一次初始化的时候的超时时间
+    * @param bResetNo 是否重置序
+    * @return 返回发送接口实例，这是一个单例，如果已经new了，就直接返回对应的指针
+    */
+    virtual CPublishInterface* FUNCTION_CALL_MODE GetPublisher(int msgCount,int iTimeOut,bool bResetNo = false) = 0;
+    
+  
+
+
+   /**
+    * 获取服务端的所有主题信息
+    * @param byForce 是否强制从后台获取
+    * @param iTimeOut 超时时间
+    * @return 成功就返回所有主题信息
+    * @note 解包器外面需要调用release接口进行释放.
+    * @note packer返回字段
+    * - TopicName
+    * - TopicNo
+    * - ReliableLevel
+    * - IssuePriority
+    * - MsgLifetime
+    * - Stutas 
+    * - TickStrategy 
+    * - BusinessVerify
+    * - Local
+    * - FilterField1 
+    * - FilterField2 
+    * - FilterField3 
+    * - FilterField4 
+    * - FilterField5 
+    * - FilterField6
+    * - SubscribeStr 
+    * - PublishStr
+    */
+    virtual IF2UnPacker* FUNCTION_CALL_MODE GetTopic(bool byForce,int iTimeOut) = 0;
+	
+	/**
+	* 获取订阅发布的最后错误
+	*/
+	virtual const char* FUNCTION_CALL_MODE GetMCLastError() = 0;
+	////////////////////////////////////////////////////////////////////////////////
+
+	//20130624 xuxp 连接接口增加下面三个接口，用来作为服务端的接口，客户端开发也推荐使用
+	///////////////////////////////////新的一套操作接口///////////////////////////////////////
+	/**
+	* 初始化连接对象
+	* @param lpCallback 回调对象
+	* @return 返回0表示成功，否则表示失败，通过调用GetErrorMsg可以获取详细错误信息
+    * 如果应用不需要任何回调方法，则可向该方法传递NULL，而不必自定义回调类和对象
+	*/
+	virtual int FUNCTION_CALL_MODE Create2BizMsg(CCallbackInterface *lpCallback) = 0;
+
+	/**
+    * 发送业务数据
+    * @param lpMsg       业务消息接口指针
+    * @param nAsy        0表示同步，否则表示异步。
+    * 同步发送的包，通过调用RecvBizMsg来接收，异步发送的包，当收到应答包后，自动触发回调函数OnReceivedBizMsg。
+    * @return 返回发送句柄（正数），否则表示失败，通过调用GetErrorMsg可以获取详细错误信息
+    */
+	virtual int FUNCTION_CALL_MODE SendBizMsg(IBizMessage* lpMsg,int nAsy = 0) = 0;
+	
+	/**
+	* 接收数据
+	* @param hSend     发送句柄
+	* @param lpMsg	   收到业务消息指针的地址
+	* @param uiTimeout 超时时间，单位毫秒，0表示不等待
+	* @param uiFlag    接收选项，0表示接收超时后仍可继续调用Receive来接收，
+    *                  JustRemoveHandle表示当接收超时时，把packet_id删除（以后再收到，则会以异步的方式收到）
+	* @return 返回0表示成功，否则表示失败，通过调用GetErrorMsg可以获取详细错误信息
+	*/
+	virtual int FUNCTION_CALL_MODE RecvBizMsg(int hSend, IBizMessage** lpMsg, unsigned uiTimeout = 1000, unsigned uiFlag = 0) = 0;
+	////////////////////////////////////////////////////////////////////////////////
 };
 
 extern "C"
@@ -793,6 +1410,22 @@ char * FUNCTION_CALL_MODE Encode(char *EncodePass, const char* Password, int nRe
 * @return 
 */
 int FUNCTION_CALL_MODE EncodeEx(const char *pIn, char *pOut);
+
+
+/**
+* 构造一个过滤器接口指针
+* @return 返回NULL表示失败.
+*/
+CFilterInterface* FUNCTION_CALL_MODE NewFilter();
+    
+/**
+* 构造一个订阅属性接口指针
+* @return 返回NULL表示失败.
+*/
+CSubscribeParamInterface* FUNCTION_CALL_MODE NewSubscribeParam();
+
+//20130625 xuxp 构造业务消息
+IBizMessage* FUNCTION_CALL_MODE NewBizMessage();
 
 }
 

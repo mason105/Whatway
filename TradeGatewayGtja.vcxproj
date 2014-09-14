@@ -61,7 +61,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\;e:\common;D:\boost\1.55\include\boost-1_55\;D:\protobuf\protobuf-2.4.1\src;d:\openssl\include;d:\ocilib\ocilib\include;d:\botan\debug\include;D:\ImageMagick\ImageMagick-6.8.7\;D:\ImageMagick\ImageMagick-6.8.7\Magick++\lib;D:\Visual Leak Detector\include;d:\crashrpt\include;d:\icu\icu\include;D:\OpenCV\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;e:\common;D:\boost\1.55\include\boost-1_55\;D:\protobuf\protobuf-2.4.1\src;d:\openssl\include;d:\botan\debug\include;d:\crashrpt\include;d:\icu\icu\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -80,7 +80,7 @@
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>bin_debug\TradeGateway.exe</OutputFile>
-      <AdditionalLibraryDirectories>D:\boost\1.55\lib;D:\protobuf\protobuf-2.4.1\vsprojects\Debug;d:\openssl\lib;d:\botan\debug\;d:\ocilib\ocilib\lib32;D:\ImageMagick\ImageMagick-6.8.7\VisualMagick\lib;D:\Visual Leak Detector\lib\Win32;D:\CrashRpt\lib;d:\icu\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\boost\1.55\lib;D:\protobuf\protobuf-2.4.1\vsprojects\Debug;d:\openssl\lib;d:\botan\debug\;D:\CrashRpt\lib;d:\icu\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>

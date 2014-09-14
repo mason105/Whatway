@@ -1,16 +1,11 @@
 #include <string>
-#include <boost/date_time/gregorian/gregorian.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include "./log/tradelog.pb.h"
-
 #include <map>
 
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
-//#include "trade.pb.h"
-
-
+#include "./log/tradelog.pb.h"
 #include "business/hundsun_t2/t2sdk_interface.h"
-
 #include "./business/IBusiness.h"
 
 
